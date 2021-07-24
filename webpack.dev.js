@@ -1,17 +1,17 @@
-const path = require("path");
-const webpack = require("webpack");
-const { merge } = require("webpack-merge");
-const webpackCommon = require("./webpack.common");
+const path = require('path');
+const webpack = require('webpack');
+const { merge } = require('webpack-merge');
+const webpackCommon = require('./webpack.common');
 
 module.exports = merge(webpackCommon, {
-  mode: "development",
-  devtool: "inline-source-map",
-  target: "web",
+  mode: 'development',
+  devtool: 'inline-source-map',
+  target: 'web',
   devServer: {
-    port: 3000,
+    port: 3300,
     watchContentBase: true,
-    contentBase: path.resolve(__dirname, "build"),
-    publicPath: "/",
+    contentBase: path.resolve(__dirname, 'build'),
+    publicPath: '/',
     historyApiFallback: true,
     compress: true,
     hot: true,
@@ -23,14 +23,14 @@ module.exports = merge(webpackCommon, {
         test: /\.css$/,
         include: /stylesheets|node_modules|src/,
         use: [
-          "style-loader",
+          'style-loader',
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
               importLoaders: 1,
             },
           },
-          { loader: "postcss-loader", options: { sourceMap: true } },
+          { loader: 'postcss-loader', options: { sourceMap: true } },
         ],
       },
     ],

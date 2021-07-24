@@ -1,23 +1,24 @@
-const path = require("path");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const BrotliPlugin = require("brotli-webpack-plugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
-const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
-const { merge } = require("webpack-merge");
-const common = require("./webpack.common");
+const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const BrotliPlugin = require('brotli-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const { merge } = require('webpack-merge');
+const common = require('./webpack.common');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = merge(common, {
-  mode: "production",
-  devtool: "cheap-module-source-map",
+  mode: 'production',
+  devtool: 'cheap-module-source-map',
   output: {
-    path: path.resolve(__dirname, "build"),
-    publicPath: "/",
-    filename: "js/[name].[contenthash].bundle.js",
+    path: path.resolve(__dirname, 'build'),
+    publicPath: '/',
+    filename: 'js/[name].[contenthash].bundle.js',
   },
   externals: {
-    react: "React",
-    "react-dom": "ReactDOM",
+    react: 'React',
+    'react-dom': 'ReactDOM',
   },
   module: {
     rules: [
@@ -27,27 +28,27 @@ module.exports = merge(common, {
         use: [
           MiniCssExtractPlugin.loader,
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
               importLoaders: 1,
             },
           },
-          { loader: "postcss-loader" },
+          { loader: 'postcss-loader' },
         ],
       },
     ],
   },
   plugins: [
     new BrotliPlugin({
-      asset: "[path].br[query]",
+      asset: '[path].br[query]',
       test: /\.(js|css|html|svg)$/,
       threshold: 10240,
       minRatio: 0.8,
     }),
 
     new MiniCssExtractPlugin({
-      filename: "styles/[name].[contenthash].css",
-      chunkFilename: "[id].css",
+      filename: 'styles/[name].[contenthash].css',
+      chunkFilename: '[id].css',
     }),
 
     new BundleAnalyzerPlugin(),
@@ -56,47 +57,20 @@ module.exports = merge(common, {
     minimize: true,
     minimizer: [
       new CssMinimizerPlugin(),
-      new UglifyJsPlugin({
-        cache: true,
+      new TerserPlugin({
         parallel: true,
-        sourceMap: true,
-        exclude: [/\.min\.js$/gi],
-        warningsFilter: (warning, source) => {
-          if (/Dropping unreachable code/i.test(warning)) {
-            return true;
-          }
-
-          if (/filename\.js/i.test(source)) {
-            return true;
-          }
-
-          return false;
-        },
-
-        uglifyOptions: {
-          warnings: false,
-          parse: {},
-          compress: {},
-          mangle: true, // Note `mangle.properties` is `false` by default.
-          toplevel: false,
-          nameCache: null,
-          ie8: false,
-          keep_fnames: false,
-          output: {
-            comments: false,
-          },
-        },
+        terserOptions: { sourceMap: true },
       }),
     ],
     runtimeChunk: {
-      name: "runtime",
+      name: 'runtime',
     },
     splitChunks: {
       cacheGroups: {
         commons: {
           test: /[\\/]node_modules[\\/]/,
-          name: "vendors",
-          chunks: "all",
+          name: 'vendors',
+          chunks: 'all',
         },
       },
     },

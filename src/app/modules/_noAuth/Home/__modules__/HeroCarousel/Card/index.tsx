@@ -18,7 +18,9 @@ const defaultProps: IData = {
   },
 };
 
-const HeroCarouselCard: React.FC<IData> = ({ data }) => {
+const HeroCarouselCard: React.FC<Partial<IData>> = ({
+  data = {},
+}) => {
   const { title, price, description } = data;
   const avatar: string = data.avatar as string;
 

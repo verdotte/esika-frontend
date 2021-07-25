@@ -6,12 +6,9 @@ import HotelVector from 'app/modules/__modules__/_vectors/hotelVector';
 import HouseVector from 'app/modules/__modules__/_vectors/houseVector';
 import { VerifiedIcon } from 'app/modules/__modules__/_vectors/verifiedICon';
 import { onImageError } from 'app/modules/utils/helpers';
+import { IData } from 'app/modules/@Types';
 
-interface Props {
-  data: Record<string, string | number | symbol | null | undefined>;
-}
-
-const defaultProps: Props = {
+const defaultProps: IData = {
   data: {
     avatar:
       'https://images.unsplash.com/photo-1474176857210-7287d38d27c6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit',
@@ -23,7 +20,7 @@ const defaultProps: Props = {
   },
 };
 
-const AgentCard: React.FC<Props> = ({ data }) => {
+const AgentCard: React.FC<Partial<IData>> = ({ data = {} }) => {
   const { agentName, description, houses, apartments, hotels } = data;
 
   const avatar: string = data.avatar as string;

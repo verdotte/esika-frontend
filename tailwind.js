@@ -1,12 +1,13 @@
 module.exports = {
+  mode: 'jit',
   purge: {
     preserveHtmlElements: false,
     content: [
-      "./public/*.html",
-      "./src/**/*.tsx",
-      "./src/**/*.ts",
-      "./src/**/*.jsx",
-      "./src/**/*.js",
+      './public/*.html',
+      './src/**/*.tsx',
+      './src/**/*.ts',
+      './src/**/*.jsx',
+      './src/**/*.js',
     ],
     options: {
       keyframes: false,
@@ -14,10 +15,15 @@ module.exports = {
   },
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'brand-thin': 'rgba(135, 206, 235, 0.2)',
+        'brand-bold': 'rgba(135, 206, 235, 0.98)',
+      },
+    },
   },
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/line-clamp')],
 };

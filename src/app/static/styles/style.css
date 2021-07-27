@@ -1,3 +1,59 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root,
+html {
+  touch-action: pan-x pan-y;
+  -webkit-tap-highlight-color: transparent;
+
+  /* Disable overscrolling */
+  overflow: hidden;
+  height: 100%;
+}
+body {
+  /* Disable overscrolling */
+  height: 100%;
+  overflow: auto;
+
+  overflow-x: hidden;
+  touch-action: pan-x pan-y;
+  scroll-behavior: smooth;
+  font-family: 'Poppins', sans-serif;
+  padding-top: env(safe-area-inset-top);
+}
+html {
+  -webkit-text-size-adjust: none;
+  touch-action: manipulation;
+}
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+.scrollbar-w7::-webkit-scrollbar {
+  width: 7px !important;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+.no-scrollbars {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+.home-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px #ffff;
+  -webkit-box-shadow: inset 0 0 6px #fff;
+}
+.no-scrollbars::-webkit-scrollbar {
+  display: none;
+}

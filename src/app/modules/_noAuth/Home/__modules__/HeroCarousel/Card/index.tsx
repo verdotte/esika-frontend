@@ -50,7 +50,7 @@ const HeroCarouselCard: React.FC<Partial<IData>> = ({
         </div>
       </div>
       <div className="px-4 my-3">
-        <p className="text-left line-clamp-5 text-xs">
+        <p className="text-left line-clamp-2 md:line-clamp-5 text-xs">
           {description}
         </p>
       </div>

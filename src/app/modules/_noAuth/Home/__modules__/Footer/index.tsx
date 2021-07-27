@@ -3,7 +3,7 @@ import PhoneVector from 'app/modules/__modules__/_vectors/phoneVector';
 
 const Footer = () => {
   return (
-    <div className="mb-0 my-8 md:mb-8 px-4 py-7 md:p-8 lg:p-12 xl:px-16 bg-brand-bold">
+    <div className="mb-16 my-8 md:mb-8 px-4 py-7 md:p-8 lg:p-12 xl:px-16 bg-brand-bold">
       <div className="w-full flex flex-wrap md:flex-nowrap justify-between items-center my-4 mb-8">
         <div className="flex flex-col w-full border-b md:border-b-0 md:border-r-2 md:border-white pb-4 md:pb-0">
           <p className="text-xl md:text-2xl text-white font-semibold">
@@ -60,10 +60,12 @@ const Footer = () => {
       </div>
 
       <div className="bg-white p-4 w-full rounded-md flex justify-around flex-wrap">
-        <p className="text-xs md:text-sm">FAQ</p>
-        <p className="text-xs md:text-sm">A propos de nous</p>
-        <p className="text-xs md:text-sm">Termes et conditions</p>
-        <p className="text-xs md:text-sm">
+        <p className="text-xs md:text-sm my-1">FAQ</p>
+        <p className="text-xs md:text-sm my-1">A propos de nous</p>
+        <p className="text-xs md:text-sm my-1">
+          Termes et conditions
+        </p>
+        <p className="text-xs md:text-sm my-1">
           Politique de confidentialite
         </p>
       </div>

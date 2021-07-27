@@ -4,19 +4,24 @@ import ShowWidget from '../ShowWidget';
 interface IProps {
   onSearch?: () => void;
   showSearchBar?: boolean;
+  className?: string | null;
 }
 
 const defaultProps: IProps = {
   onSearch: () => null,
   showSearchBar: true,
+  className: 'sticky top-0 z-10',
 };
 
 const Header: FC<IProps> = ({
   onSearch,
   showSearchBar = true,
+  className,
 }): JSX.Element => {
   return (
-    <div className="w-full flex justify-between py-3 md:py-8 sticky top-0 z-10 bg-white px-3 md:px-0 border-b shadow-sm md:border-none md:shadow-none">
+    <div
+      className={`w-full flex justify-between py-3 md:py-8 bg-white px-3 md:px-0 border-b shadow-sm md:border-none md:shadow-none ${className}`}
+    >
       <div className="w-auto">
         <h1 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl">
           Esika

@@ -1,6 +1,5 @@
 import home from './home';
-import login from './login';
 
-const appRoutes = [home, login];
+const appRoutes = [home];
 
 export default appRoutes;

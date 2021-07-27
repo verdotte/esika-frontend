@@ -1,20 +1,9 @@
 import React from 'react';
-import Header from 'app/modules/__modules__/Header';
-import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
-import HeroCarouselContainer from './__modules__/HeroCarouselContainer';
-import { ExplorerPanel } from './__modules__/Explorer';
-import AgentContainer from './__modules__/Agents';
-import Footer from './__modules__/Footer';
 
 const HomePage = () => {
   return (
-    <div className="container mx-auto px-0 md:px-8 no-scrollbars">
-      <Header className="fixed md:sticky z-20 md:z-10 top-0" />
-      <HeroCarouselContainer />
-      <ExplorerPanel />
-      <AgentContainer />
-      <Footer />
-      <BottomNavbar />
+    <div className="w-full mx-auto">
+      <p className="text-black">Landing page</p>
     </div>
   );
 };

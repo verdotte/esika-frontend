@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Header from 'app/modules/__modules__/Header';
 import { SUPPORTED_COUNTRIES } from 'app/modules/utils/helpers';
 import PhoneInput from 'app/modules/__modules__/PhoneInput';
+import browserHistory from 'app/modules/utils/helpers/browserHistory';
 
 const RegisterActivity: FC = (): JSX.Element => {
   return (
@@ -141,7 +142,7 @@ const RegisterActivity: FC = (): JSX.Element => {
                 defaultChecked
                 className="form-tick appearance-none h-8 md:h-6 w-[50px] md:w-6 border border-gray-300 rounded-md checked:bg-green-600 checked:border-transparent focus:outline-none"
               />
-              <p>
+              <p className="text-sm">
                 En continuant, vous acceptez nos{' '}
                 <Link
                   to="/terms"
@@ -155,6 +156,9 @@ const RegisterActivity: FC = (): JSX.Element => {
             <button
               className="button p-3 bg-brand-bold text-center rounded-md"
               type="button"
+              onClick={() => {
+                browserHistory.push('/verify');
+              }}
             >
               S&apos;inscrire
             </button>

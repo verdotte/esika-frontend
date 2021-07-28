@@ -34,7 +34,7 @@ const AgentCard: React.FC<Partial<IData>> = ({ data = {} }) => {
         onError={onImageError}
       />
 
-      <div className="flex-initial flex flex-col justify-between p-4 pl-3">
+      <div className="flex-initial flex flex-col justify-between p-4 pl-1 md:pl-3">
         <div className="flex items-center space-x-2">
           <VerifiedIcon className="text-blue-500 text-xl h-4 w-4" />
           <p className="text-sm font-semibold">{agentName}</p>
@@ -60,13 +60,13 @@ const AgentCard: React.FC<Partial<IData>> = ({ data = {} }) => {
 
         <div className="flex justify-between items-center space-x-3">
           <ContactButton
-            className="border border-brand-bold text-black flex items-center justify-center space-x-2 w-full p-2 rounded-lg text-xs"
+            className="border border-brand-bold text-black flex items-center justify-center space-x-1 md:space-x-2 w-full p-2 rounded-lg text-xs"
             vectorStyle="text-green-600 h-4 w-4"
           />
 
           <button
             type="button"
-            className="bg-brand-bold flex items-center justify-center space-x-2 w-full p-3 rounded-lg text-xs"
+            className="bg-brand-bold flex items-center justify-center space-x-1 md:space-x-2 w-full p-3 rounded-lg text-xs"
           >
             <EyeVector className="h-4 w-4" />
             <p>Voir</p>

@@ -1,11 +1,11 @@
-type ValueType = any;
+import keys from '../configs/keys';
 
 class LocalStorage {
   static get(key: string) {
     return localStorage.getItem(key);
   }
 
-  static set(key: string, value: ValueType) {
+  static set(key: string, value) {
     localStorage.setItem(key, value);
   }
 
@@ -14,15 +14,15 @@ class LocalStorage {
   }
 
   static setToken(value: string) {
-    localStorage.setItem('ju79J48_IOPW', value);
+    localStorage.setItem(keys.TOKEN_STORAGE_KEY as string, value);
   }
 
   static getToken() {
-    return localStorage.getItem('ju79J48_IOPW');
+    return localStorage.getItem(keys.TOKEN_STORAGE_KEY as string);
   }
 
   static removeToken() {
-    localStorage.removeItem('ju79J48_IOPW');
+    localStorage.removeItem(keys.TOKEN_STORAGE_KEY as string);
   }
 }
 

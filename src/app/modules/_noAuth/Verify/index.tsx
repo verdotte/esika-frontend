@@ -8,10 +8,18 @@ import { useRegister } from 'app/modules/Contexts/RegisterContext';
 import LocalStorage from 'app/modules/utils/helpers/LocalStorage';
 import keys from 'app/modules/utils/configs/keys';
 import { formRefType } from 'app/modules/@Types';
+import ShowWidget from 'app/modules/__modules__/ShowWidget';
+import AlertBox from 'app/modules/__modules__/AlertBox';
 
 const VerifyCodeActivity: FC = (): JSX.Element => {
-  const { codeInputRefs, isPerforming, onResendCode, onVerifyCode } =
-    useRegister();
+  const {
+    codeInputRefs,
+    isPerforming,
+    errors,
+    onClearMessage,
+    onResendCode,
+    onVerifyCode,
+  } = useRegister();
   const phoneNumber = LocalStorage.get(
     keys.PHONE_STORAGE_KEY as string,
   );
@@ -27,8 +35,8 @@ const VerifyCodeActivity: FC = (): JSX.Element => {
               <h1 className="md:text-xl">Verification du compte</h1>
             </div>
 
-            <div className="my-4 p-3 w-full bg-brand-thin border border-brand-bold rounded-sm">
-              {(phoneNumber && (
+            <ShowWidget condition={!!phoneNumber}>
+              <div className="my-4 p-3 w-full bg-brand-thin border border-brand-bold rounded-sm">
                 <p className="text-center text-xs">
                   <span>
                     Vous avez reçu un code de verification au
@@ -37,10 +45,16 @@ const VerifyCodeActivity: FC = (): JSX.Element => {
                     {phoneNumber}
                   </span>
                 </p>
-              )) ||
-                null}
-            </div>
+              </div>
+            </ShowWidget>
 
+            <AlertBox
+              show={!!errors.message}
+              message={errors.message}
+              className="w-full"
+              type={errors.type}
+              onHide={onClearMessage}
+            />
             <div className="my-3 text-center">
               <p>Entrez le code PIN</p>
               <OTPWidget
@@ -52,7 +66,7 @@ const VerifyCodeActivity: FC = (): JSX.Element => {
             </div>
 
             <div className="my-3">
-              <div className="my-5 text-center">
+              <div className="mt-3 md:5 my-5 text-center">
                 <button
                   type="button"
                   disabled={isPerforming}

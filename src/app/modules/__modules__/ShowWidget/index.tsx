@@ -3,13 +3,11 @@ import React, { FC, ReactNode } from 'react';
 interface IProps {
   condition: boolean;
   fallback?: ReactNode | null;
-  children: ReactNode;
 }
 
 const defaultProps: IProps = {
   condition: false,
   fallback: null,
-  children: <div />,
 };
 
 const ShowWidget: FC<IProps> = ({

@@ -1,11 +1,12 @@
 /* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { FC, memo } from 'react';
+import React, { FC, LegacyRef, memo } from 'react';
 import { Link } from 'react-router-dom';
 import Header from 'app/modules/__modules__/Header';
 import { SUPPORTED_COUNTRIES } from 'app/modules/utils/helpers';
 import PhoneInput from 'app/modules/__modules__/PhoneInput';
 import { useRegister } from 'app/modules/Contexts/RegisterContext';
+import AlertBox from 'app/modules/__modules__/AlertBox';
 
 const RegisterActivity: FC = (): JSX.Element => {
   const {
@@ -50,17 +51,16 @@ const RegisterActivity: FC = (): JSX.Element => {
           </div>
 
           <form
-            ref={formRef}
+            ref={formRef as LegacyRef<HTMLFormElement> | undefined}
             onSubmit={onRegister}
             autoComplete="off"
           >
             <div className="p-8 md:p-12 bg-white rounded-md w-full md:h-[90%] flex flex-col justify-between space-y-5 md:space-y-3 shadow-md md:shadow-none">
-              {(errors.authFailed && (
-                <div className="p-3 text-center text-xs md:text-sm my-2 bg-red-200 text-red-500 border border-red-400 rounded-md">
-                  <p>{errors.authFailed}</p>
-                </div>
-              )) ||
-                null}
+              <AlertBox
+                show={!!errors.message}
+                message={errors.message}
+                type={errors.type}
+              />
 
               <div className="flex flex-wrap md:flex-nowrap w-full md:space-x-4">
                 <div className="form-group w-full">

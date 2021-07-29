@@ -6,7 +6,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { CountryData, IContext } from 'app/modules/@Types';
+import { alertType, CountryData, IContext } from 'app/modules/@Types';
 import {
   formDataToObject,
   isValidPhoneNumber,
@@ -25,12 +25,16 @@ type registerCtxType = {
     firstName?: string;
     lastName?: string | null;
     phoneNumber?: string | null;
-    authFailed?: string | null;
     wrongCode?: string | null;
     message?: string | null;
+    type?: alertType;
   };
   codeInputRefs: (HTMLFormElement | null)[];
   isPerforming: boolean;
+  onClearMessage?: () => void;
+  onRegister?: (event: React.SyntheticEvent) => void;
+  onResendCode?: () => void;
+  onVerifyCode?: () => void;
 };
 
 const ctxDefaultState: registerCtxType = {
@@ -39,9 +43,9 @@ const ctxDefaultState: registerCtxType = {
     firstName: '',
     lastName: '',
     phoneNumber: '',
-    authFailed: '',
     wrongCode: '',
     message: '',
+    type: 'error',
   },
   codeInputRefs: [],
   isPerforming: false,
@@ -58,8 +62,8 @@ const RegisterProvider: FC = ({ children }) => {
     firstName: '',
     lastName: '',
     phoneNumber: '',
-    authFailed: '',
     wrongCode: '',
+    type: 'error',
   });
 
   const codeInputRefs = useRef<(HTMLInputElement | null)[]>(
@@ -143,14 +147,18 @@ const RegisterProvider: FC = ({ children }) => {
       setIsPerforming(false);
 
       if (error) {
-        setErrors((prev) => ({ ...prev, authFailed: error }));
+        setErrors((prev) => ({
+          ...prev,
+          message: error,
+          type: 'error',
+        }));
         return;
       }
 
       if (data) {
         const { phoneNumber } = data;
         LocalStorage.set(
-          keys.TOKEN_STORAGE_KEY as string,
+          keys.PHONE_STORAGE_KEY as string,
           phoneNumber,
         );
         formRef.current?.reset();
@@ -177,14 +185,14 @@ const RegisterProvider: FC = ({ children }) => {
   };
 
   const onVerifyCode = async () => {
-    const verifyCodes = codeInputRefs.filter((code) => code?.value);
+    const verifyCodes = codeInputRefs.map((code) => code?.value);
 
     if (isValidateCode(verifyCodes)) {
       const payload = {
         phoneNumber: LocalStorage.get(
           keys.PHONE_STORAGE_KEY as string,
         ),
-        code: verifyCodes.join(),
+        code: verifyCodes.join(''),
       };
 
       setIsPerforming(true);
@@ -197,36 +205,53 @@ const RegisterProvider: FC = ({ children }) => {
       setIsPerforming(false);
 
       if (error) {
-        setErrors((prev) => ({ ...prev, authFailed: error }));
+        setErrors((prev) => ({
+          ...prev,
+          message:
+            error.length < 98
+              ? error
+              : "Quelque chose s'est mal passé. Veuillez réessayer",
+          type: 'error',
+        }));
         return;
       }
 
       if (data) {
         const { token } = data;
-        LocalStorage.setToken(token);
-        LocalStorage.remove(keys.TOKEN_STORAGE_KEY as string);
 
-        setErrors((prev) => ({
-          ...prev,
-          message:
-            'Votre compte a été vérifié avec succès. Vous serez bientôt redirigé vers la page de connexion.',
-        }));
+        if (token) {
+          LocalStorage.setToken(token);
+          LocalStorage.remove(keys.PHONE_STORAGE_KEY as string);
 
-        setTimeout(() => {
-          browserHistory.push('/login');
-        }, 1200);
+          setErrors((prev) => ({
+            ...prev,
+            message:
+              'Votre compte a été vérifié avec succès. Vous serez bientôt redirigé vers la page de connexion.',
+          }));
+
+          setTimeout(() => {
+            browserHistory.push('/login');
+          }, 1500);
+        }
       }
     }
   };
+
+  const onClearMessage = useCallback(() => {
+    setErrors((prev) => ({ ...prev, message: '' }));
+  }, []);
 
   const onResendCode = async () => {
     const phoneNumber = LocalStorage.get(
       keys.PHONE_STORAGE_KEY as string,
     );
+
+    onClearMessage();
+
     if (!phoneNumber) {
       setErrors((prev) => ({
         ...prev,
-        authFailed: 'Veuillez fournir votre numéro de téléphone',
+        message: 'Veuillez fournir votre numéro de téléphone',
       }));
       return;
     }
@@ -238,8 +263,14 @@ const RegisterProvider: FC = ({ children }) => {
       { phoneNumber },
     );
 
+    setIsPerforming(false);
+
     if (error) {
-      setErrors((prev) => ({ ...prev, authFailed: error }));
+      setErrors((prev) => ({
+        ...prev,
+        message: error,
+        type: 'error',
+      }));
       return;
     }
 
@@ -247,6 +278,7 @@ const RegisterProvider: FC = ({ children }) => {
       setErrors((prev) => ({
         ...prev,
         message: `Le code de vérification a été au numéro ${phoneNumber}`,
+        type: 'success',
       }));
     }
   };
@@ -254,11 +286,12 @@ const RegisterProvider: FC = ({ children }) => {
   return (
     <RegisterContext.Provider
       value={{
-        formRef,
+        formRef: formRef as unknown as HTMLFormElement,
         errors,
         countryCode,
         isPerforming,
-        codeInputRefs,
+        codeInputRefs: codeInputRefs as (HTMLFormElement | null)[],
+        onClearMessage,
         onRegister,
         onCountryChange,
         onPhoneChange,

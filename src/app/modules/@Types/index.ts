@@ -15,6 +15,8 @@ export interface IContext {
   [key: string]: any;
 }
 
+export type alertType = 'success' | 'error';
+
 export interface CountryData {
   name: string;
   dialCode: string;

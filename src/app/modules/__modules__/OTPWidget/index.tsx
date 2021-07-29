@@ -5,6 +5,7 @@ import React, { FC } from 'react';
 interface IProps {
   pins: number;
   inputs: (HTMLInputElement | null)[];
+  disabled?: boolean;
   onDeletePin?: null | (() => void | null | boolean);
   onInputPin?: null | (() => void | null | boolean);
   onPastePin?: null | (() => void | null | boolean);
@@ -12,6 +13,7 @@ interface IProps {
 }
 
 const defaultProps: Partial<IProps> = {
+  disabled: false,
   onDeletePin: null,
   onInputPin: null,
   onPastePin: null,
@@ -21,6 +23,7 @@ const defaultProps: Partial<IProps> = {
 const OTPWidget: FC<IProps> = ({
   pins = 4,
   inputs,
+  disabled,
   onDeletePin,
   onInputPin,
   onPastePin,
@@ -142,6 +145,7 @@ const OTPWidget: FC<IProps> = ({
           onInput={onInputPin || onInput}
           onKeyDown={onDeletePin || onBackSpace}
           onPaste={onPastePin || onPaste}
+          disabled={disabled}
           className="appearance-none border rounded-md w-12 h-12 focus:border-brand-bold outline-none text-center transition-all"
         />
       ))}

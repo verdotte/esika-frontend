@@ -1,12 +1,20 @@
 /* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable react/no-array-index-key */
-import React, { FC, useRef } from 'react';
+import React, { FC } from 'react';
 import Header from 'app/modules/__modules__/Header';
 import UserVector from 'app/modules/__modules__/_vectors/userVector';
 import OTPWidget from 'app/modules/__modules__/OTPWidget';
+import { useRegister } from 'app/modules/Contexts/RegisterContext';
+import LocalStorage from 'app/modules/utils/helpers/LocalStorage';
+import keys from 'app/modules/utils/configs/keys';
+import { formRefType } from 'app/modules/@Types';
 
 const VerifyCodeActivity: FC = (): JSX.Element => {
-  const inputRefs = useRef<(HTMLInputElement | null)[]>([]).current;
+  const { codeInputRefs, isPerforming, onResendCode, onVerifyCode } =
+    useRegister();
+  const phoneNumber = LocalStorage.get(
+    keys.PHONE_STORAGE_KEY as string,
+  );
 
   return (
     <div className="container mx-auto md:px-8">
@@ -20,24 +28,36 @@ const VerifyCodeActivity: FC = (): JSX.Element => {
             </div>
 
             <div className="my-4 p-3 w-full bg-brand-thin border border-brand-bold rounded-sm">
-              <p className="text-center text-xs">
-                Vous avez reçu un code de verification au{' '}
-                <span className="font-semibold">
-                  (+243) 970 874 944
-                </span>
-              </p>
+              {(phoneNumber && (
+                <p className="text-center text-xs">
+                  <span>
+                    Vous avez reçu un code de verification au
+                  </span>
+                  <span className="font-semibold ml-1">
+                    {phoneNumber}
+                  </span>
+                </p>
+              )) ||
+                null}
             </div>
 
             <div className="my-3 text-center">
               <p>Entrez le code PIN</p>
-              <OTPWidget pins={4} inputs={inputRefs} />
+              <OTPWidget
+                pins={4}
+                inputs={codeInputRefs as formRefType[]}
+                disabled={isPerforming}
+                onSumitPin={onVerifyCode}
+              />
             </div>
 
             <div className="my-3">
               <div className="my-5 text-center">
                 <button
                   type="button"
-                  className="bg-brand-bold p-3 px-5 rounded-md text-center text-sm"
+                  disabled={isPerforming}
+                  onClick={onVerifyCode}
+                  className="bg-brand-bold p-3 px-5 rounded-md text-center text-sm disabled:bg-gray-200 disabled:text-gray-700"
                 >
                   Verifier et terminer
                 </button>
@@ -47,6 +67,8 @@ const VerifyCodeActivity: FC = (): JSX.Element => {
                   Vous n&apos;avez reçu le code?{' '}
                   <button
                     type="button"
+                    disabled={isPerforming}
+                    onClick={onResendCode}
                     className="text-blue-600 hover:text-black"
                   >
                     Renvoyez le code

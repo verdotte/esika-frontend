@@ -6,7 +6,12 @@ import axios from 'app/Services/http';
 class Service {
   static handleError = (
     err,
-  ): { error: string | any; data?: null; message?: null } => {
+  ): {
+    error: string | any;
+    data?: null;
+    message?: null;
+    status?: string;
+  } => {
     if (!err.response) {
       return {
         error:
@@ -14,26 +19,27 @@ class Service {
       };
     }
     const { data } = err.response;
-    const { error, msg } = data;
+    const { error, message, status } = data;
 
-    if (msg) {
-      return { error: msg };
+    if (message) {
+      return { error: message, status };
     }
 
     if (typeof error !== 'string') {
-      return { error: 'Unknown error' };
+      return { error: 'Unknown error', status };
     }
 
-    return { error };
+    return { error, status };
   };
 
   static resolveResponse = (response: AxiosResponse<any>) => {
-    const { data, error, message } = response.data;
+    const { data, error, message, status } = response.data;
 
     return {
       data,
       message,
-      error,
+      error: !data ? message : error,
+      status,
     };
   };
 
@@ -60,7 +66,7 @@ class Service {
 
   static async delete(url: string, data: any) {
     return axios
-      .post(url, data)
+      .delete(url, data)
       .then(this.resolveResponse)
       .catch(this.handleError);
   }

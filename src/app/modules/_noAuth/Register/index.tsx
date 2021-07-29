@@ -1,13 +1,23 @@
 /* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import { Link } from 'react-router-dom';
 import Header from 'app/modules/__modules__/Header';
 import { SUPPORTED_COUNTRIES } from 'app/modules/utils/helpers';
 import PhoneInput from 'app/modules/__modules__/PhoneInput';
-import browserHistory from 'app/modules/utils/helpers/browserHistory';
+import { useRegister } from 'app/modules/Contexts/RegisterContext';
 
 const RegisterActivity: FC = (): JSX.Element => {
+  const {
+    formRef,
+    countryCode,
+    errors,
+    isPerforming,
+    onPhoneChange,
+    onCountryChange,
+    onRegister,
+  } = useRegister();
+
   return (
     <div className="container mx-auto md:px-8">
       <Header showSearchBar={false} />
@@ -39,140 +49,159 @@ const RegisterActivity: FC = (): JSX.Element => {
             </p>
           </div>
 
-          <div className="p-8 md:p-12 bg-white rounded-md w-full md:h-[90%] flex flex-col justify-between space-y-7 md:space-y-3 shadow-md md:shadow-none">
-            <div className="flex flex-wrap md:flex-nowrap w-full md:space-x-4">
-              <div className="form-group w-full">
-                <div className="border rounded-md flex items-center space-x-3 p-4 overflow-hidden w-full">
-                  <div className="w-full relative">
-                    <input
-                      id="firstName"
-                      type="text"
-                      placeholder="Prénom"
-                      className="peer outline-none text-sm placeholder-transparent"
-                    />
-                    <label
-                      htmlFor="firstName"
-                      className="absolute left-0 -top-3.5 text-gray-400 text-xs transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-0"
+          <form
+            ref={formRef}
+            onSubmit={onRegister}
+            autoComplete="off"
+          >
+            <div className="p-8 md:p-12 bg-white rounded-md w-full md:h-[90%] flex flex-col justify-between space-y-5 md:space-y-3 shadow-md md:shadow-none">
+              {(errors.authFailed && (
+                <div className="p-3 text-center text-xs md:text-sm my-2 bg-red-200 text-red-500 border border-red-400 rounded-md">
+                  <p>{errors.authFailed}</p>
+                </div>
+              )) ||
+                null}
+
+              <div className="flex flex-wrap md:flex-nowrap w-full md:space-x-4">
+                <div className="form-group w-full">
+                  <div className="border rounded-md flex items-center space-x-3 p-4 overflow-hidden w-full">
+                    <div className="w-full relative">
+                      <input
+                        id="firstName"
+                        type="text"
+                        placeholder="Prénom"
+                        name="firstName"
+                        className="peer outline-none text-sm placeholder-transparent bg-transparent"
+                      />
+                      <label
+                        htmlFor="firstName"
+                        className="absolute left-0 -top-3.5 text-gray-400 text-xs transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-0"
+                      >
+                        Prénom
+                      </label>
+                    </div>
+                  </div>
+
+                  <p className="text-red-500 text-xs md:text-sm mt-2">
+                    {errors.firstName}
+                  </p>
+                </div>
+                <div className="form-group mt-5 md:mt-0 w-full">
+                  <div className="border rounded-md flex items-center space-x-3 p-4 overflow-hidden w-full">
+                    <div className="w-full relative">
+                      <input
+                        id="lastName"
+                        type="text"
+                        name="lastName"
+                        placeholder="Nom de famille"
+                        className="peer outline-none text-sm placeholder-transparent bg-transparent"
+                      />
+                      <label
+                        htmlFor="lastName"
+                        className="absolute left-0 -top-3.5 text-gray-400 text-xs transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-0"
+                      >
+                        Nom de famille
+                      </label>
+                    </div>
+                  </div>
+
+                  <p className="text-red-500 text-xs md:text-sm mt-2">
+                    {errors.lastName}
+                  </p>
+                </div>
+              </div>
+
+              <div className="form-group">
+                <div className="border rounded-md overflow-hidden">
+                  <div className="p-4 border-b">
+                    <select
+                      name="country"
+                      id="country"
+                      value={countryCode}
+                      className="w-full outline-none"
+                      onChange={onCountryChange}
+                      onBlur={() => null}
                     >
-                      Prénom
-                    </label>
+                      <option value="DEFAULT" disabled>
+                        Pays
+                      </option>
+                      {Object.keys(SUPPORTED_COUNTRIES).map(
+                        (country) => (
+                          <option
+                            key={`country_${country}`}
+                            value={
+                              SUPPORTED_COUNTRIES[country].shortName
+                            }
+                          >
+                            {SUPPORTED_COUNTRIES[country].countryName}
+                          </option>
+                        ),
+                      )}
+                    </select>
+                  </div>
+                  <div className="p-4 py-2">
+                    <PhoneInput
+                      country={countryCode}
+                      onChange={onPhoneChange}
+                      placeholder="Phone number"
+                      buttonClass="hidden"
+                      inputProps={{ name: 'phoneNumber' }}
+                      inputStyle={{
+                        border: 0,
+                        width: '100%',
+                        paddingLeft: 0,
+                        fontSize: '1rem',
+                        lineHeight: '1.25rem',
+                      }}
+                      inputClass="bg-transparent"
+                    />
                   </div>
                 </div>
-
-                <p className="text-red-500 text-xs md:text-sm mt-1">
-                  Prenom
+                <p className="text-red-500 text-xs md:text-sm mt-2">
+                  {errors.phoneNumber}
                 </p>
               </div>
-              <div className="form-group mt-3 md:mt-0 w-full">
-                <div className="border rounded-md flex items-center space-x-3 p-4 overflow-hidden w-full">
-                  <div className="w-full relative">
-                    <input
-                      id="password"
-                      type="password"
-                      placeholder="Entrez le pin code"
-                      className="peer outline-none text-sm placeholder-transparent"
-                    />
-                    <label
-                      htmlFor="password"
-                      className="absolute left-0 -top-3.5 text-gray-400 text-xs transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-0"
-                    >
-                      Nom de famille
-                    </label>
-                  </div>
-                </div>
 
-                <p className="text-red-500 text-xs md:text-sm mt-1">
-                  Nom de famille
-                </p>
-              </div>
-            </div>
-
-            <div className="form-group">
-              <div className="border rounded-md overflow-hidden">
-                <div className="p-4 border-b">
-                  <select
-                    name="country"
-                    id="country"
-                    defaultValue="DEFAULT"
-                    className="w-full outline-none"
+              <label
+                htmlFor="terms"
+                className="flex items-center space-x-2 my-4"
+              >
+                <input
+                  id="terms"
+                  type="checkbox"
+                  defaultChecked
+                  className="form-tick appearance-none h-8 md:h-6 w-[50px] md:w-6 border border-gray-300 rounded-md checked:bg-green-600 checked:border-transparent focus:outline-none"
+                />
+                <p className="text-sm">
+                  En continuant, vous acceptez nos{' '}
+                  <Link
+                    to="/terms"
+                    className="text-blue-600 hover:text-white"
                   >
-                    <option value="DEFAULT" disabled>
-                      Pays
-                    </option>
-                    {Object.keys(SUPPORTED_COUNTRIES).map(
-                      (country) => (
-                        <option
-                          key={`country_${country}`}
-                          value={
-                            SUPPORTED_COUNTRIES[country].shortName
-                          }
-                        >
-                          {SUPPORTED_COUNTRIES[country].countryName}
-                        </option>
-                      ),
-                    )}
-                  </select>
-                </div>
-                <div className="p-4 py-2">
-                  <PhoneInput
-                    onChange={() => null}
-                    placeholder="Phone number"
-                    buttonClass="hidden"
-                    countryCodeEditable={false}
-                    inputStyle={{
-                      border: 0,
-                      width: '100%',
-                      paddingLeft: 0,
-                    }}
-                  />
-                </div>
-              </div>
-              <p className="text-red-500 text-xs md:text-sm mt-1">
-                Phone number
-              </p>
+                    Terms and conditions
+                  </Link>
+                </p>
+              </label>
+
+              <button
+                className="button p-3 bg-brand-bold text-center rounded-md disabled:bg-gray-200 disabled:text-gray-700"
+                type="submit"
+                disabled={isPerforming}
+              >
+                S&apos;inscrire
+              </button>
+              <Link
+                to="/signup"
+                className="text-sm text-center hover:text-white md:hidden"
+              >
+                <span>Se connecter</span>
+              </Link>
             </div>
-
-            <label
-              htmlFor="terms"
-              className="flex items-center space-x-2 my-4"
-            >
-              <input
-                id="terms"
-                type="checkbox"
-                defaultChecked
-                className="form-tick appearance-none h-8 md:h-6 w-[50px] md:w-6 border border-gray-300 rounded-md checked:bg-green-600 checked:border-transparent focus:outline-none"
-              />
-              <p className="text-sm">
-                En continuant, vous acceptez nos{' '}
-                <Link
-                  to="/terms"
-                  className="text-blue-600 hover:text-white"
-                >
-                  Terms and conditions
-                </Link>
-              </p>
-            </label>
-
-            <button
-              className="button p-3 bg-brand-bold text-center rounded-md"
-              type="button"
-              onClick={() => {
-                browserHistory.push('/verify');
-              }}
-            >
-              S&apos;inscrire
-            </button>
-            <Link
-              to="/signup"
-              className="text-sm text-center hover:text-white md:hidden"
-            >
-              <span>Se connecter</span>
-            </Link>
-          </div>
+          </form>
         </div>
       </div>
     </div>
   );
 };
 
-export default RegisterActivity;
+export default memo(RegisterActivity);

@@ -1,16 +1,9 @@
 import React, { FC, ChangeEvent, useMemo } from 'react';
 import ReactPhoneInput from 'react-phone-input-2';
 import { SUPPORTED_COUNTRIES } from 'app/modules/utils/helpers';
-import { IData } from 'app/modules/@Types';
+import { CountryData } from 'app/modules/@Types';
 
 import 'react-phone-input-2/lib/style.css';
-
-interface CountryData {
-  name: string;
-  dialCode: string;
-  countryCode: string;
-  format: string;
-}
 
 interface Style {
   containerClass?: string;
@@ -34,9 +27,10 @@ interface IProps extends Style {
   disableCountryCode?: boolean;
   countryCodeEditable?: boolean;
   className?: string | null;
+  inputProps?: Record<string, string>;
   onChange?: (
     value: string,
-    data: IData | CountryData,
+    data: CountryData,
     event: ChangeEvent<HTMLInputElement>,
     formattedValue: string,
   ) => void;
@@ -44,12 +38,11 @@ interface IProps extends Style {
 
 const defaultProps: IProps = {
   country: '',
-  value: null,
+  value: '',
   placeholder: '',
   disabled: false,
   disableCountryCode: false,
   countryCodeEditable: true,
-  onChange: () => null,
   className: '',
   containerClass: '',
   inputClass: '',
@@ -57,10 +50,12 @@ const defaultProps: IProps = {
   dropdownClass: '',
   searchClass: '',
   containerStyle: {},
+  inputProps: {},
   inputStyle: {},
   buttonStyle: {},
   dropdownStyle: {},
   searchStyle: {},
+  onChange: () => null,
 };
 
 const PhoneInput: FC<IProps> = ({ onChange, ...rest }: IProps) => {

@@ -19,7 +19,7 @@ const defaultProps: Props = {
   },
 };
 
-export const PropertyCard = ({ data }: Props) => {
+export const PropertyCard = ({ data = {} }: Props) => {
   const { image, avatar, description } = data;
 
   return (
@@ -28,7 +28,7 @@ export const PropertyCard = ({ data }: Props) => {
         <div className="flex items-center pb-3 w-full">
           <div className="relative">
             <img
-              src={avatar}
+              src={avatar as string}
               alt="User avatar"
               className="w-10 h-10 rounded-full object-cover"
               onError={onImageError}
@@ -66,7 +66,7 @@ export const PropertyCard = ({ data }: Props) => {
 
       <div className="my-3">
         <img
-          src={image}
+          src={image as string}
           alt="property"
           className="w-full h-48 object-cover"
           onError={onImageError}

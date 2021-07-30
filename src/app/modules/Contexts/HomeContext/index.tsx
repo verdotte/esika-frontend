@@ -1,7 +1,6 @@
 import React, {
   createContext,
   FC,
-  ReactNode,
   useCallback,
   useContext,
   useState,
@@ -9,39 +8,41 @@ import React, {
 import Service from 'app/Services';
 import ENDPOINTS from 'app/Services/endpoints';
 
-interface Props {
-  children: ReactNode;
-}
+type IProperties = { [key: string]: string };
 
-interface IProperties {
-  [key: string]:
-    | string
-    | number
-    | null
-    | undefined
-    | { [key: string]: string };
-}
+type homeType = {
+  loading: boolean;
+  properties: IProperties[];
+  setProperties: React.Dispatch<React.SetStateAction<IProperties[]>>;
+  onFetchProperties: () => void;
+};
 
-export const HomeContext = createContext({});
+const defaultCtxProps: homeType = {
+  loading: true,
+  properties: [],
+  onFetchProperties: () => null,
+  setProperties: () => null,
+};
+
+export const HomeContext = createContext<homeType>(defaultCtxProps);
 export const useHome = () => useContext(HomeContext);
 
-const HomeProvider: FC<Props> = ({
-  children,
-}: Props): JSX.Element => {
+const HomeProvider: FC = ({ children }): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(true);
   const [properties, setProperties] = useState<IProperties[]>([]);
 
   const onFetchProperties = useCallback(async () => {
-    const response = await Service.get(ENDPOINTS.PROPERTIES);
+    const { error, data } = await Service.get(ENDPOINTS.PROPERTIES);
 
     setLoading(false);
 
-    if (response.error) {
+    if (error) {
       return;
     }
 
-    if (response.data) {
-      setProperties(response.data);
+    if (data) {
+      const { propertyList } = data;
+      setProperties(propertyList);
     }
   }, []);
 

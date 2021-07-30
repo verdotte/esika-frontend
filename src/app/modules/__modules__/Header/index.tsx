@@ -1,4 +1,6 @@
 import React, { memo, FC } from 'react';
+import { Link } from 'react-router-dom';
+import browserHistory from 'app/modules/utils/helpers/browserHistory';
 import ShowWidget from '../ShowWidget';
 import UserVector from '../_vectors/userVector';
 
@@ -23,14 +25,14 @@ const Header: FC<IProps> = ({
     <div
       className={`w-full flex justify-between py-3 md:py-8 bg-white px-3 md:px-0 border-b shadow-sm md:border-none md:shadow-none ${className}`}
     >
-      <div className="w-auto">
+      <Link to="/" className="w-auto">
         <h1 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl">
           Esika
         </h1>
         <p className="text-xs md:text-sm xl:text-md">
           Trouver une maison
         </p>
-      </div>
+      </Link>
 
       <ShowWidget condition={showSearchBar}>
         <div className="hidden md:flex items-center border border-brand-bold rounded-xl p-4 space-x-3 md:w-1/3 bg-brand-thin text-black">
@@ -59,6 +61,7 @@ const Header: FC<IProps> = ({
 
       <button
         type="button"
+        onClick={() => browserHistory.push('/register')}
         className="md:border border-brand-bold rounded-lg flex items-center justify-center p-4 space-x-3 w-auto lg:w-1/4"
       >
         <UserVector />

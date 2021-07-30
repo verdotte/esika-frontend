@@ -9,6 +9,7 @@ import ShowWidget from 'app/modules/__modules__/ShowWidget';
 
 interface Props {
   data?: Record<string, number | string | symbol | null>;
+  preload?: boolean;
 }
 
 const defaultProps: Props = {
@@ -20,9 +21,10 @@ const defaultProps: Props = {
     description:
       'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloribus eum sint maiores esse molestiae, corporis autem cum odio? Itaque, ipsum atque eius aspernatur non neque dolores ipsa suscipit molestias sunt!',
   },
+  preload: false,
 };
 
-export const PropertyCard = ({ data = {} }: Props) => {
+export const PropertyCard = ({ data = {}, preload }: Props) => {
   const {
     image,
     picture,
@@ -40,34 +42,60 @@ export const PropertyCard = ({ data = {} }: Props) => {
     <div className="w-full border border-brand-bold rounded-lg py-4 h-full flex flex-col justify-between">
       <div className="px-4">
         <div className="flex items-center pb-3 w-full">
-          <div className="relative">
-            <img
-              src={(picture as string) || placeholderImg}
-              alt="User avatar"
-              className="w-10 h-10 rounded-full object-cover"
-              onError={onImageError}
-            />
-            <VerifiedIcon />
-          </div>
+          <ShowWidget
+            condition={!preload}
+            fallback={<div className="h-10 w-10 rounded-full" />}
+          >
+            <div className="relative">
+              <img
+                src={(picture as string) || placeholderImg}
+                alt="User avatar"
+                className="w-10 h-10 rounded-full object-cover"
+                onError={onImageError}
+              />
+              <VerifiedIcon />
+            </div>
+          </ShowWidget>
           <div className="ml-3 flex-1">
-            <div className="w-full flex justify-between items-center">
-              <p className="line-clamp-1 text-sm">{title}</p>
-              <p className="text-xs text-gray-700">
-                {timeAgo.ago(createdAt)}
-              </p>
-            </div>
+            <ShowWidget
+              condition={!preload}
+              fallback={
+                <div className="h-4 w-full bg-gray-200 animate-pulse" />
+              }
+            >
+              <div className="w-full flex justify-between items-center">
+                <p className="line-clamp-1 text-sm">{title}</p>
+                <p className="text-xs text-gray-700">
+                  {timeAgo.ago(createdAt)}
+                </p>
+              </div>
+            </ShowWidget>
 
-            <div className="bg-yellow-400/60 p-2 mt-2 rounded-sm">
-              <p className="text-sm">
-                {price} fc/{unit === 'month' ? 'mois' : unit}
-              </p>
-            </div>
+            <ShowWidget
+              condition={!preload}
+              fallback={
+                <div className="h-4 w-full p-2 mt-2 bg-gray-200 animate-pulse" />
+              }
+            >
+              <div className="bg-yellow-400/60 p-2 mt-2 rounded-sm">
+                <p className="text-sm">
+                  {price} fc/{unit === 'month' ? 'mois' : unit}
+                </p>
+              </div>
+            </ShowWidget>
           </div>
         </div>
 
-        <p className="text-xs text-gray-700 line-clamp-2 my-3">
-          {description}
-        </p>
+        <ShowWidget
+          condition={!preload}
+          fallback={
+            <div className="my-3 h-4 w-full bg-gray-200 animate-pulse" />
+          }
+        >
+          <p className="text-xs text-gray-700 line-clamp-2 my-3">
+            {description}
+          </p>
+        </ShowWidget>
       </div>
 
       <div className="w-full flex my-3 px-4 overflow-x-auto no-scrollbars">
@@ -95,24 +123,45 @@ export const PropertyCard = ({ data = {} }: Props) => {
       </div>
 
       <div className="my-3">
-        <img
-          src={(image as string) || placeholderImg}
-          alt="property"
-          className="w-full h-48 object-cover"
-          onError={onImageError}
-        />
+        <ShowWidget
+          condition={!preload}
+          fallback={
+            <div className="h-48 w-full bg-gray-200 animate-pulse" />
+          }
+        >
+          <img
+            src={(image as string) || placeholderImg}
+            alt="property"
+            className="w-full h-48 object-cover"
+            onError={onImageError}
+          />
+        </ShowWidget>
       </div>
 
       <div className="px-4 flex justify-between space-x-4 my-2">
-        <ContactButton />
-
-        <button
-          type="button"
-          className="border border-brand-bold flex items-center justify-center space-x-2 w-full p-3 rounded-lg"
+        <ShowWidget
+          condition={!preload}
+          fallback={
+            <div className="h-5 w-40 bg-gray-200 animate-pulse" />
+          }
         >
-          <HeartVector className="text-red-500 h-5 w-5" />
-          <p className="text-sm">Savaugarder</p>
-        </button>
+          <ContactButton />
+        </ShowWidget>
+
+        <ShowWidget
+          condition={!preload}
+          fallback={
+            <div className="h-5 w-40 bg-gray-200 animate-pulse" />
+          }
+        >
+          <button
+            type="button"
+            className="border border-brand-bold flex items-center justify-center space-x-2 w-full p-3 rounded-lg"
+          >
+            <HeartVector className="text-red-500 h-5 w-5" />
+            <p className="text-sm">Savaugarder</p>
+          </button>
+        </ShowWidget>
       </div>
     </div>
   );

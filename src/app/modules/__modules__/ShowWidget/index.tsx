@@ -15,13 +15,14 @@ const ShowWidget: FC<IProps> = ({
   condition,
   fallback,
 }): JSX.Element | null => {
+  if (!condition && fallback) {
+    return <>{fallback}</>;
+  }
+
   if (!condition) {
     return null;
   }
 
-  if (!condition && fallback) {
-    return <>{fallback}</>;
-  }
   return <>{children}</>;
 };
 

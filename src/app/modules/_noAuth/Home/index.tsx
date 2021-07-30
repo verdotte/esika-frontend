@@ -8,13 +8,17 @@ import AgentContainer from './__modules__/Agents';
 import Footer from './__modules__/Footer';
 
 const HomePage = () => {
-  const { onFetchProperties, properties } = useHome();
+  const { onFetchProperties, onFetchAgents, properties } = useHome();
 
   useEffect(() => {
     if (!properties.length) {
       onFetchProperties();
+      onFetchAgents();
     }
-    return onFetchProperties;
+    return () => {
+      onFetchProperties();
+      onFetchAgents();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onFetchProperties]);
 

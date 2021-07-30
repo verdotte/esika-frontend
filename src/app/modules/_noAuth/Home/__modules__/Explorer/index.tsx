@@ -11,7 +11,7 @@ import { ExplorerCard } from './Card';
 import { HeroCarouselIndicator } from '../HeroCarousel/Indicator';
 
 export const ExplorerPanel = () => {
-  const { properties } = useHome();
+  const { properties, loading } = useHome();
   const [indicator, setIndicator] = useState<number>(0);
 
   const chunks = useMemo(() => Paginate(properties, 6), [properties]);
@@ -28,6 +28,23 @@ export const ExplorerPanel = () => {
     [],
   );
 
+  const renderProperties = useCallback(() => {
+    if (loading) {
+      return Array.from({ length: 6 }).map((_, index) => (
+        <PropertyCard key={index} preload={loading} />
+      ));
+    }
+    return (
+      chunks[indicator] &&
+      chunks[indicator].map((property, index) => (
+        <PropertyCard
+          data={property}
+          key={`property_${property.property_id}_${index}`}
+        />
+      ))
+    );
+  }, [chunks, loading, indicator]);
+
   return (
     <div className="my-4 px-3 md:px-0">
       <p className="font-extrabold text-4xl my-8">Explorer</p>
@@ -38,14 +55,10 @@ export const ExplorerPanel = () => {
         <ExplorerCard title="Apartment" icon={<ApartmentVector />} />
       </div>
 
-      <div className="w-full flex flex-col sm:grid md:grid-cols-2 md:gap-x-6 lg:grid-cols-3 gap-5 lg:gap-12 my-8">
-        {chunks[indicator] &&
-          chunks[indicator].map((property, index) => (
-            <PropertyCard
-              data={property}
-              key={`property_${property.property_id}_${index}`}
-            />
-          ))}
+      <div className="w-full min-h-[500px]">
+        <div className="w-full flex flex-col sm:grid md:grid-cols-2 md:gap-x-6 lg:grid-cols-3 gap-5 lg:gap-12 my-8">
+          {renderProperties()}
+        </div>
       </div>
 
       <div className="w-full flex justify-end">

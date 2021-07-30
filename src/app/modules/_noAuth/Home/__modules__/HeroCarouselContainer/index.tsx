@@ -10,7 +10,7 @@ import { HeroCarouselIndicator } from '../HeroCarousel/Indicator';
 const HeroCarouselContainer = () => {
   const [indicator, setIndicator] = useState<number>(0);
 
-  const { properties } = useHome();
+  const { properties, loading } = useHome();
 
   const onIndicatorChange = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -27,7 +27,10 @@ const HeroCarouselContainer = () => {
   return (
     <div className="mt-20 md:mt-4 my-4">
       <>
-        <HeroCarousel data={properties[indicator]} />
+        <HeroCarousel
+          data={properties[indicator]}
+          preload={loading}
+        />
       </>
       <div className="my-4 mt-6 w-full flex justify-between px-3 md:px-0">
         <div className="flex items-center">

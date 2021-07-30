@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
 import { onImageError } from 'app/modules/utils/helpers';
 import { IData } from 'app/modules/@Types';
+import ShowWidget from 'app/modules/__modules__/ShowWidget';
 import HeroCarouselCard from './Card';
 
-const defaultProps: IData = {
+const defaultProps: IData & { preload: boolean } = {
   data: {
     title: 'Maison a vendre',
     price: 2000,
@@ -14,21 +15,32 @@ const defaultProps: IData = {
     image:
       'https://images.unsplash.com/photo-1568605114967-8130f3a36994?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit',
   },
+  preload: false,
 };
 
-const HeroCarousel: FC<IData> = ({ data }) => {
+const HeroCarousel: FC<IData & { preload: boolean }> = ({
+  data,
+  preload,
+}) => {
   const { image } = data;
 
   return (
     <div className="w-full relative transition-all ease-in-out">
-      <img
-        src={image as string}
-        alt="House on hood"
-        className="w-full h-[28rem] object-cover md:rounded-lg"
-        onError={onImageError}
-      />
+      <ShowWidget
+        condition={!preload}
+        fallback={
+          <div className="h-[28rem] w-full md:rounded-lg bg-gray-200 animate-pulse" />
+        }
+      >
+        <img
+          src={image as string}
+          alt="House on hood"
+          className="w-full h-[28rem] object-cover md:rounded-lg"
+          onError={onImageError}
+        />
+      </ShowWidget>
       <div className="absolute md:top-[5%] bottom-[5%] left-8 right-8 md:right-auto">
-        <HeroCarouselCard data={data} />
+        <HeroCarouselCard data={data} preload={preload} />
       </div>
 
       <button

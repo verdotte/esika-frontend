@@ -43,7 +43,10 @@ const AgentContainer = () => {
           ))}
       </div>
 
-      <ShowWidget condition={agentChunks.length > 1}>
+      <ShowWidget
+        condition={agentChunks.length > 1}
+        fallback={<div className="h-8" />}
+      >
         <div className="w-full">
           {agentChunks.map((_, index) => (
             <HeroCarouselIndicator

@@ -6,7 +6,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { alertType, CountryData, IContext } from 'app/modules/@Types';
+import { alertType, CountryData, IObject } from 'app/modules/@Types';
 import {
   formDataToObject,
   isValidPhoneNumber,
@@ -52,7 +52,7 @@ const ctxDefaultState: registerCtxType = {
 };
 
 export const RegisterContext = createContext<
-  registerCtxType & IContext
+  registerCtxType & IObject
 >(ctxDefaultState);
 export const useRegister = () => useContext(RegisterContext);
 

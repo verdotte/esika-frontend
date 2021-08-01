@@ -11,12 +11,29 @@ export const defaultVectorProps: classNameInterface = {
 export interface IData {
   data: Record<string, string | number | symbol | null | undefined>;
 }
-export interface IContext {
+export interface IObject {
   [key: string]: any;
 }
 
+export type stateSetterType<T> = React.Dispatch<
+  React.SetStateAction<T>
+>;
+
 export type alertType = 'success' | 'error';
 
+export type IAgent = {
+  active: boolean;
+  createdAt: string;
+  email: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  phoneNumber: string | null;
+  picture: string | null;
+  updatedAt: string;
+  userId: string | number;
+  userType: string;
+  verified?: boolean;
+};
 export interface CountryData {
   name: string;
   dialCode: string;

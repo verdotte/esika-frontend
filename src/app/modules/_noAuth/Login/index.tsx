@@ -6,7 +6,7 @@ import { SUPPORTED_COUNTRIES } from 'app/modules/utils/helpers';
 import Header from 'app/modules/__modules__/Header';
 import PhoneInput from 'app/modules/__modules__/PhoneInput';
 import PhoneVector from 'app/modules/__modules__/_vectors/phoneVector';
-import { userLogin } from 'app/modules/Contexts/LoginContext';
+import { useLogin } from 'app/modules/Contexts/LoginContext';
 import AlertBox from 'app/modules/__modules__/AlertBox';
 
 const LoginActivity: FC = (): JSX.Element => {
@@ -18,7 +18,7 @@ const LoginActivity: FC = (): JSX.Element => {
     onPhoneChange,
     onCountryChange,
     onLogin,
-  } = userLogin();
+  } = useLogin();
 
   return (
     <div className="container mx-auto md:px-8">
@@ -93,13 +93,6 @@ const LoginActivity: FC = (): JSX.Element => {
                   <div className="flex items-center space-x-3">
                     <PhoneVector />
 
-                    {/* <input
-                    type="tel"
-                    className="outline-none"
-                    placeholder="Phone number"
-                    onChange={onPhoneChange}
-                  /> */}
-
                     <PhoneInput
                       country={countryCode}
                       onChange={onPhoneChange}
@@ -108,7 +101,6 @@ const LoginActivity: FC = (): JSX.Element => {
                       inputProps={{ name: 'phoneNumber' }}
                       inputStyle={{
                         border: 0,
-                        // width: '100%',
                         paddingLeft: 0,
                         fontSize: '1rem',
                         lineHeight: '1.25rem',
@@ -122,7 +114,7 @@ const LoginActivity: FC = (): JSX.Element => {
                 {errors.phoneNumber}
               </p>
               <button
-                className="button p-3 bg-brand-bold text-center rounded-md"
+                className="button p-3 bg-brand-bold text-center rounded-md disabled:bg-gray-300"
                 type="submit"
                 disabled={isPerforming}
               >

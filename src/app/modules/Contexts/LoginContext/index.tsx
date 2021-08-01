@@ -13,6 +13,7 @@ import {
 } from 'app/modules/utils/helpers';
 import Service from 'app/Services';
 import ENDPOINTS from 'app/Services/endpoints';
+import LocalStorage from 'app/modules/utils/helpers/LocalStorage';
 import browserHistory from 'app/modules/utils/helpers/browserHistory';
 
 type stateObject = Record<string, string>;
@@ -25,7 +26,6 @@ type loginCtxType = {
     message?: string | null;
     type?: alertType;
   };
-  codeInputRefs: (HTMLFormElement | null)[];
   isPerforming: boolean;
   onClearMessage?: () => void;
   onLogin?: (event: React.SyntheticEvent) => void;
@@ -39,7 +39,6 @@ const ctxDefaultState: loginCtxType = {
     message: '',
     type: 'error',
   },
-  codeInputRefs: [],
   isPerforming: false,
 };
 
@@ -136,6 +135,8 @@ const LoginProvider: FC = ({ children }) => {
 
       if (data) {
         formRef.current?.reset();
+        const { token } = data;
+        LocalStorage.setToken(token);
         browserHistory.push('/');
       }
     }

@@ -114,7 +114,7 @@ const LoginActivity: FC = (): JSX.Element => {
                 {errors.phoneNumber}
               </p>
               <button
-                className="button p-3 bg-brand-bold text-center rounded-md disabled:bg-gray-300"
+                className="button p-3 bg-brand-bold text-center rounded-md disabled:bg-gray-300 disabled:text-gray-700"
                 type="submit"
                 disabled={isPerforming}
               >

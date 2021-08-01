@@ -2,10 +2,11 @@ import React from 'react';
 
 interface Props {
   current: boolean;
-  onClick: () => void;
+  onClick: (currentPosition: number) => void;
   defaultStyle?: string;
   currentStyle?: string;
   className?: string;
+  position: number;
 }
 
 type defaultPropsType = Pick<
@@ -25,13 +26,22 @@ export const HeroCarouselIndicator = ({
   defaultStyle,
   currentStyle,
   className,
+  position = 0,
 }: Props) => {
   const styleName = current ? currentStyle : defaultStyle;
+  const onIndicatorClick = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
+    const position =
+      event.currentTarget.getAttribute('data-position');
+    onClick(Number(position));
+  };
   return (
     <>
       <button
         type="button"
-        onClick={onClick}
+        onClick={onIndicatorClick}
+        data-position={position}
         className={`${styleName} ${className}`}
       />
       <input type="radio" className="hidden" />

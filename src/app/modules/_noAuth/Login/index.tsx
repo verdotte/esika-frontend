@@ -1,11 +1,25 @@
 /* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { FC } from 'react';
+import React, { FC, LegacyRef, memo } from 'react';
 import { Link } from 'react-router-dom';
+import { SUPPORTED_COUNTRIES } from 'app/modules/utils/helpers';
 import Header from 'app/modules/__modules__/Header';
+import PhoneInput from 'app/modules/__modules__/PhoneInput';
 import PhoneVector from 'app/modules/__modules__/_vectors/phoneVector';
+import { useLogin } from 'app/modules/Contexts/LoginContext';
+import AlertBox from 'app/modules/__modules__/AlertBox';
 
 const LoginActivity: FC = (): JSX.Element => {
+  const {
+    formRef,
+    countryCode,
+    errors,
+    isPerforming,
+    onPhoneChange,
+    onCountryChange,
+    onLogin,
+  } = useLogin();
+
   return (
     <div className="container mx-auto md:px-8">
       <Header showSearchBar={false} />
@@ -37,50 +51,87 @@ const LoginActivity: FC = (): JSX.Element => {
             </p>
           </div>
 
-          <div className="p-8 md:p-12 bg-white rounded-md w-full md:h-4/5 flex flex-col justify-between space-y-7 md:space-y-3 shadow-md md:shadow-none">
-            <div className="border rounded-md overflow-hidden">
-              <div className="p-4 border-b">
-                <select
-                  name="country"
-                  id="country"
-                  defaultValue="DEFAULT"
-                  className="w-full outline-none"
-                >
-                  <option value="DEFAULT" disabled>
-                    Pays/Code
-                  </option>
-                </select>
-              </div>
-              <div className="p-4">
-                <div className="flex items-center space-x-3">
-                  <PhoneVector />
+          <form
+            ref={formRef as LegacyRef<HTMLFormElement> | undefined}
+            onSubmit={onLogin}
+            autoComplete="off"
+          >
+            <div className="p-8 md:p-12 bg-white rounded-md w-full md:h-4/5 flex flex-col justify-between space-y-7 md:space-y-3 shadow-md md:shadow-none">
+              <AlertBox
+                show={!!errors.message}
+                message={errors.message}
+                type={errors.type}
+              />
+              <div className="border rounded-md overflow-hidden">
+                <div className="p-4 border-b">
+                  <select
+                    name="country"
+                    id="country"
+                    value={countryCode}
+                    onChange={onCountryChange}
+                    onBlur={() => null}
+                    className="w-full outline-none"
+                  >
+                    <option value="DEFAULT" disabled>
+                      Pays/Code
+                    </option>
+                    {Object.keys(SUPPORTED_COUNTRIES).map(
+                      (country) => (
+                        <option
+                          key={`country_${country}`}
+                          value={
+                            SUPPORTED_COUNTRIES[country].shortName
+                          }
+                        >
+                          {SUPPORTED_COUNTRIES[country].countryName}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                </div>
+                <div className="p-4">
+                  <div className="flex items-center space-x-3">
+                    <PhoneVector />
 
-                  <input
-                    type="tel"
-                    className="outline-none"
-                    placeholder="Phone number"
-                  />
+                    <PhoneInput
+                      country={countryCode}
+                      onChange={onPhoneChange}
+                      placeholder="Phone number"
+                      buttonClass="hidden"
+                      inputProps={{ name: 'phoneNumber' }}
+                      inputStyle={{
+                        border: 0,
+                        paddingLeft: 0,
+                        fontSize: '1rem',
+                        lineHeight: '1.25rem',
+                      }}
+                      inputClass="bg-transparent"
+                    />
+                  </div>
                 </div>
               </div>
+              <p className="text-red-500 text-xs md:text-sm mt-2">
+                {errors.phoneNumber}
+              </p>
+              <button
+                className="button p-3 bg-brand-bold text-center rounded-md disabled:bg-gray-300"
+                type="submit"
+                disabled={isPerforming}
+              >
+                Se connecter
+              </button>
+              <Link
+                to="/signup"
+                className="text-sm text-center hover:text-white md:hidden"
+              >
+                <span>Creer un compte</span>
+              </Link>
             </div>
-
-            <button
-              className="button p-3 bg-brand-bold text-center rounded-md"
-              type="button"
-            >
-              Se connecter
-            </button>
-            <Link
-              to="/signup"
-              className="text-sm text-center hover:text-white md:hidden"
-            >
-              <span>Creer un compte</span>
-            </Link>
-          </div>
+          </form>
         </div>
       </div>
     </div>
   );
 };
 
-export default LoginActivity;
+export default memo(LoginActivity);

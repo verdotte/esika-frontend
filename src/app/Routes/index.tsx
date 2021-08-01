@@ -1,52 +1,39 @@
 import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import {
+  Redirect,
+  Route,
+  RouteComponentProps,
+  Switch,
+} from 'react-router-dom';
+import IRoute from 'app/modules/@Types/route.interface';
 import isExpired from '../modules/utils/helpers/isExpired';
 
-type RouteType = {
-  exact: boolean;
-  path: string;
-  secured: boolean;
-  title: string;
-  Component: React.ElementType;
-};
-
-interface RoutesProps {
-  location?: Record<string, never>;
-  history?: Record<string, never>;
-  match?: Record<string, never>;
-  routes: RouteType[];
+interface IProps {
+  routes: IRoute[];
 }
 
-const Routes: React.FC<RoutesProps> = ({ routes }) => {
+const Routes: React.FC<IProps> = ({ routes }) => {
   const expired = isExpired();
 
-  const render = (route: RouteType | never) => (
+  const render = (route: IRoute) => (
     <Route
       key={`route_${routes.indexOf(route)}`}
       exact={route.exact}
       path={route.path}
-      render={(props: any) => {
+      render={(props: RouteComponentProps) => {
         if (route.secured && expired) {
-          return <Redirect to="/" />;
+          return <Redirect to="/" exact />;
         }
 
-        if (route.title) {
-          document.title = route.title;
+        if (route.name) {
+          document.title = route.name;
         }
 
-        return (
-          <route.Component
-            location={props.location}
-            history={props.history}
-            match={props.match}
-          />
-        );
+        return <route.component {...props} />;
       }}
     />
   );
-  return (
-    <Switch>{routes.map((route: RouteType) => render(route))}</Switch>
-  );
+  return <Switch>{routes.map((route) => render(route))}</Switch>;
 };
 
 export default Routes;

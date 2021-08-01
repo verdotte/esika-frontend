@@ -1,6 +1,5 @@
 import React, { memo, FC } from 'react';
-import { Link } from 'react-router-dom';
-import browserHistory from 'app/modules/utils/helpers/browserHistory';
+import { Link, useHistory } from 'react-router-dom';
 import ShowWidget from '../ShowWidget';
 import UserVector from '../_vectors/userVector';
 
@@ -21,6 +20,7 @@ const Header: FC<IProps> = ({
   showSearchBar = true,
   className,
 }): JSX.Element => {
+  const history = useHistory();
   return (
     <div
       className={`w-full flex justify-between py-3 md:py-8 bg-white px-3 md:px-0 border-b shadow-sm md:border-none md:shadow-none ${className}`}
@@ -61,7 +61,7 @@ const Header: FC<IProps> = ({
 
       <button
         type="button"
-        onClick={() => browserHistory.push('/register')}
+        onClick={() => history.push('/register')}
         className="md:border border-brand-bold rounded-lg flex items-center justify-center p-4 space-x-3 w-auto lg:w-1/4"
       >
         <UserVector />

@@ -1,8 +1,6 @@
-import home from './home';
-import login from './login';
-import register from './register';
-import verify from './verify';
+import IRoute from 'app/modules/@Types/route.interface';
+import noAuthRoutes from './noAuth.routes';
 
-const appRoutes = [home, login, register, verify];
+const appRoutes: IRoute[] = [...noAuthRoutes];
 
 export default appRoutes;

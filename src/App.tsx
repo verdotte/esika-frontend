@@ -1,15 +1,17 @@
 import React from 'react';
-import { Router } from 'react-router-dom';
-import browserHistory from './app/modules/utils/helpers/browserHistory';
+import { BrowserRouter } from 'react-router-dom';
+import AppProviders from 'appProviders';
 import Routes from './app/Routes';
 import appRoutes from './app/Routes/__routes__';
 import './app/static/styles/style.css';
 
 const App = () => {
   return (
-    <Router history={browserHistory}>
-      <Routes routes={appRoutes} />
-    </Router>
+    <BrowserRouter>
+      <AppProviders>
+        <Routes routes={appRoutes} />
+      </AppProviders>
+    </BrowserRouter>
   );
 };
 

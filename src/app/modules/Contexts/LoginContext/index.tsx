@@ -6,7 +6,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { alertType, CountryData, IContext } from 'app/modules/@Types';
+import { alertType, CountryData, IObject } from 'app/modules/@Types';
 import {
   formDataToObject,
   isValidPhoneNumber,
@@ -42,7 +42,7 @@ const ctxDefaultState: loginCtxType = {
   isPerforming: false,
 };
 
-export const LoginContext = createContext<loginCtxType & IContext>(
+export const LoginContext = createContext<loginCtxType & IObject>(
   ctxDefaultState,
 );
 export const useLogin = () => useContext(LoginContext);

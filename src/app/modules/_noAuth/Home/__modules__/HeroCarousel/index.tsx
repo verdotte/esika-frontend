@@ -3,6 +3,12 @@ import { onImageError } from 'app/modules/utils/helpers';
 import { IData } from 'app/modules/@Types';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
 import HeroCarouselCard from './Card';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  RouteComponentProps
+} from "react-router-dom";
 
 const defaultProps: IData & { preload: boolean } = {
   data: {
@@ -22,7 +28,9 @@ const HeroCarousel: FC<IData & { preload: boolean }> = ({
   data,
   preload,
 }) => {
-  const { image } = data;
+  const { image, slug } = data;
+
+  // console.log("slug", slug)
 
   return (
     <div className="w-full relative transition-all ease-in-out">
@@ -43,12 +51,18 @@ const HeroCarousel: FC<IData & { preload: boolean }> = ({
         <HeroCarouselCard data={data} preload={preload} />
       </div>
 
-      <button
-        type="button"
-        className="bg-brand-bold text-sm rounded-lg p-2 px-5 absolute bottom-[5%] right-[3%] hidden md:block"
+      <Link
+        to={`/property/${slug as string}`}
+        
       >
-        Voir
-      </button>
+          <button
+            type="button"
+            className="bg-brand-bold text-sm rounded-lg p-2 px-5 absolute bottom-[5%] right-[3%] hidden md:block"
+          >
+            Voir
+          </button>
+      </Link>
+
     </div>
   );
 };

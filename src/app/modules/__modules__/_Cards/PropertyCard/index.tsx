@@ -156,10 +156,10 @@ export const PropertyCard = ({ data = {}, preload }: Props) => {
         >
           <button
             type="button"
-            className="border border-brand-bold flex items-center justify-center space-x-2 w-full p-3 rounded-lg"
+            className="border border-brand-bold flex items-center justify-center space-x-2 flex-1 w-full p-3 rounded-lg"
           >
             <HeartVector className="text-red-500 h-5 w-5" />
-            <p className="text-sm">Savaugarder</p>
+            <p className="text-sm hidden xl:block">Sauvegarder</p>
           </button>
         </ShowWidget>
       </div>

@@ -6,6 +6,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { useHistory } from 'react-router-dom';
 import { alertType, CountryData, IObject } from 'app/modules/@Types';
 import {
   formDataToObject,
@@ -14,7 +15,6 @@ import {
 import Service from 'app/Services';
 import ENDPOINTS from 'app/Services/endpoints';
 import LocalStorage from 'app/modules/utils/helpers/LocalStorage';
-import browserHistory from 'app/modules/utils/helpers/browserHistory';
 
 type stateObject = Record<string, string>;
 
@@ -62,6 +62,8 @@ const LoginProvider: FC = ({ children }) => {
   const [countryCode, setCountryCode] = useState<string>('DEFAULT');
 
   const [isPerforming, setIsPerforming] = useState<boolean>(false);
+
+  const history = useHistory();
 
   const onPhoneChange = useCallback((_, data: CountryData) => {
     const { countryCode } = data;
@@ -137,7 +139,7 @@ const LoginProvider: FC = ({ children }) => {
         formRef.current?.reset();
         const { token } = data;
         LocalStorage.setToken(token);
-        browserHistory.push('/');
+        history.push('/');
       }
     }
   };

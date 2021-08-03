@@ -30,8 +30,6 @@ const HeroCarousel: FC<IData & { preload: boolean }> = ({
 }) => {
   const { image, slug } = data;
 
-  // console.log("slug", slug)
-
   return (
     <div className="w-full relative transition-all ease-in-out">
       <ShowWidget
@@ -53,7 +51,6 @@ const HeroCarousel: FC<IData & { preload: boolean }> = ({
 
       <Link
         to={`/property/${slug as string}`}
-        
       >
           <button
             type="button"

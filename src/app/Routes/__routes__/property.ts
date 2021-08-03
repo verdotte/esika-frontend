@@ -1,4 +1,4 @@
-import Property from "app/Initials/__auth/Property";
+import Property from "app/Initials/__noAuth/Property";
 
 const property = {
   title: 'Esika - Propriété',

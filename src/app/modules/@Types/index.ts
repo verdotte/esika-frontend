@@ -21,6 +21,26 @@ export type stateSetterType<T> = React.Dispatch<
 
 export type alertType = 'success' | 'error';
 
+export interface IProperty {
+  title: string | null;
+  description: string | null;
+  price: string | null;
+  unit: string;
+  type: string;
+  bedroom: string | null;
+  bathroom: string | null;
+  location: string | null;
+  parking: string | null;
+  balcony: string | null;
+  createdAt: string;
+  category: string | null;
+  city: string | null;
+  firstName: string | null;
+  phoneNumber: string | null;
+  picture: string | null;
+  image: string | null;
+};
+
 export type IAgent = {
   active: boolean;
   createdAt: string;
@@ -34,6 +54,7 @@ export type IAgent = {
   userType: string;
   verified?: boolean;
 };
+
 export interface CountryData {
   name: string;
   dialCode: string;

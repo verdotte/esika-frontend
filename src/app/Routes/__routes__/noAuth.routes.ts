@@ -1,3 +1,4 @@
+import Property from 'app/Initials/__noAuth/Property';
 import Home from 'app/Initials/__noAuth/Home';
 import Login from 'app/Initials/__noAuth/Login';
 import Register from 'app/Initials/__noAuth/Register';
@@ -33,6 +34,13 @@ const noAuthRoutes: IRoute[] = [
     exact: true,
     component: VerifyCode,
   },
+  {
+    name: 'Esika - Propriété',
+    secured: false,
+    path: '/property/:slug',
+    exact: true,
+    component: Property,
+  }
 ];
 
 export default noAuthRoutes;

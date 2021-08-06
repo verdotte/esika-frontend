@@ -201,7 +201,7 @@ const Property = () => {
             >
               <div className="w-full flex items-center justify-center sm:justify-start p-3 sm:pl-5 sm:pt-10 sm:pb-10">
                 <div className="bg-yellow-400/60 p-3">
-                  <p className="text-md">
+                  <p className="text-sm">
                     {property?.price} fc/
                     {property?.unit !== 'month'
                       ? 'mois'

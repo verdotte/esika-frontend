@@ -19,6 +19,7 @@ module.exports = {
       colors: {
         'brand-thin': 'rgba(135, 206, 235, 0.2)',
         'brand-bold': 'rgba(135, 206, 235, 0.98)',
+        'brand-semi-bold': 'rgba(135, 206, 235, 0.65)',
       },
     },
   },

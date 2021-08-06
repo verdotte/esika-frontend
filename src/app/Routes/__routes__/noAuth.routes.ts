@@ -4,6 +4,9 @@ import Login from 'app/Initials/__noAuth/Login';
 import Register from 'app/Initials/__noAuth/Register';
 import VerifyCode from 'app/Initials/__noAuth/Verify';
 import IRoute from 'app/modules/@Types/route.interface';
+import Profile from 'app/Initials/__noAuth/Profile';
+import AddProperty from 'app/Initials/__noAuth/AddProperty';
+import MyProperties from 'app/Initials/__noAuth/MyProperties';
 
 const noAuthRoutes: IRoute[] = [
   {
@@ -40,6 +43,27 @@ const noAuthRoutes: IRoute[] = [
     path: '/property/:slug',
     exact: true,
     component: Property,
+  },
+  {
+    name: 'Esika - Profile',
+    secured: false,
+    path: '/profile',
+    exact: true,
+    component: Profile,
+  },
+  {
+    name: 'Esika - Add Property',
+    secured: false,
+    path: '/add-property',
+    exact: true,
+    component: AddProperty,
+  },
+  {
+    name: 'Esika - My Properties',
+    secured: false,
+    path: '/my-properties',
+    exact: true,
+    component: MyProperties,
   }
 ];
 

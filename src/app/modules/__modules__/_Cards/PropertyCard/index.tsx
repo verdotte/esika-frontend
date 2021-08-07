@@ -138,7 +138,7 @@ export const PropertyCard = ({ data = {}, preload }: Props) => {
         </ShowWidget>
       </div>
 
-      <div className="px-4 flex justify-between space-x-4 my-2">
+      <div className="px-4 flex justify-between space-x-4 my-2 w-">
         <ShowWidget
           condition={!preload}
           fallback={

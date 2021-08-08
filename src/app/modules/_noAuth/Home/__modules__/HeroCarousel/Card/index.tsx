@@ -6,6 +6,7 @@ import { onImageError } from 'app/modules/utils/helpers';
 import { IData } from 'app/modules/@Types';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
 import placeholderImg from 'app/static/images/placeholder.jpg';
+import Tag from 'app/modules/__modules__/Tag';
 
 const defaultProps: IData & { preload?: boolean } = {
   data: {
@@ -80,42 +81,24 @@ const HeroCarouselCard: React.FC<
       </ShowWidget>
 
       <div className="flex my-2 px-4">
-        <ShowWidget
+        <Tag
           condition={!preload || !!bedroom}
-          fallback={
-            <div className="h-4 w-12 rounded-full mr-3 bg-gray-200 animate-pulse" />
-          }
-        >
-          <div className="p-2 px-3 rounded-full bg-white text-gray-700 mr-3">
-            <p className="text-xs">
-              {bedroom} {Number(bedroom) > 1 ? 'chambres' : 'chambre'}
-            </p>
-          </div>
-        </ShowWidget>
-        <ShowWidget
+          tag={`${String(bedroom)} ${
+            Number(bedroom) > 1 ? 'chambres' : 'chambre'
+          }`}
+        />
+        <Tag
           condition={!preload || !!bathroom}
-          fallback={
-            <div className="h-4 w-12 rounded-full mr-3 bg-gray-200 animate-pulse" />
-          }
-        >
-          <div className="p-2 px-3 rounded-full bg-white text-gray-700 mr-3">
-            <p className="text-xs">
-              {bathroom} {Number(bathroom) > 1 ? 'douches' : 'douche'}
-            </p>
-          </div>
-        </ShowWidget>
-        <ShowWidget
+          tag={`${String(bathroom)} ${
+            Number(bathroom) > 1 ? 'douches' : 'douche'
+          }`}
+        />
+        <Tag
           condition={!preload || !!balcony}
-          fallback={
-            <div className="h-4 w-12 rounded-full mr-3 bg-gray-200 animate-pulse" />
-          }
-        >
-          <div className="p-2 px-3 rounded-full bg-white text-gray-700 mr-3">
-            <p className="text-xs">
-              {balcony} {Number(balcony) > 1 ? 'douches' : 'douche'}
-            </p>
-          </div>
-        </ShowWidget>
+          tag={`${String(balcony)} ${
+            Number(balcony) > 1 ? 'balcons' : 'balcon'
+          }`}
+        />
       </div>
       <div className="px-4 my-3">
         <ShowWidget

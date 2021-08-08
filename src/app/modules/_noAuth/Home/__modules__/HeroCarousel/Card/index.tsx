@@ -6,6 +6,7 @@ import { onImageError } from 'app/modules/utils/helpers';
 import { IData } from 'app/modules/@Types';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
 import placeholderImg from 'app/static/images/placeholder.jpg';
+import PropertyPrice from 'app/modules/__modules__/Property/PropertyPrice';
 
 const defaultProps: IData & { preload?: boolean } = {
   data: {
@@ -76,6 +77,7 @@ const HeroCarouselCard: React.FC<
           <p className="text-sm">
             {price} fc/{unit !== 'month' ? 'mois' : unit}
           </p>
+          {/* <PropertyPrice unit={unit} price={price} /> */}
         </div>
       </ShowWidget>
 

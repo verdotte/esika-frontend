@@ -105,21 +105,6 @@ const AgentCard: React.FC<Partial<IProps | IObject>> = ({
               vectorStyle="text-green-600 h-4 w-4"
             />
           </ShowWidget>
-
-          <ShowWidget
-            condition={!preload}
-            fallback={
-              <div className="h-5 w-full bg-gray-200 animate-pulse" />
-            }
-          >
-            <button
-              type="button"
-              className="bg-brand-bold flex items-center justify-center space-x-1 lg:space-x-2 w-full p-3 rounded-lg text-xs"
-            >
-              <EyeVector className="h-4 w-4" />
-              <p>Voir</p>
-            </button>
-          </ShowWidget>
         </div>
       </div>
     </div>

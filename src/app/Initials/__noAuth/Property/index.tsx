@@ -24,10 +24,10 @@ import { IProperty } from 'app/modules/@Types';
 import { onImageError } from 'app/modules/utils/helpers';
 import ClockVector from 'app/modules/__modules__/_vectors/clockVector';
 import LocationVector from 'app/modules/__modules__/_vectors/LocationVector';
-import axios from 'axios';
 import timeAgo from 'time-ago';
 import Service from 'app/Services';
 import ENDPOINTS from 'app/Services/endpoints';
+import PropertyPrice from 'app/modules/__modules__/Property/PropertyPrice';
 
 const Property = () => {
   const [property, setProperty] = useState<IProperty | null>(null);
@@ -99,7 +99,6 @@ const Property = () => {
     fetchProperty();
     return () => {
       fetchProperty();
-      console.log('Clean up');
     };
   }, [fetchProperty]);
 
@@ -201,12 +200,10 @@ const Property = () => {
             >
               <div className="w-full flex items-center justify-center sm:justify-start p-3 sm:pl-5 sm:pt-10 sm:pb-10">
                 <div className="bg-yellow-400/60 p-3">
-                  <p className="text-sm">
-                    {property?.price} fc/
-                    {property?.unit !== 'month'
-                      ? 'mois'
-                      : property?.unit}
-                  </p>
+                  <PropertyPrice
+                    unit={property?.unit}
+                    price={property?.price || ''}
+                  />
                 </div>
 
                 <div className="p-5">
@@ -285,7 +282,7 @@ const Property = () => {
                 type="button"
                 className="sm:bg-brand-bold border border-white text-sm rounded-lg bottom-2 right-2 sm:p-2 sm:px-5 absolute sm:bottom-[5%] sm:right-[3%] hidden md:block"
               >
-                + Plus d'images
+                + Plus d&apos;images
               </button>
             </ShowWidget>
           </div>
@@ -380,12 +377,12 @@ const Property = () => {
                   }
                 >
                   {/* <div className="w-full"> */}
-                    <img
-                      src="https://images.pexels.com/photos/697509/pexels-photo-697509.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-                      alt="agent name will be replaced here"
-                      className="h-full sm:h-full w-32 sm:w-32 object-cover flex-initial"
-                      onError={onImageError}
-                    />
+                  <img
+                    src="https://images.pexels.com/photos/697509/pexels-photo-697509.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+                    alt="agent name will be replaced here"
+                    className="h-full sm:h-full w-32 sm:w-32 object-cover flex-initial"
+                    onError={onImageError}
+                  />
                   {/* </div> */}
                 </ShowWidget>
 
@@ -435,7 +432,7 @@ const Property = () => {
                     </div>
                   </div>
 
-                  <div className="flex justify-between sm:flex-wrap sm:justify-center items-center space-x-3 ">
+                  <div className="flex justify-between sm:flex sm:justify-start items-center space-x-3 ">
                     <ShowWidget
                       condition={!loading_}
                       fallback={
@@ -446,21 +443,6 @@ const Property = () => {
                         className="bg-green-600 text-white flex items-center justify-center space-x-1 lg:space-x-2 w-full sm:w-32 sm:mb-2 pt-2 pb-2 pl-3 pr-3 rounded-lg text-xs"
                         vectorStyle="text-ehite h-4 w-4"
                       />
-                    </ShowWidget>
-
-                    <ShowWidget
-                      condition={!loading_}
-                      fallback={
-                        <div className="h-8 w-full bg-gray-200 rounded-md animate-pulse" />
-                      }
-                    >
-                      <button
-                        type="button"
-                        className="bg-brand-bold flex items-center justify-center space-x-1 lg:space-x-2 w-full sm:w-20 sm:mb-2 pt-[0.6rem] pb-[0.6rem] pl-3 pr-3 rounded-lg text-xs"
-                      >
-                        <EyeVector className="h-4 w-4" />
-                        <p>Plus</p>
-                      </button>
                     </ShowWidget>
                   </div>
                 </div>

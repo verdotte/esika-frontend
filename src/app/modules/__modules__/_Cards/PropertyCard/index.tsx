@@ -6,6 +6,7 @@ import { VerifiedIcon } from 'app/modules/__modules__/_vectors/verifiedICon';
 import { onImageError } from 'app/modules/utils/helpers';
 import placeholderImg from 'app/static/images/placeholder.jpg';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
+import PropertyPrice from '../../Property/PropertyPrice';
 
 interface Props {
   data?: Record<string, number | string | symbol | null>;
@@ -78,9 +79,10 @@ export const PropertyCard = ({ data = {}, preload }: Props) => {
               }
             >
               <div className="bg-yellow-400/60 p-2 mt-2 rounded-sm">
-                <p className="text-sm">
-                  {price} fc/{unit === 'month' ? 'mois' : unit}
-                </p>
+                <PropertyPrice
+                  unit={unit as string}
+                  price={price as string}
+                />
               </div>
             </ShowWidget>
           </div>

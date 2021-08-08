@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
+import { useParams } from 'react-router-dom';
 import isExpired from 'app/modules/utils/helpers/isExpired';
-import browserHistory from 'app/modules/utils/helpers/browserHistory';
 import HouseVector from '../_vectors/houseVector';
 import BottomNavbarItem from './BottomNavItem';
 import UserVector from '../_vectors/userVector';
@@ -9,7 +9,7 @@ import GlobeVector from '../_vectors/globeVector';
 
 const BottomNavbar: FC = (): JSX.Element => {
   const isAuthed = isExpired();
-  const path = browserHistory.location.pathname;
+  const path = useParams();
 
   return (
     <div className="w-full flex justify-between fixed bottom-0 p-3 px-5 bg-white z-20 border-t shadow-md md:hidden">

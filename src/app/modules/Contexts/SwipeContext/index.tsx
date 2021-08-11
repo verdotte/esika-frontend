@@ -24,6 +24,7 @@ interface ISwipe {
   direction: IDirection;
   xPosition?: number | null;
   wrapperRef: LegacyRef<HTMLDivElement> | null;
+  carouselItemsRef: (HTMLDivElement | null)[];
   onTouchStart: (event: TouchEvent) => void;
   onTouchMove: (event: TouchEvent) => void;
 }
@@ -40,6 +41,7 @@ const defaultCtx: ISwipe = {
   direction: null,
   pressed: false,
   wrapperRef: null,
+  carouselItemsRef: [],
   onTouchStart: () => null,
   onTouchMove: () => null,
 };
@@ -51,6 +53,9 @@ export const useSwipe = () => useContext(SwipeContext);
 const SwipeProvider: FC = ({ children }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const xPositionRef = useRef<number | null>(null);
+  const carouselItemsRef = useRef<(HTMLDivElement | null)[]>(
+    [],
+  ).current;
 
   const [xPosition, setXPosition] = useState<number | null>(null);
 
@@ -109,17 +114,32 @@ const SwipeProvider: FC = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    wrapperRef.current?.addEventListener('touchstart', onTouchStart);
-    wrapperRef.current?.addEventListener('touchmove', onTouchMove);
-    wrapperRef.current?.addEventListener('touchend', onTouchEnd);
+    setTimeout(() => {
+      carouselItemsRef.forEach((item, index) => {
+        item?.addEventListener('touchstart', (e) => {
+          console.log('X START', e.touches[0].clientX);
+        });
+        item?.addEventListener('touchmove', (e) => {
+          const bound = item.getBoundingClientRect();
+
+          console.log(bound);
+
+          console.log('X MOVE', e.touches[0].clientX);
+        });
+      });
+    }, 1000);
+    // wrapperRef.current?.addEventListener('touchstart', onTouchStart);
+    // wrapperRef.current?.addEventListener('touchmove', onTouchMove);
+    // wrapperRef.current?.addEventListener('touchend', onTouchEnd);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [carouselItemsRef]);
 
   return (
     <SwipeContext.Provider
       value={{
         xPosition,
         wrapperRef,
+        carouselItemsRef,
         onTouchMove,
         onTouchStart,
       }}

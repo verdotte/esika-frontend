@@ -16,7 +16,7 @@ const HeroCarouselContainer = () => {
     onIndicatorChange,
   } = useHome();
 
-  const { wrapperRef, xPosition } = useSwipe();
+  const { wrapperRef, carouselItemsRef, xPosition } = useSwipe();
 
   const { heroIndicator: indicator } = paginationIndicators;
 
@@ -62,11 +62,19 @@ const HeroCarouselContainer = () => {
             />
           }
         >
-          {trendingProperties.map((property) => (
+          {trendingProperties.map((property, index) => (
             <HeroCarousel
               key={`carousel_property_${property.propertyId}`}
               data={property}
               preload={loading}
+              ref={(el) => {
+                if (carouselItemsRef && el) {
+                  carouselItemsRef[index] = el;
+
+                  return carouselItemsRef[index];
+                }
+                return el;
+              }}
             />
           ))}
         </ShowWidget>

@@ -20,7 +20,7 @@ const Tag: FC<Props> = ({ condition = true, tag }) => {
       }
     >
       <div className="p-2 px-3 rounded-full bg-white text-gray-700 mr-3">
-        <p className="text-xs">{tag}</p>
+        <p className="text-xs whitespace-nowrap">{tag}</p>
       </div>
     </ShowWidget>
   );

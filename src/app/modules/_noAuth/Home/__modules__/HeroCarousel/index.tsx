@@ -22,7 +22,7 @@ const HeroCarousel: FC<IData & { preload: boolean }> = ({
   );
 
   return (
-    <div className="w-full relative transition-all ease-in-out">
+    <div className="w-full relative transition-all ease-in-out flex-shrink-0">
       <ShowWidget
         condition={!preload}
         fallback={

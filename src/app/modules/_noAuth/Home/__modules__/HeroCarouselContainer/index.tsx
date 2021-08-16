@@ -16,7 +16,7 @@ const HeroCarouselContainer = () => {
     onIndicatorChange,
   } = useHome();
 
-  const { wrapperRef, carouselItemsRef, xPosition } = useSwipe();
+  const { wrapperRef, xPosition } = useSwipe();
 
   const { heroIndicator: indicator } = paginationIndicators;
 
@@ -52,33 +52,12 @@ const HeroCarouselContainer = () => {
 
   return (
     <div className="mt-20 md:mt-4 my-4" ref={wrapperRef}>
-      <div className="w-full flex overflow-x-auto no-scrollbars">
-        <ShowWidget
-          condition={!loading}
-          fallback={
-            <HeroCarousel
-              preload={loading}
-              data={properties[indicator]}
-            />
-          }
-        >
-          {trendingProperties.map((property, index) => (
-            <HeroCarousel
-              key={`carousel_property_${property.propertyId}`}
-              data={property}
-              preload={loading}
-              ref={(el) => {
-                if (carouselItemsRef && el) {
-                  carouselItemsRef[index] = el;
-
-                  return carouselItemsRef[index];
-                }
-                return el;
-              }}
-            />
-          ))}
-        </ShowWidget>
-      </div>
+      <>
+        <HeroCarousel
+          data={properties[indicator]}
+          preload={loading}
+        />
+      </>
       <div className="my-4 mt-6 w-full flex justify-between px-3 md:px-0">
         <ShowWidget condition={properties.length > 1}>
           <div className="flex items-center">

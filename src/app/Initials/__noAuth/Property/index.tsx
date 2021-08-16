@@ -27,6 +27,7 @@ import ClockVector from 'app/modules/__modules__/_vectors/clockVector';
 import LocationVector from 'app/modules/__modules__/_vectors/LocationVector';
 import Service from 'app/Services';
 import ENDPOINTS from 'app/Services/endpoints';
+import Tag from 'app/modules/__modules__/Tag';
 
 const Property = () => {
   const [property, setProperty] = useState<IProperty | null>(null);
@@ -301,66 +302,46 @@ const Property = () => {
 
                 <div className="flex pt-3 sm:pt-8">
                   <div className="flex flex-wrap content-center my-2 sm:px-4">
-                    <ShowWidget
-                      condition={!loading_}
-                      fallback={
-                        <div className="h-8 w-16 rounded-full mr-3 bg-gray-200 animate-pulse" />
-                      }
-                    >
-                      <div className="mb-2 sm:mb-0 p-2 px-3 sm:p-2 sm:px-3 rounded-full bg-brand-bold text-gray-700 mr-3">
-                        <p className="text-xs">
-                          {property?.bedroom}{' '}
-                          {Number(property?.bedroom) > 1
-                            ? 'chambres'
-                            : 'chambre'}
-                        </p>
-                      </div>
-                    </ShowWidget>
-                    <ShowWidget
-                      condition={!loading_}
-                      fallback={
-                        <div className="h-8 w-16 rounded-full mr-3 bg-gray-200 animate-pulse" />
-                      }
-                    >
-                      <div className="mb-2 sm:mb-0 p-2 px-3 rounded-full bg-brand-bold text-gray-700 mr-3">
-                        <p className="text-xs">
-                          {property?.bathroom}{' '}
-                          {Number(property?.bathroom) > 1
-                            ? 'douches'
-                            : 'douche'}
-                        </p>
-                      </div>
-                    </ShowWidget>
-                    <ShowWidget
-                      condition={!loading_}
-                      fallback={
-                        <div className="h-8 w-16 rounded-full mr-3 bg-gray-200 animate-pulse" />
-                      }
-                    >
-                      <div className="mb-2 sm:mb-0 p-2 px-3 rounded-full bg-brand-bold text-gray-700 mr-3">
-                        <p className="text-xs">
-                          {property?.balcony}{' '}
-                          {Number(property?.balcony) > 1
-                            ? 'balcons'
-                            : 'balcon'}
-                        </p>
-                      </div>
-                    </ShowWidget>
-                    <ShowWidget
-                      condition={!loading_}
-                      fallback={
-                        <div className="h-8 w-16 rounded-full mr-3 bg-gray-200 animate-pulse" />
-                      }
-                    >
-                      <div className="mb-2 sm:mb-0 p-2 px-3 rounded-full bg-brand-bold text-gray-700 mr-3">
-                        <p className="text-xs">
-                          {property?.parking}{' '}
-                          {Number(property?.parking) > 1
-                            ? 'parkings'
-                            : 'parking'}
-                        </p>
-                      </div>
-                    </ShowWidget>
+                    <Tag
+                      condition={!loading_ || !!property?.bedroom}
+                      tag={`${property?.bedroom}
+                          ${
+                            Number(property?.bedroom) > 1
+                              ? 'chambres'
+                              : 'chambre'
+                          }`}
+                      className="bg-brand-bold text-white my-1"
+                    />
+                    <Tag
+                      condition={!loading_ || !!property?.bathroom}
+                      tag={`${property?.bathroom}
+                          ${
+                            Number(property?.bathroom) > 1
+                              ? 'douches'
+                              : 'douche'
+                          }`}
+                      className="bg-brand-bold text-white my-1"
+                    />
+                    <Tag
+                      condition={!loading_ || !!property?.balcony}
+                      tag={`${property?.balcony}
+                          ${
+                            Number(property?.balcony) > 1
+                              ? 'balcons'
+                              : 'balcon'
+                          }`}
+                      className="bg-brand-bold text-white my-1"
+                    />
+                    <Tag
+                      condition={!loading_ || !!property?.parking}
+                      tag={`${property?.parking}
+                          ${
+                            Number(property?.parking) > 1
+                              ? 'parkings'
+                              : 'parking'
+                          }`}
+                      className="bg-brand-bold text-white my-1"
+                    />
                   </div>
                 </div>
               </div>
@@ -373,14 +354,12 @@ const Property = () => {
                     <div className="h-full sm:h-full w-28 sm:w-32 flex-initial  bg-gray-200 animate-pulse" />
                   }
                 >
-                  {/* <div className="w-full"> */}
                   <img
                     src="https://images.pexels.com/photos/697509/pexels-photo-697509.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
                     alt="agent name will be replaced here"
                     className="h-full sm:h-full w-32 sm:w-32 object-cover flex-initial"
                     onError={onImageError}
                   />
-                  {/* </div> */}
                 </ShowWidget>
 
                 <div className="w-full flex-initial flex flex-col pt-3 pr-2 sm:pt-4 sm:pr-4 pl-0 sm:pl-2">

@@ -24,7 +24,7 @@ export const ExplorerCard = ({
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-xl p-8 flex flex-col items-center justify-center xl:w-40 ${
+      className={`rounded-xl p-8 flex flex-col items-center justify-center xl:w-40 text-white ${
         current ? 'bg-brand-bold' : 'bg-brand-thin'
       }`}
     >

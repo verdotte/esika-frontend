@@ -17,8 +17,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'brand-thin': 'rgba(135, 206, 235, 0.2)',
-        'brand-bold': 'rgba(135, 206, 235, 0.98)',
+        'brand-thin': 'rgba(60, 79, 224, 0.6)',
+        'brand-bold': '#3c4fe0',
       },
     },
   },

@@ -25,13 +25,13 @@ const RegisterActivity: FC = (): JSX.Element => {
 
       <div className="px-3 md:px-0 my-5 md:my-3 w-full ">
         <div className="flex items-center justify-between flex-wrap md:flex-nowrap p-6 md:p-8 xl:p-10 bg-brand-bold h-[200px] md:h-[75vh] rounded-sm space-y-4 md:space-y-0">
-          <div className="space-y-5 w-full">
+          <div className="space-y-5 w-full text-white">
             <div className="relative">
-              <h1 className="text-2xl lg:text-3xl font-extrabold relative z-[1]">
+              <h1 className="text-2xl lg:text-3xl xl:text-4xl font-extrabold relative z-[1]">
                 Creer son compte Agent
               </h1>
 
-              <div className="h-4 bg-white absolute bottom-0 inset-x-0" />
+              <div className="h-4 bg-red-400 absolute bottom-0 inset-x-0" />
             </div>
 
             <p className="text-sm">
@@ -43,7 +43,7 @@ const RegisterActivity: FC = (): JSX.Element => {
               Ou alors{' '}
               <Link
                 to="/login"
-                className="font-bold hover:text-white"
+                className="font-bold hover:text-red-400"
               >
                 <span>Se connecter</span>
               </Link>
@@ -184,7 +184,7 @@ const RegisterActivity: FC = (): JSX.Element => {
               </label>
 
               <button
-                className="button p-3 bg-brand-bold text-center rounded-md disabled:bg-gray-200 disabled:text-gray-700"
+                className="button p-3 bg-brand-bold text-white text-center rounded-md disabled:bg-gray-200 disabled:text-gray-700"
                 type="submit"
                 disabled={isPerforming}
               >

@@ -35,20 +35,19 @@ const noAuthRoutes: IRoute[] = [
     exact: true,
     component: VerifyCode,
   },
-
-  {
-    name: 'Esika - Propriétés',
-    secured: false,
-    path: '/properties',
-    exact: true,
-    component: Properties,
-  },
   {
     name: 'Esika - Propriété',
     secured: false,
     path: '/properties/:slug',
     exact: true,
     component: Property,
+  },
+  {
+    name: 'Esika - Propriétés',
+    secured: false,
+    path: '/properties',
+    exact: true,
+    component: Properties,
   },
 ];
 

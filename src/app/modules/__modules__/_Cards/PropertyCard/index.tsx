@@ -85,7 +85,7 @@ export const PropertyCard = ({ data = {}, preload }: Props) => {
             >
               <div className="bg-yellow-400/60 p-2 mt-2 rounded-sm">
                 <p className="text-sm">
-                  {price} fc/{unit === 'month' ? 'mois' : unit}
+                  ${price}/{unit === 'month' ? 'mois' : unit}
                 </p>
               </div>
             </ShowWidget>

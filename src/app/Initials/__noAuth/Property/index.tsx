@@ -4,6 +4,8 @@ import React, {
   useEffect,
   useMemo,
 } from 'react';
+import timeAgo from 'time-ago';
+import { useParams } from 'react-router-dom';
 import { useHome } from 'app/modules/Contexts/HomeContext';
 import Paginate from 'app/modules/utils/helpers/paginator';
 import Header from 'app/modules/__modules__/Header';
@@ -19,13 +21,10 @@ import ApartmentVector from 'app/modules/__modules__/_vectors/apartmentVector';
 import EyeVector from 'app/modules/__modules__/_vectors/eyeVector';
 import HotelVector from 'app/modules/__modules__/_vectors/hotelVector';
 import HouseVector from 'app/modules/__modules__/_vectors/houseVector';
-import { useParams } from 'react-router';
 import { IProperty } from 'app/modules/@Types';
 import { onImageError } from 'app/modules/utils/helpers';
 import ClockVector from 'app/modules/__modules__/_vectors/clockVector';
 import LocationVector from 'app/modules/__modules__/_vectors/LocationVector';
-import axios from 'axios';
-import timeAgo from 'time-ago';
 import Service from 'app/Services';
 import ENDPOINTS from 'app/Services/endpoints';
 
@@ -70,15 +69,15 @@ const Property = () => {
   const renderProperties = useCallback(() => {
     if (loading) {
       return Array.from({ length: 6 }).map((_, index) => (
-        <PropertyCard key={index} preload={loading} />
+        <PropertyCard key={index.toFixed()} preload={loading} />
       ));
     }
     return (
       chunks[indicator] &&
-      chunks[indicator].map((property, index) => (
+      chunks[indicator].map((property) => (
         <PropertyCard
           data={property}
-          key={`property_${property.property_id}_${index}`}
+          key={`property_${property.propertyId}`}
         />
       ))
     );
@@ -99,7 +98,6 @@ const Property = () => {
     fetchProperty();
     return () => {
       fetchProperty();
-      console.log('Clean up');
     };
   }, [fetchProperty]);
 
@@ -107,10 +105,6 @@ const Property = () => {
     () => property?.image?.split(',') || [],
     [property],
   );
-
-  // const firstImage:string[] | undefined = images?[0]
-
-  // console.log('property ==>', property);
 
   return (
     <div className="container mx-auto px-0 md:px-8 no-scrollbars">
@@ -285,7 +279,7 @@ const Property = () => {
                 type="button"
                 className="sm:bg-brand-bold border border-white text-sm rounded-lg bottom-2 right-2 sm:p-2 sm:px-5 absolute sm:bottom-[5%] sm:right-[3%] hidden md:block"
               >
-                + Plus d'images
+                + Plus d&apos;images
               </button>
             </ShowWidget>
           </div>
@@ -380,12 +374,12 @@ const Property = () => {
                   }
                 >
                   {/* <div className="w-full"> */}
-                    <img
-                      src="https://images.pexels.com/photos/697509/pexels-photo-697509.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-                      alt="agent name will be replaced here"
-                      className="h-full sm:h-full w-32 sm:w-32 object-cover flex-initial"
-                      onError={onImageError}
-                    />
+                  <img
+                    src="https://images.pexels.com/photos/697509/pexels-photo-697509.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+                    alt="agent name will be replaced here"
+                    className="h-full sm:h-full w-32 sm:w-32 object-cover flex-initial"
+                    onError={onImageError}
+                  />
                   {/* </div> */}
                 </ShowWidget>
 
@@ -480,9 +474,9 @@ const Property = () => {
         </div>
         <ShowWidget condition={chunks.length > 1}>
           <div className="w-full flex justify-end">
-            {chunks.map((_, index) => (
+            {chunks.map((chunk, index) => (
               <HeroCarouselIndicator
-                key={index}
+                key={`_indicator_${chunks.indexOf(chunk)}`}
                 current={indicator === index}
                 position={index}
                 defaultStyle="w-4"

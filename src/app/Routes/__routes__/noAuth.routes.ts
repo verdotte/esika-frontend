@@ -40,7 +40,14 @@ const noAuthRoutes: IRoute[] = [
     path: '/property/:slug',
     exact: true,
     component: Property,
-  }
+  },
+  {
+    name: 'Esika - Propriété',
+    secured: false,
+    path: '/profile',
+    exact: true,
+    component: Property,
+  },
 ];
 
 export default noAuthRoutes;

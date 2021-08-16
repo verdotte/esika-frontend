@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import timeAgo from 'time-ago';
 import ContactButton from 'app/modules/__modules__/ContactButton';
 import { HeartVector } from 'app/modules/__modules__/_vectors/heartVector';
@@ -37,6 +37,11 @@ export const PropertyCard = ({ data = {}, preload }: Props) => {
     bathroom,
     createdAt,
   } = data;
+
+  const propertyImage = useMemo(
+    () => image?.toString().split(',')[0],
+    [image],
+  );
 
   return (
     <div className="w-full border border-brand-bold rounded-lg py-4 h-full flex flex-col justify-between">
@@ -130,7 +135,7 @@ export const PropertyCard = ({ data = {}, preload }: Props) => {
           }
         >
           <img
-            src={(image as string) || placeholderImg}
+            src={propertyImage || placeholderImg}
             alt="property"
             className="w-full h-48 object-cover"
             onError={onImageError}
@@ -138,7 +143,7 @@ export const PropertyCard = ({ data = {}, preload }: Props) => {
         </ShowWidget>
       </div>
 
-      <div className="px-4 flex justify-between space-x-4 my-2">
+      <div className="px-4 flex justify-between space-x-4 my-2 w-">
         <ShowWidget
           condition={!preload}
           fallback={

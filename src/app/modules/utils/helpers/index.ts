@@ -35,6 +35,26 @@ export const isValidPhoneNumber = (phone: string, country) => {
   return valid;
 };
 
+export const lazyLoad = (target) => {
+  const io = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const img = entry.target;
+        const src = img.getAttribute('data-src');
+
+        img.setAttribute('src', src as string);
+
+        img.onload = () => {
+          img.removeAttribute('data-src');
+        };
+
+        observer.disconnect();
+      }
+    });
+  });
+  io.observe(target);
+};
+
 export const SUPPORTED_COUNTRIES = {
   DRC: {
     shortName: 'cd',

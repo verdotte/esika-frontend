@@ -48,7 +48,7 @@ const HeroCarousel: FC<Props> = forwardRef<Ref, Props>(
         <Link to={`/property/${slug as string}`}>
           <button
             type="button"
-            className="bg-brand-bold text-sm rounded-lg p-2 px-5 absolute bottom-[5%] right-[3%] hidden md:block"
+            className="bg-brand-bold text-white text-sm rounded-lg p-2 px-5 absolute bottom-[5%] right-[3%] hidden md:block"
           >
             Voir
           </button>

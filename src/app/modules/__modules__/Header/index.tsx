@@ -35,7 +35,7 @@ const Header: FC<IProps> = ({
       </Link>
 
       <ShowWidget condition={showSearchBar}>
-        <div className="hidden md:flex items-center border border-brand-bold rounded-xl p-4 space-x-3 md:w-1/3 bg-brand-thin text-black">
+        <div className="hidden md:flex items-center border rounded-full p-4 px-6 space-x-3 md:w-1/3 text-black">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -62,7 +62,7 @@ const Header: FC<IProps> = ({
       <button
         type="button"
         onClick={() => history.push('/register')}
-        className="md:border border-brand-bold rounded-lg flex items-center justify-center p-4 space-x-3 w-auto lg:w-1/4"
+        className="md:border rounded-lg flex items-center justify-center p-4 space-x-3 w-auto lg:w-1/4"
       >
         <UserVector />
         <p className="text-black hidden md:block">Creer un compte</p>

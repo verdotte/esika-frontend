@@ -36,7 +36,7 @@ const VerifyCodeActivity: FC = (): JSX.Element => {
             </div>
 
             <ShowWidget condition={!!phoneNumber}>
-              <div className="my-4 p-3 w-full bg-brand-thin border border-brand-bold rounded-sm">
+              <div className="my-4 p-3 w-full text-black border border-brand-bold rounded-lg">
                 <p className="text-center text-xs">
                   <span>
                     Vous avez reçu un code de verification au
@@ -71,7 +71,7 @@ const VerifyCodeActivity: FC = (): JSX.Element => {
                   type="button"
                   disabled={isPerforming}
                   onClick={onVerifyCode}
-                  className="bg-brand-bold p-3 px-5 rounded-md text-center text-sm disabled:bg-gray-200 disabled:text-gray-700"
+                  className="bg-brand-bold text-white p-3 px-5 rounded-md text-center text-sm disabled:bg-gray-200 disabled:text-gray-700"
                 >
                   Verifier et terminer
                 </button>

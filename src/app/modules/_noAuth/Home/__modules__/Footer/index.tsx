@@ -11,11 +11,11 @@ const Footer = () => {
           </p>
 
           <div className="flex items-center flex-wrap mt-3 md:mt-0 text-xs md:text-sm">
-            <div className="flex items-center space-x-2 text-black mr-3 my-1">
+            <div className="flex items-center space-x-2 text-white mr-3 my-1">
               <PhoneVector />
               <p>(+243) 976 890 483</p>
             </div>
-            <div className="flex items-center space-x-2 my-1">
+            <div className="flex items-center space-x-2 my-1 text-white">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -69,7 +69,7 @@ const Footer = () => {
           Politique de confidentialite
         </p>
       </div>
-      <div className="my-3 text-center text-black text-xs">
+      <div className="my-3 text-center text-white text-xs">
         <p>
           Droit d&apos;auteur 2021 | Esika. Tous drois reserves. Notre
           marque est enregistree sous: 9798754/473245 Sous DR. Droit

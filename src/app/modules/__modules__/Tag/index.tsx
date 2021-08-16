@@ -4,14 +4,20 @@ import ShowWidget from '../ShowWidget';
 interface Props {
   condition?: boolean;
   tag: string | JSX.Element;
+  className?: string;
 }
 
 const defaultProps: Props = {
   condition: true,
   tag: 'Chambre',
+  className: 'bg-white text-gray-700',
 };
 
-const Tag: FC<Props> = ({ condition = true, tag }) => {
+const Tag: FC<Props> = ({ condition = true, tag, className }) => {
+  if (!condition) {
+    return null;
+  }
+
   return (
     <ShowWidget
       condition={condition}
@@ -19,7 +25,7 @@ const Tag: FC<Props> = ({ condition = true, tag }) => {
         <div className="h-4 w-12 rounded-full mr-3 bg-gray-200 animate-pulse" />
       }
     >
-      <div className="p-2 px-3 rounded-full bg-white text-gray-700 mr-3">
+      <div className={`p-2 px-3 rounded-full mr-3 ${className}`}>
         <p className="text-xs whitespace-nowrap">{tag}</p>
       </div>
     </ShowWidget>

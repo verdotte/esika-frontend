@@ -1,6 +1,6 @@
 /* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable react/no-array-index-key */
-import React, { useCallback, useMemo } from 'react';
+import React, { useEffect, useCallback, useMemo } from 'react';
 import { PropertyCard } from 'app/modules/__modules__/_Cards/PropertyCard';
 import ApartmentVector from 'app/modules/__modules__/_vectors/apartmentVector';
 import HouseVector from 'app/modules/__modules__/_vectors/houseVector';
@@ -8,16 +8,43 @@ import HotelVector from 'app/modules/__modules__/_vectors/hotelVector';
 import { useHome } from 'app/modules/Contexts/HomeContext';
 import Paginate from 'app/modules/utils/helpers/paginator';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
+import Service from 'app/Services';
+import ENDPOINTS from 'app/Services/endpoints';
 import { ExplorerCard } from './Card';
 import { HeroCarouselIndicator } from '../HeroCarousel/Indicator';
 
-export const ExplorerPanel = () => {
+const ExplorerPanel = () => {
   const {
     properties,
+    setProperties,
+    setLoading,
+    categories,
     loading,
     paginationIndicators,
     onIndicatorChange,
+    onFetchCategories,
   } = useHome();
+
+  const fetchByCategory = useCallback(
+    async (item?: number) => {
+      setLoading(true);
+      const { data } = await Service.get(
+        `${ENDPOINTS.PROPERTIES}/category/${item}`,
+      );
+      setLoading(false);
+      if (data) {
+        setProperties(data.propertyList);
+      }
+    },
+    [setLoading, setProperties],
+  );
+
+  useEffect(() => {
+    fetchByCategory();
+    return () => {
+      fetchByCategory();
+    };
+  }, [fetchByCategory]);
 
   const { propertiesIndicator: indicator } = paginationIndicators;
   const chunks = useMemo(() => Paginate(properties, 6), [properties]);
@@ -29,6 +56,17 @@ export const ExplorerPanel = () => {
     [onIndicatorChange],
   );
 
+  const EXPLORER_ICONS = {
+    house: <HouseVector className="h-5 w-5 sm:h-6 sm:w-6" />,
+    apartment: <ApartmentVector className="h-5 w-5 sm:h-6 sm:w-6" />,
+    hotel: <HotelVector className="h-5 w-5 sm:h-6 sm:w-6" />,
+    land: <HouseVector className="h-5 w-5 sm:h-6 sm:w-6" />,
+    'commercial building': (
+      <ApartmentVector className="h-5 w-5 sm:h-6 sm:w-6" />
+    ),
+    studio: <HouseVector className="h-5 w-5 sm:h-6 sm:w-6" />,
+  };
+
   const renderProperties = useCallback(() => {
     if (loading) {
       return Array.from({ length: 6 }).map((_, index) => (
@@ -37,23 +75,44 @@ export const ExplorerPanel = () => {
     }
     return (
       chunks[indicator] &&
-      chunks[indicator].map((property, index) => (
+      chunks[indicator].map((property) => (
         <PropertyCard
           data={property}
-          key={`property_${property.property_id}_${index}`}
+          key={`property_${property.propertyId}`}
         />
       ))
     );
   }, [chunks, loading, indicator]);
 
+  useEffect(() => {
+    if (!categories.length) {
+      onFetchCategories();
+    }
+    return () => {
+      onFetchCategories();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onFetchCategories]);
+
+  // console.log('categories', categories);
+
   return (
     <div className="my-4 px-3 md:px-0">
       <p className="font-extrabold text-4xl my-8">Explorer</p>
 
-      <div className="grid grid-cols-3 lg:grid-cols-6 gap-3 md:gap-12">
-        <ExplorerCard current icon={<HouseVector />} />
-        <ExplorerCard title="Hotel" icon={<HotelVector />} />
-        <ExplorerCard title="Apartment" icon={<ApartmentVector />} />
+      <div className="grid grid-cols-3 lg:grid-cols-6 gap-3 md:gap-5">
+        {categories.map((category) => (
+          <ExplorerCard
+            key={category.categoryId}
+            title={category.title}
+            onClick={() => fetchByCategory(category.categoryId)}
+            icon={
+              EXPLORER_ICONS[category.title.toLocaleLowerCase()] || (
+                <HotelVector />
+              )
+            }
+          />
+        ))}
       </div>
 
       <div className="w-full min-h-[500px]">
@@ -80,3 +139,4 @@ export const ExplorerPanel = () => {
     </div>
   );
 };
+export default ExplorerPanel;

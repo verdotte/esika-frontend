@@ -49,7 +49,9 @@ export const PropertyCard = ({ data = {}, preload }: Props) => {
         <div className="flex items-center pb-3 w-full">
           <ShowWidget
             condition={!preload}
-            fallback={<div className="h-10 w-10 rounded-full" />}
+            fallback={
+              <div className="h-10 w-10 rounded-full bg-gray-200 animate-pulse" />
+            }
           >
             <div className="relative">
               <img

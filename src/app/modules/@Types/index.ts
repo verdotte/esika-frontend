@@ -39,7 +39,15 @@ export interface IProperty {
   phoneNumber: string | null;
   picture: string | null;
   image: string | null;
-};
+}
+
+export interface ICategory {
+  active: boolean;
+  categoryId: string | number;
+  createdAt: string;
+  description: string | null;
+  title: string | null;
+}
 
 export type IAgent = {
   active: boolean;

@@ -6,6 +6,7 @@ import { VerifiedIcon } from 'app/modules/__modules__/_vectors/verifiedICon';
 import { onImageError } from 'app/modules/utils/helpers';
 import placeholderImg from 'app/static/images/placeholder.jpg';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
+import Tag from '../../Tag';
 
 interface Props {
   data?: Record<string, number | string | symbol | null>;
@@ -44,7 +45,7 @@ export const PropertyCard = ({ data = {}, preload }: Props) => {
   );
 
   return (
-    <div className="w-full border border-brand-bold rounded-lg py-4 h-full flex flex-col justify-between">
+    <div className="w-full border rounded-lg py-4 h-full flex flex-col justify-between">
       <div className="px-4">
         <div className="flex items-center pb-3 w-full">
           <ShowWidget
@@ -86,7 +87,7 @@ export const PropertyCard = ({ data = {}, preload }: Props) => {
             >
               <div className="bg-yellow-400/60 p-2 mt-2 rounded-sm">
                 <p className="text-sm">
-                  {price} fc/{unit === 'month' ? 'mois' : unit}
+                  ${price}/{unit === 'month' ? 'mois' : unit}
                 </p>
               </div>
             </ShowWidget>
@@ -106,27 +107,27 @@ export const PropertyCard = ({ data = {}, preload }: Props) => {
       </div>
 
       <div className="w-full flex my-3 px-4 overflow-x-auto no-scrollbars">
-        <ShowWidget condition={!!bedroom}>
-          <div className="p-2 px-3 rounded-full bg-brand-thin border border-brand-bold text-gray-700 mr-3">
-            <p className="text-xs whitespace-nowrap">
-              {bedroom} {Number(bedroom) > 1 ? 'chambres' : 'chambre'}
-            </p>
-          </div>
-        </ShowWidget>
-        <ShowWidget condition={!!bathroom}>
-          <div className="p-2 px-3 rounded-full bg-brand-thin border border-brand-bold text-gray-700 mr-3">
-            <p className="text-xs whitespace-nowrap">
-              {bathroom} {Number(bathroom) > 1 ? 'douches' : 'douche'}
-            </p>
-          </div>
-        </ShowWidget>
-        <ShowWidget condition={!!balcony}>
-          <div className="p-2 px-3 rounded-full bg-brand-thin border border-brand-bold text-gray-700 mr-3">
-            <p className="text-xs whitespace-nowrap">
-              {balcony} {Number(balcony) > 1 ? 'douches' : 'douche'}
-            </p>
-          </div>
-        </ShowWidget>
+        <Tag
+          condition={!!bedroom}
+          tag={`${String(bedroom)} ${
+            Number(bedroom) > 1 ? 'chambres' : 'chambre'
+          }`}
+          className="border bg-gray-200"
+        />
+        <Tag
+          condition={!!bathroom}
+          tag={`${String(bathroom)} ${
+            Number(bathroom) > 1 ? 'douches' : 'douche'
+          }`}
+          className="border bg-gray-200"
+        />
+        <Tag
+          condition={!!balcony}
+          tag={`${String(balcony)} ${
+            Number(balcony) > 1 ? 'balcons' : 'balcon'
+          }`}
+          className="border bg-gray-200"
+        />
       </div>
 
       <div className="my-3">
@@ -163,7 +164,7 @@ export const PropertyCard = ({ data = {}, preload }: Props) => {
         >
           <button
             type="button"
-            className="border border-brand-bold flex items-center justify-center space-x-2 flex-1 w-full p-3 rounded-lg"
+            className="border flex items-center justify-center space-x-2 flex-1 w-full p-3 rounded-lg"
           >
             <HeartVector className="text-red-500 h-5 w-5" />
             <p className="text-sm hidden xl:block">Sauvegarder</p>

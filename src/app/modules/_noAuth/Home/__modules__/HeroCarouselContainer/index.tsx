@@ -10,7 +10,7 @@ import { HeroCarouselIndicator } from '../HeroCarousel/Indicator';
 
 const HeroCarouselContainer = () => {
   const {
-    properties,
+    allProperties,
     loading,
     paginationIndicators,
     onIndicatorChange,
@@ -21,8 +21,8 @@ const HeroCarouselContainer = () => {
   const { heroIndicator: indicator } = paginationIndicators;
 
   const trendingProperties = useMemo(
-    () => properties.slice(0, 5),
-    [properties],
+    () => allProperties.slice(0, 5),
+    [allProperties],
   );
 
   const onIndicatorClick = useCallback(
@@ -54,12 +54,12 @@ const HeroCarouselContainer = () => {
     <div className="mt-20 md:mt-4 my-4" ref={wrapperRef}>
       <>
         <HeroCarousel
-          data={properties[indicator]}
-          preload={loading}
+          data={allProperties[indicator]}
+          preload={loading && !allProperties.length}
         />
       </>
       <div className="my-4 mt-6 w-full flex justify-between px-3 md:px-0">
-        <ShowWidget condition={properties.length > 1}>
+        <ShowWidget condition={allProperties.length > 1}>
           <div className="flex items-center">
             {trendingProperties.map((_, index) => (
               <HeroCarouselIndicator
@@ -72,9 +72,9 @@ const HeroCarouselContainer = () => {
           </div>
         </ShowWidget>
 
-        <ShowWidget condition={!!properties[indicator]?.createdAt}>
+        <ShowWidget condition={!!allProperties[indicator]?.createdAt}>
           <p className="flex justify-end w-full">
-            {timeAgo.ago(properties[indicator]?.createdAt)}
+            {timeAgo.ago(allProperties[indicator]?.createdAt)}
           </p>
         </ShowWidget>
       </div>

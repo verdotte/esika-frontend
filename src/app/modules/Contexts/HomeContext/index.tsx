@@ -11,7 +11,7 @@ import {
   IAgent,
   ICategory,
   IObject,
-  stateSetterType,
+  SetStateType,
 } from 'app/modules/@Types';
 
 interface Indictators {
@@ -27,14 +27,17 @@ type IndicatorType =
 
 type homeType = {
   loading: boolean;
+  currentCategory: number;
   properties: IObject[];
+  allProperties: IObject[];
   categories: IObject[];
   agents: IAgent[];
   paginationIndicators: Indictators;
-  setLoading: stateSetterType<boolean>;
-  setPaginationIndicators: stateSetterType<Indictators>;
-  setProperties: stateSetterType<IObject[]>;
-  setAgents: stateSetterType<IAgent[]>;
+  setLoading: SetStateType<boolean>;
+  setCurrentCategory: SetStateType<number>;
+  setPaginationIndicators: SetStateType<Indictators>;
+  setProperties: SetStateType<IObject[]>;
+  setAgents: SetStateType<IAgent[]>;
   onFetchAgents: () => void;
   onFetchProperties: () => void;
   onFetchCategories: () => void;
@@ -46,7 +49,9 @@ type homeType = {
 
 const defaultCtxProps: homeType = {
   loading: true,
+  currentCategory: 0,
   properties: [],
+  allProperties: [],
   categories: [],
   agents: [],
   paginationIndicators: {
@@ -55,6 +60,7 @@ const defaultCtxProps: homeType = {
     agentsIndicator: 0,
   },
   setLoading: () => null,
+  setCurrentCategory: () => null,
   setAgents: () => null,
   setProperties: () => null,
   setPaginationIndicators: () => null,
@@ -70,8 +76,10 @@ export const useHome = () => useContext(HomeContext);
 const HomeProvider: FC = ({ children }): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(true);
   const [properties, setProperties] = useState<IObject[]>([]);
+  const [allProperties, setAllProperties] = useState<IObject[]>([]);
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [agents, setAgents] = useState<IAgent[]>([]);
+  const [currentCategory, setCurrentCategory] = useState(0);
   const [paginationIndicators, setPaginationIndicators] =
     useState<Indictators>({
       propertiesIndicator: 0,
@@ -91,6 +99,7 @@ const HomeProvider: FC = ({ children }): JSX.Element => {
     if (data) {
       const { propertyList } = data;
       setProperties(propertyList);
+      setAllProperties(propertyList);
     }
   }, []);
 
@@ -112,13 +121,9 @@ const HomeProvider: FC = ({ children }): JSX.Element => {
   }, []);
 
   const onFetchCategories = useCallback(async () => {
-    const { error, data } = await Service.get(ENDPOINTS.CATEGORIES);
+    const { data } = await Service.get(ENDPOINTS.CATEGORIES);
 
     setLoading(false);
-
-    if (error) {
-      return;
-    }
 
     if (data) {
       const { categoryList } = data;
@@ -150,6 +155,9 @@ const HomeProvider: FC = ({ children }): JSX.Element => {
         properties,
         categories,
         paginationIndicators,
+        currentCategory,
+        allProperties,
+        setCurrentCategory,
         setLoading,
         setPaginationIndicators,
         setAgents,

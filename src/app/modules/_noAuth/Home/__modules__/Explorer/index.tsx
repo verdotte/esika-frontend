@@ -2,49 +2,22 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useEffect, useCallback, useMemo } from 'react';
 import { PropertyCard } from 'app/modules/__modules__/_Cards/PropertyCard';
-import ApartmentVector from 'app/modules/__modules__/_vectors/apartmentVector';
-import HouseVector from 'app/modules/__modules__/_vectors/houseVector';
-import HotelVector from 'app/modules/__modules__/_vectors/hotelVector';
 import { useHome } from 'app/modules/Contexts/HomeContext';
 import Paginate from 'app/modules/utils/helpers/paginator';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
-import Service from 'app/Services';
-import ENDPOINTS from 'app/Services/endpoints';
-import { ExplorerCard } from './Card';
+import NotFound from 'app/modules/__modules__/NotFoundProperty';
 import { HeroCarouselIndicator } from '../HeroCarousel/Indicator';
+import PropertyCategory from './PropertyCategory';
 
 const ExplorerPanel = () => {
   const {
     properties,
-    setProperties,
-    setLoading,
     categories,
     loading,
     paginationIndicators,
     onIndicatorChange,
     onFetchCategories,
   } = useHome();
-
-  const fetchByCategory = useCallback(
-    async (item?: number) => {
-      setLoading(true);
-      const { data } = await Service.get(
-        `${ENDPOINTS.PROPERTIES}/category/${item}`,
-      );
-      setLoading(false);
-      if (data) {
-        setProperties(data.propertyList);
-      }
-    },
-    [setLoading, setProperties],
-  );
-
-  useEffect(() => {
-    fetchByCategory();
-    return () => {
-      fetchByCategory();
-    };
-  }, [fetchByCategory]);
 
   const { propertiesIndicator: indicator } = paginationIndicators;
   const chunks = useMemo(() => Paginate(properties, 6), [properties]);
@@ -55,17 +28,6 @@ const ExplorerPanel = () => {
     },
     [onIndicatorChange],
   );
-
-  const EXPLORER_ICONS = {
-    house: <HouseVector className="h-5 w-5 sm:h-6 sm:w-6" />,
-    apartment: <ApartmentVector className="h-5 w-5 sm:h-6 sm:w-6" />,
-    hotel: <HotelVector className="h-5 w-5 sm:h-6 sm:w-6" />,
-    land: <HouseVector className="h-5 w-5 sm:h-6 sm:w-6" />,
-    'commercial building': (
-      <ApartmentVector className="h-5 w-5 sm:h-6 sm:w-6" />
-    ),
-    studio: <HouseVector className="h-5 w-5 sm:h-6 sm:w-6" />,
-  };
 
   const renderProperties = useCallback(() => {
     if (loading) {
@@ -94,31 +56,27 @@ const ExplorerPanel = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onFetchCategories]);
 
-  // console.log('categories', categories);
-
   return (
     <div className="my-4 px-3 md:px-0">
       <p className="font-extrabold text-4xl my-8">Explorer</p>
 
-      <div className="grid grid-cols-3 lg:grid-cols-6 gap-3 md:gap-5">
-        {categories.map((category) => (
-          <ExplorerCard
-            key={category.categoryId}
-            title={category.title}
-            onClick={() => fetchByCategory(category.categoryId)}
-            icon={
-              EXPLORER_ICONS[category.title.toLocaleLowerCase()] || (
-                <HotelVector />
-              )
-            }
-          />
-        ))}
-      </div>
+      <PropertyCategory />
 
-      <div className="w-full min-h-[500px]">
-        <div className="w-full flex flex-col sm:grid md:grid-cols-2 md:gap-x-6 lg:grid-cols-3 gap-5 lg:gap-12 my-8">
+      {/* className={`w-4/6 h-full top-0 ${
+          menu ? 'left-0' : 'left-[-100%]'
+        } bg-white fixed z-40 sm:hidden transition-all duration-700`} */}
+
+      <div
+        className={`w-full min-h-${
+          !loading && !chunks[indicator] ? '[350px]' : '[500px]'
+        }`}
+      >
+        <div className="w-full grid md:grid-cols-2 md:gap-x-6 lg:grid-cols-3 gap-5 lg:gap-12 my-8">
           {renderProperties()}
         </div>
+        <ShowWidget condition={!loading && !chunks[indicator]}>
+          <NotFound />
+        </ShowWidget>
       </div>
 
       <ShowWidget condition={chunks.length > 1}>

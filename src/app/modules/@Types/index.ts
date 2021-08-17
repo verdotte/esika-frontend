@@ -15,9 +15,7 @@ export interface IObject {
   [key: string]: any;
 }
 
-export type stateSetterType<T> = React.Dispatch<
-  React.SetStateAction<T>
->;
+export type SetStateType<T> = React.Dispatch<React.SetStateAction<T>>;
 
 export type alertType = 'success' | 'error';
 

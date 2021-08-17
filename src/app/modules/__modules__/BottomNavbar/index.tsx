@@ -4,8 +4,8 @@ import isExpired from 'app/modules/utils/helpers/isExpired';
 import HouseVector from '../_vectors/houseVector';
 import BottomNavbarItem from './BottomNavItem';
 import UserVector from '../_vectors/userVector';
-import CategoryVector from '../_vectors/categoryVector';
 import GlobeVector from '../_vectors/globeVector';
+import { HeartVector } from '../_vectors/heartVector';
 
 const BottomNavbar: FC = (): JSX.Element => {
   const isAuthed = isExpired();
@@ -14,22 +14,22 @@ const BottomNavbar: FC = (): JSX.Element => {
   return (
     <div className="w-full flex justify-between fixed bottom-0 p-3 px-5 bg-white z-20 border-t shadow-md md:hidden">
       <BottomNavbarItem
-        icon={<HouseVector />}
-        title="Home"
+        icon={<GlobeVector />}
+        title="Explorer"
         to="/"
         current={history.location.pathname === '/'}
       />
       <BottomNavbarItem
-        icon={<GlobeVector />}
-        title="Explorer"
-        to="/"
-        current={history.location.pathname === '/explorer'}
+        icon={<HouseVector />}
+        title="Properties"
+        to="/properties"
+        current={history.location.pathname === '/properties'}
       />
       <BottomNavbarItem
-        icon={<CategoryVector />}
-        title="Category"
+        icon={<HeartVector className="h-6 w-6" />}
+        title="Favoris"
         to="/"
-        current={history.location.pathname === '/category'}
+        current={history.location.pathname === '/wishlists'}
       />
       <BottomNavbarItem
         icon={<UserVector />}

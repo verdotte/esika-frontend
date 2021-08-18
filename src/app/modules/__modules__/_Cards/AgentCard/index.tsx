@@ -13,6 +13,7 @@ import placeholderImg from 'app/static/images/placeholder.jpg';
 interface IProps {
   data: IAgent;
   preload: boolean;
+  className?: string;
 }
 
 const defaultProps: IProps | IObject = {
@@ -28,11 +29,13 @@ const defaultProps: IProps | IObject = {
     verified: false,
   },
   preload: false,
+  className: '',
 };
 
 const AgentCard: React.FC<Partial<IProps | IObject>> = ({
   data = {},
   preload,
+  className,
 }) => {
   const {
     firstName,
@@ -42,10 +45,13 @@ const AgentCard: React.FC<Partial<IProps | IObject>> = ({
     hotels,
     picture,
     verified,
+    description,
   } = data;
 
   return (
-    <div className="w-full flex border rounded-lg space-x-2 overflow-hidden">
+    <div
+      className={`w-full flex border rounded-lg space-x-2 overflow-hidden ${className}`}
+    >
       <ShowWidget
         condition={!preload}
         fallback={
@@ -77,6 +83,17 @@ const AgentCard: React.FC<Partial<IProps | IObject>> = ({
             </p>
           </ShowWidget>
         </div>
+
+        <ShowWidget
+          condition={!preload}
+          fallback={
+            <div className="w-full h-7 mt-3 bg-gray-200 animate-pulse" />
+          }
+        >
+          <p className="pt-2 sm:pt-0 text-xs text-gray-600">
+            {description}
+          </p>
+        </ShowWidget>
 
         <div className="flex items-center space-x-3 my-3">
           <div className="flex items-center">
@@ -114,7 +131,7 @@ const AgentCard: React.FC<Partial<IProps | IObject>> = ({
           >
             <button
               type="button"
-              className="bg-brand-bold text-white flex items-center justify-center space-x-1 lg:space-x-2 w-full p-3 rounded-lg text-xs"
+              className="bg-brand-bold text-white hidden items-center justify-center space-x-1 lg:space-x-2 w-full p-3 rounded-lg text-xs"
             >
               <EyeVector className="h-4 w-4" />
               <p>Voir</p>

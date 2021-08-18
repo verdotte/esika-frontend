@@ -7,7 +7,12 @@ import React, {
 } from 'react';
 import Service from 'app/Services';
 import ENDPOINTS from 'app/Services/endpoints';
-import { IAgent, IObject, stateSetterType } from 'app/modules/@Types';
+import {
+  IAgent,
+  ICategory,
+  IObject,
+  SetStateType,
+} from 'app/modules/@Types';
 
 interface Indictators {
   heroIndicator: number;
@@ -22,14 +27,20 @@ type IndicatorType =
 
 type homeType = {
   loading: boolean;
+  currentCategory: number;
   properties: IObject[];
+  allProperties: IObject[];
+  categories: IObject[];
   agents: IAgent[];
   paginationIndicators: Indictators;
-  setPaginationIndicators: stateSetterType<Indictators>;
-  setProperties: stateSetterType<IObject[]>;
-  setAgents: stateSetterType<IAgent[]>;
+  setLoading: SetStateType<boolean>;
+  setCurrentCategory: SetStateType<number>;
+  setPaginationIndicators: SetStateType<Indictators>;
+  setProperties: SetStateType<IObject[]>;
+  setAgents: SetStateType<IAgent[]>;
   onFetchAgents: () => void;
   onFetchProperties: () => void;
+  onFetchCategories: () => void;
   onIndicatorChange: (
     position: number,
     indicator: IndicatorType,
@@ -38,18 +49,24 @@ type homeType = {
 
 const defaultCtxProps: homeType = {
   loading: true,
+  currentCategory: 0,
   properties: [],
+  allProperties: [],
+  categories: [],
   agents: [],
   paginationIndicators: {
     heroIndicator: 0,
     propertiesIndicator: 0,
     agentsIndicator: 0,
   },
+  setLoading: () => null,
+  setCurrentCategory: () => null,
   setAgents: () => null,
   setProperties: () => null,
   setPaginationIndicators: () => null,
   onFetchAgents: () => null,
   onFetchProperties: () => null,
+  onFetchCategories: () => null,
   onIndicatorChange: () => null,
 };
 
@@ -59,7 +76,10 @@ export const useHome = () => useContext(HomeContext);
 const HomeProvider: FC = ({ children }): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(true);
   const [properties, setProperties] = useState<IObject[]>([]);
+  const [allProperties, setAllProperties] = useState<IObject[]>([]);
+  const [categories, setCategories] = useState<ICategory[]>([]);
   const [agents, setAgents] = useState<IAgent[]>([]);
+  const [currentCategory, setCurrentCategory] = useState(0);
   const [paginationIndicators, setPaginationIndicators] =
     useState<Indictators>({
       propertiesIndicator: 0,
@@ -79,6 +99,7 @@ const HomeProvider: FC = ({ children }): JSX.Element => {
     if (data) {
       const { propertyList } = data;
       setProperties(propertyList);
+      setAllProperties(propertyList);
     }
   }, []);
 
@@ -96,6 +117,17 @@ const HomeProvider: FC = ({ children }): JSX.Element => {
     if (data) {
       const { agentList } = data;
       setAgents(agentList);
+    }
+  }, []);
+
+  const onFetchCategories = useCallback(async () => {
+    const { data } = await Service.get(ENDPOINTS.CATEGORIES);
+
+    setLoading(false);
+
+    if (data) {
+      const { categoryList } = data;
+      setCategories(categoryList);
     }
   }, []);
 
@@ -121,12 +153,18 @@ const HomeProvider: FC = ({ children }): JSX.Element => {
         loading,
         agents,
         properties,
+        categories,
         paginationIndicators,
+        currentCategory,
+        allProperties,
+        setCurrentCategory,
+        setLoading,
         setPaginationIndicators,
         setAgents,
         setProperties,
         onFetchAgents,
         onFetchProperties,
+        onFetchCategories,
         onIndicatorChange,
       }}
     >

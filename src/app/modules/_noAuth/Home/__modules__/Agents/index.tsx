@@ -21,7 +21,7 @@ const AgentContainer = () => {
     [onIndicatorChange],
   );
 
-  if (!loading && !agents.length) {
+  if (!loading && !agentChunks.length) {
     return null;
   }
 

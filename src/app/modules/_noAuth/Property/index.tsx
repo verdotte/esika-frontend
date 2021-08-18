@@ -14,8 +14,8 @@ import { IProperty } from 'app/modules/@Types';
 import Service from 'app/Services';
 import ENDPOINTS from 'app/Services/endpoints';
 import AgentCard from 'app/modules/__modules__/_Cards/AgentCard';
+import PropertySpecs from 'app/modules/__modules__/PropertySpecs';
 import RelatedProperties from './RelatedProperties';
-import PropertySpecs from './PropertySpecs';
 import PropertyDetails from './PropertyDetails';
 
 const PropertyContainer = () => {

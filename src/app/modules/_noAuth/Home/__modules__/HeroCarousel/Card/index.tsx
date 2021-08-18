@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { VerifiedIcon } from 'app/modules/__modules__/_vectors/verifiedICon';
 import { HeartVector } from 'app/modules/__modules__/_vectors/heartVector';
 import ContactButton from 'app/modules/__modules__/ContactButton';
 import { onImageError } from 'app/modules/utils/helpers';
-import { IData } from 'app/modules/@Types';
+import { IData, IObject } from 'app/modules/@Types';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
 import placeholderImg from 'app/static/images/placeholder.jpg';
-import Tag from 'app/modules/__modules__/Tag';
+import PropertySpecs from 'app/modules/__modules__/PropertySpecs';
 
 const defaultProps: IData & { preload?: boolean } = {
   data: {
@@ -36,6 +36,8 @@ const HeroCarouselCard: React.FC<
     picture,
     unit,
   } = data;
+
+  const specs = { balcony, bathroom, bedroom };
 
   return (
     <div className="w-full md:w-96 h-full rounded-[20px] py-4 bg-black/80 text-white flex flex-col justify-between">
@@ -81,23 +83,11 @@ const HeroCarouselCard: React.FC<
       </ShowWidget>
 
       <div className="flex my-2 px-4">
-        <Tag
-          condition={!preload || !!bedroom}
-          tag={`${String(bedroom)} ${
-            Number(bedroom) > 1 ? 'chambres' : 'chambre'
-          }`}
-        />
-        <Tag
-          condition={!preload || !!bathroom}
-          tag={`${String(bathroom)} ${
-            Number(bathroom) > 1 ? 'douches' : 'douche'
-          }`}
-        />
-        <Tag
-          condition={!preload || !!balcony}
-          tag={`${String(balcony)} ${
-            Number(balcony) > 1 ? 'balcons' : 'balcon'
-          }`}
+        <PropertySpecs
+          loading={preload as boolean}
+          specs={specs as IObject}
+          className="px-0"
+          tagClassName="bg-white text-gray-700"
         />
       </div>
       <div className="px-4 my-3">
@@ -141,4 +131,4 @@ const HeroCarouselCard: React.FC<
 
 HeroCarouselCard.defaultProps = defaultProps;
 
-export default HeroCarouselCard;
+export default memo(HeroCarouselCard);

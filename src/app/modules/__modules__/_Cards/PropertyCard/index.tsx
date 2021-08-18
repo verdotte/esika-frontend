@@ -7,7 +7,7 @@ import { VerifiedIcon } from 'app/modules/__modules__/_vectors/verifiedICon';
 import { onImageError } from 'app/modules/utils/helpers';
 import placeholderImg from 'app/static/images/placeholder.jpg';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
-import Tag from '../../Tag';
+import PropertySpecs from '../../PropertySpecs';
 
 interface Props {
   data?: Record<string, number | string | symbol | null>;
@@ -55,6 +55,8 @@ export const PropertyCard = ({
     () => image?.toString().split(',')[0],
     [image],
   );
+
+  const specs = { balcony, bathroom, bedroom };
 
   const onClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -131,29 +133,12 @@ export const PropertyCard = ({
         </ShowWidget>
       </div>
 
-      <div className="w-full flex my-3 px-4 overflow-x-auto no-scrollbars">
-        <Tag
-          condition={!!bedroom}
-          tag={`${String(bedroom)} ${
-            Number(bedroom) > 1 ? 'chambres' : 'chambre'
-          }`}
-          className="border bg-gray-200"
-        />
-        <Tag
-          condition={!!bathroom}
-          tag={`${String(bathroom)} ${
-            Number(bathroom) > 1 ? 'douches' : 'douche'
-          }`}
-          className="border bg-gray-200"
-        />
-        <Tag
-          condition={!!balcony}
-          tag={`${String(balcony)} ${
-            Number(balcony) > 1 ? 'balcons' : 'balcon'
-          }`}
-          className="border bg-gray-200"
-        />
-      </div>
+      <PropertySpecs
+        loading={preload as boolean}
+        specs={specs}
+        tagClassName="border bg-gray-200"
+        className="w-full flex-nowrap my-3 px-4 overflow-x-auto no-scrollbars"
+      />
 
       <div className="my-3">
         <ShowWidget

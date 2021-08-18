@@ -41,7 +41,7 @@ const PropertyCategory = () => {
       setCurrentCategory(index);
       if (item) {
         const { data } = await Service.get(
-          `${ENDPOINTS.PROPERTIES}/category/${item}`,
+          `${ENDPOINTS.PROPERTIES_BY_CATEGORY}/${item}`,
         );
         setLoading(false);
         if (data) {
@@ -97,10 +97,11 @@ const PropertyCategory = () => {
         ))}
       </>
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchAllProperties, categories, fetchByCategory]);
 
   return (
-    <div className="grid grid-cols-3 lg:grid-cols-6 gap-3 md:gap-5">
+    <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-3 md:gap-3 xl:gap-4 lg:my-8">
       {renderCategories()}
     </div>
   );

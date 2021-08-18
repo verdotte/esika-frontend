@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-const NotFound = () => {
+interface Props {
+  className?: string;
+}
+const defaultProps = {
+  className: 'w-3/5 sm:w-2/5',
+};
+
+const NoPropertyFound: FC<Props> = ({ children, className }) => {
   return (
-    <div className="w-full h-full flex justify-center items-center">
+    <div className="w-full h-full flex flex-col justify-center items-center">
       <svg
         id="b0a90d81-7e1f-4f8c-9d79-343dd98718ba"
         data-name="Layer 1"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 909 453"
-        className="w-3/5 sm:w-2/5"
+        className={className}
       >
         <circle
           cx="248.18685"
@@ -160,8 +167,11 @@ const NotFound = () => {
           style={{ isolation: 'isolate' }}
         />
       </svg>
+      {children}
     </div>
   );
 };
 
-export default NotFound;
+NoPropertyFound.defaultProps = defaultProps;
+
+export default NoPropertyFound;

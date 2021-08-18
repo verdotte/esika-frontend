@@ -5,7 +5,7 @@ import { PropertyCard } from 'app/modules/__modules__/_Cards/PropertyCard';
 import { useHome } from 'app/modules/Contexts/HomeContext';
 import Paginate from 'app/modules/utils/helpers/paginator';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
-import NotFound from 'app/modules/__modules__/NotFoundProperty';
+import NoPropertyFound from 'app/modules/__modules__/NoPropertyFound';
 import { HeroCarouselIndicator } from '../HeroCarousel/Indicator';
 import PropertyCategory from './PropertyCategory';
 
@@ -61,21 +61,24 @@ const ExplorerPanel = () => {
       <p className="font-extrabold text-4xl my-8">Explorer</p>
 
       <PropertyCategory />
-
-      {/* className={`w-4/6 h-full top-0 ${
-          menu ? 'left-0' : 'left-[-100%]'
-        } bg-white fixed z-40 sm:hidden transition-all duration-700`} */}
-
       <div
-        className={`w-full min-h-${
-          !loading && !chunks[indicator] ? '[350px]' : '[500px]'
+        className={`w-full ${
+          !loading && !chunks[indicator]
+            ? 'h-[350px]'
+            : 'min-h-[500px]'
         }`}
       >
-        <div className="w-full grid md:grid-cols-2 md:gap-x-6 lg:grid-cols-3 gap-5 lg:gap-12 my-8">
-          {renderProperties()}
-        </div>
+        <ShowWidget condition={!!chunks[indicator]}>
+          <div className="w-full grid md:grid-cols-2 md:gap-x-6 lg:grid-cols-3 gap-5 lg:gap-12 my-8">
+            {renderProperties()}
+          </div>
+        </ShowWidget>
         <ShowWidget condition={!loading && !chunks[indicator]}>
-          <NotFound />
+          <NoPropertyFound className="w-1/2 md:w-1/4">
+            <p className="mt-3">
+              Aucun immobilier trouvé dans cette catégorie
+            </p>
+          </NoPropertyFound>
         </ShowWidget>
       </div>
 

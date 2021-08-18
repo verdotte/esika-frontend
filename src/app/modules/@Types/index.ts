@@ -37,6 +37,8 @@ export interface IProperty {
   phoneNumber: string | null;
   picture: string | null;
   image: string | null;
+  propertyId: number | string;
+  userId: number | string;
 }
 
 export interface ICategory {

@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import timeAgo from 'time-ago';
+import { useHistory } from 'react-router-dom';
 import ContactButton from 'app/modules/__modules__/ContactButton';
 import { HeartVector } from 'app/modules/__modules__/_vectors/heartVector';
 import { VerifiedIcon } from 'app/modules/__modules__/_vectors/verifiedICon';
@@ -11,6 +12,9 @@ import Tag from '../../Tag';
 interface Props {
   data?: Record<string, number | string | symbol | null>;
   preload?: boolean;
+  onPropertyClick?: (
+    event?: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => void;
 }
 
 const defaultProps: Props = {
@@ -23,9 +27,14 @@ const defaultProps: Props = {
       'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloribus eum sint maiores esse molestiae, corporis autem cum odio? Itaque, ipsum atque eius aspernatur non neque dolores ipsa suscipit molestias sunt!',
   },
   preload: false,
+  onPropertyClick: () => null,
 };
 
-export const PropertyCard = ({ data = {}, preload }: Props) => {
+export const PropertyCard = ({
+  data = {},
+  preload,
+  onPropertyClick,
+}: Props) => {
   const {
     image,
     picture,
@@ -37,16 +46,32 @@ export const PropertyCard = ({ data = {}, preload }: Props) => {
     balcony,
     bathroom,
     createdAt,
+    slug,
   } = data;
+
+  const history = useHistory();
 
   const propertyImage = useMemo(
     () => image?.toString().split(',')[0],
     [image],
   );
 
+  const onClick = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    onPropertyClick?.(event);
+    history.push(`/properties/${slug as string}`);
+  };
+
   return (
     <div className="w-full border rounded-lg py-4 h-full flex flex-col justify-between">
-      <div className="px-4">
+      <div
+        className="px-4"
+        role="button"
+        tabIndex={0}
+        onClick={onClick}
+        onKeyDown={() => null}
+      >
         <div className="flex items-center pb-3 w-full">
           <ShowWidget
             condition={!preload}
@@ -153,7 +178,7 @@ export const PropertyCard = ({ data = {}, preload }: Props) => {
             <div className="h-5 w-40 bg-gray-200 animate-pulse" />
           }
         >
-          <ContactButton />
+          <ContactButton onClick={(e) => e.stopPropagation} />
         </ShowWidget>
 
         <ShowWidget
@@ -164,6 +189,7 @@ export const PropertyCard = ({ data = {}, preload }: Props) => {
         >
           <button
             type="button"
+            onClick={(e) => e.stopPropagation()}
             className="border flex items-center justify-center space-x-2 flex-1 w-full p-3 rounded-lg"
           >
             <HeartVector className="text-red-500 h-5 w-5" />

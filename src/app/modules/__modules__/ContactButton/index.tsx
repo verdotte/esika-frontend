@@ -2,7 +2,9 @@ import React, { ReactElement } from 'react';
 import PhoneVector from '../_vectors/phoneVector';
 
 interface IProps {
-  onClick?: () => void;
+  onClick?: (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => void;
   vectorStyle?: string;
   className?: string;
   disabled?: boolean;

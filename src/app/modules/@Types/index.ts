@@ -15,9 +15,7 @@ export interface IObject {
   [key: string]: any;
 }
 
-export type stateSetterType<T> = React.Dispatch<
-  React.SetStateAction<T>
->;
+export type SetStateType<T> = React.Dispatch<React.SetStateAction<T>>;
 
 export type alertType = 'success' | 'error';
 
@@ -39,7 +37,17 @@ export interface IProperty {
   phoneNumber: string | null;
   picture: string | null;
   image: string | null;
-};
+  propertyId: number | string;
+  userId: number | string;
+}
+
+export interface ICategory {
+  active: boolean;
+  categoryId: string | number;
+  createdAt: string;
+  description: string | null;
+  title: string | null;
+}
 
 export type IAgent = {
   active: boolean;

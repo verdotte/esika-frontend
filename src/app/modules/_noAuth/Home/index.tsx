@@ -3,7 +3,7 @@ import Header from 'app/modules/__modules__/Header';
 import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
 import { useHome } from 'app/modules/Contexts/HomeContext';
 import HeroCarouselContainer from './__modules__/HeroCarouselContainer';
-import { ExplorerPanel } from './__modules__/Explorer';
+import ExplorerPanel from './__modules__/Explorer';
 import AgentContainer from './__modules__/Agents';
 import Footer from './__modules__/Footer';
 

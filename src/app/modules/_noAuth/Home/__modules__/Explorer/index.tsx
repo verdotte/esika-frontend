@@ -1,22 +1,22 @@
 /* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable react/no-array-index-key */
-import React, { useCallback, useMemo } from 'react';
+import React, { useEffect, useCallback, useMemo } from 'react';
 import { PropertyCard } from 'app/modules/__modules__/_Cards/PropertyCard';
-import ApartmentVector from 'app/modules/__modules__/_vectors/apartmentVector';
-import HouseVector from 'app/modules/__modules__/_vectors/houseVector';
-import HotelVector from 'app/modules/__modules__/_vectors/hotelVector';
 import { useHome } from 'app/modules/Contexts/HomeContext';
 import Paginate from 'app/modules/utils/helpers/paginator';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
-import { ExplorerCard } from './Card';
+import NoPropertyFound from 'app/modules/__modules__/NoPropertyFound';
 import { HeroCarouselIndicator } from '../HeroCarousel/Indicator';
+import PropertyCategory from './PropertyCategory';
 
-export const ExplorerPanel = () => {
+const ExplorerPanel = () => {
   const {
     properties,
+    categories,
     loading,
     paginationIndicators,
     onIndicatorChange,
+    onFetchCategories,
   } = useHome();
 
   const { propertiesIndicator: indicator } = paginationIndicators;
@@ -37,29 +37,49 @@ export const ExplorerPanel = () => {
     }
     return (
       chunks[indicator] &&
-      chunks[indicator].map((property, index) => (
+      chunks[indicator].map((property) => (
         <PropertyCard
           data={property}
-          key={`property_${property.property_id}_${index}`}
+          key={`property_${property.propertyId}`}
         />
       ))
     );
   }, [chunks, loading, indicator]);
 
+  useEffect(() => {
+    if (!categories.length) {
+      onFetchCategories();
+    }
+    return () => {
+      onFetchCategories();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onFetchCategories]);
+
   return (
     <div className="my-4 px-3 md:px-0">
       <p className="font-extrabold text-4xl my-8">Explorer</p>
 
-      <div className="grid grid-cols-3 lg:grid-cols-6 gap-3 md:gap-12">
-        <ExplorerCard current icon={<HouseVector />} />
-        <ExplorerCard title="Hotel" icon={<HotelVector />} />
-        <ExplorerCard title="Apartment" icon={<ApartmentVector />} />
-      </div>
-
-      <div className="w-full min-h-[500px]">
-        <div className="w-full flex flex-col sm:grid md:grid-cols-2 md:gap-x-6 lg:grid-cols-3 gap-5 lg:gap-12 my-8">
-          {renderProperties()}
-        </div>
+      <PropertyCategory />
+      <div
+        className={`w-full ${
+          !loading && !chunks[indicator]
+            ? 'h-[350px]'
+            : 'min-h-[500px]'
+        }`}
+      >
+        <ShowWidget condition={loading || !!chunks[indicator]}>
+          <div className="w-full grid md:grid-cols-2 md:gap-x-6 lg:grid-cols-3 gap-5 lg:gap-12 my-8">
+            {renderProperties()}
+          </div>
+        </ShowWidget>
+        <ShowWidget condition={!loading && !chunks[indicator]}>
+          <NoPropertyFound className="w-1/2 md:w-1/4">
+            <p className="mt-3">
+              Aucun immobilier trouvé dans cette catégorie
+            </p>
+          </NoPropertyFound>
+        </ShowWidget>
       </div>
 
       <ShowWidget condition={chunks.length > 1}>
@@ -80,3 +100,4 @@ export const ExplorerPanel = () => {
     </div>
   );
 };
+export default ExplorerPanel;

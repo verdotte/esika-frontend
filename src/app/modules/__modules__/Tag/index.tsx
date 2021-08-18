@@ -14,7 +14,7 @@ const defaultProps: Props = {
 };
 
 const Tag: FC<Props> = ({ condition = true, tag, className }) => {
-  if (!condition) {
+  if (!tag) {
     return null;
   }
 

@@ -22,7 +22,7 @@ const PropertySpecs: FC<Props> = ({
 }: Props) => {
   if (loading) {
     return (
-      <>
+      <div className="flex flex-wrap content-center">
         {Array.from({ length: 3 }).map((_, index) => (
           <Tag
             key={`preloading_specs_${index.toFixed()}`}
@@ -30,7 +30,7 @@ const PropertySpecs: FC<Props> = ({
             tag={<div />}
           />
         ))}
-      </>
+      </div>
     );
   }
 

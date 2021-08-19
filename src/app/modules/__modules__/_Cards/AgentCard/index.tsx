@@ -79,7 +79,9 @@ const AgentCard: React.FC<Partial<IProps | IObject>> = ({
             }
           >
             <p className="text-sm font-semibold">
-              {firstName} {lastName}
+              {firstName && lastName
+                ? `${firstName} ${lastName}`
+                : 'Verdotte Atutu'}
             </p>
           </ShowWidget>
         </div>
@@ -91,7 +93,9 @@ const AgentCard: React.FC<Partial<IProps | IObject>> = ({
           }
         >
           <p className="pt-2 sm:pt-0 text-xs text-gray-600">
-            {description}
+            {description
+              ? `${description}`
+              : 'Trouver des bonnes maisons à Bunia et ses environs à bon prix'}
           </p>
         </ShowWidget>
 

@@ -55,13 +55,13 @@ const AgentCard: React.FC<Partial<IProps | IObject>> = ({
       <ShowWidget
         condition={!preload}
         fallback={
-          <div className="h-full w-40 flex-initial bg-gray-200 animate-pulse" />
+          <div className="w-40 flex-initial bg-gray-200 animate-pulse" />
         }
       >
         <img
           src={picture || placeholderImg}
           alt="agent name will be replaced here"
-          className="h-full w-32 object-cover flex-initial"
+          className="w-32 object-cover flex-initial"
           onError={onImageError}
         />
       </ShowWidget>
@@ -79,9 +79,7 @@ const AgentCard: React.FC<Partial<IProps | IObject>> = ({
             }
           >
             <p className="text-sm font-semibold">
-              {firstName && lastName
-                ? `${firstName} ${lastName}`
-                : 'Verdotte Atutu'}
+              {firstName} {lastName}
             </p>
           </ShowWidget>
         </div>
@@ -92,10 +90,8 @@ const AgentCard: React.FC<Partial<IProps | IObject>> = ({
             <div className="w-full h-7 mt-3 bg-gray-200 animate-pulse" />
           }
         >
-          <p className="pt-2 sm:pt-0 text-xs text-gray-600">
-            {description
-              ? `${description}`
-              : 'Trouver des bonnes maisons à Bunia et ses environs à bon prix'}
+          <p className="pt-2 sm:pt-0 text-xs line-clamp-2 text-gray-600">
+            {description}
           </p>
         </ShowWidget>
 

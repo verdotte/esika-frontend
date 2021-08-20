@@ -7,10 +7,11 @@ import { VerifiedIcon } from 'app/modules/__modules__/_vectors/verifiedICon';
 import { onImageError } from 'app/modules/utils/helpers';
 import placeholderImg from 'app/static/images/placeholder.jpg';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
+import { IObject } from 'app/modules/@Types';
 import PropertySpecs from '../../PropertySpecs';
 
 interface Props {
-  data?: Record<string, number | string | symbol | null>;
+  data?: IObject;
   preload?: boolean;
   onPropertyClick?: (
     event?: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -42,11 +43,9 @@ export const PropertyCard = ({
     price,
     title,
     unit,
-    bedroom,
-    balcony,
-    bathroom,
     createdAt,
     slug,
+    spec,
   } = data;
 
   const history = useHistory();
@@ -56,7 +55,7 @@ export const PropertyCard = ({
     [image],
   );
 
-  const specs = { balcony, bathroom, bedroom };
+  // const specs = { balcony, bathroom, bedroom };
 
   const onClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -64,6 +63,8 @@ export const PropertyCard = ({
     onPropertyClick?.(event);
     history.push(`/properties/${slug as string}`);
   };
+
+  // console.log('spec', spec);
 
   return (
     <div className="w-full border rounded-lg py-4 h-full flex flex-col justify-between">
@@ -135,7 +136,7 @@ export const PropertyCard = ({
 
       <PropertySpecs
         loading={preload as boolean}
-        specs={specs}
+        specs={spec as IObject}
         tagClassName="border bg-gray-200"
         className="w-full flex-nowrap my-3 px-4 overflow-x-auto no-scrollbars"
       />
@@ -163,7 +164,7 @@ export const PropertyCard = ({
             <div className="h-5 w-40 bg-gray-200 animate-pulse" />
           }
         >
-          <ContactButton onClick={(e) => e.stopPropagation} />
+          <ContactButton onClick={(e) => e.stopPropagation()} />
         </ShowWidget>
 
         <ShowWidget

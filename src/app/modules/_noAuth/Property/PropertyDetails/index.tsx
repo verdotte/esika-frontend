@@ -7,13 +7,16 @@ import { VerifiedIcon } from 'app/modules/__modules__/_vectors/verifiedICon';
 import { IProperty } from 'app/modules/@Types';
 import { onImageError } from 'app/modules/utils/helpers';
 import { HeartVector } from 'app/modules/__modules__/_vectors/heartVector';
+import placeholderImg from 'app/static/images/placeholder.jpg';
 
 interface Props {
   loading: boolean;
   property: IProperty;
+  // eslint-disable-next-line react/require-default-props
+  profile?: string;
 }
 
-const PropertyDetails = ({ loading, property }: Props) => {
+const PropertyDetails = ({ loading, property, profile }: Props) => {
   const images: string[] = property?.image?.split(',') || [];
 
   return (
@@ -29,7 +32,8 @@ const PropertyDetails = ({ loading, property }: Props) => {
             >
               <div className="relative block w-16 h-16">
                 <img
-                  src="https://images.pexels.com/photos/2565222/pexels-photo-2565222.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+                  // src="https://images.pexels.com/photos/2565222/pexels-photo-2565222.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+                  src={profile || placeholderImg}
                   alt="User avatar"
                   className="w-16 h-16 sm:w-16 sm:h-16 rounded-full object-cover"
                   onError={onImageError}

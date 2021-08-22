@@ -69,7 +69,7 @@ const ExplorerPanel = () => {
         }`}
       >
         <ShowWidget condition={loading || !!chunks[indicator]}>
-          <div className="w-full grid md:grid-cols-2 md:gap-x-6 lg:grid-cols-3 gap-5 lg:gap-12 my-8">
+          <div className="w-full flex flex-col sm:grid md:grid-cols-2 md:gap-x-6 lg:grid-cols-3 gap-5 lg:gap-12 my-8">
             {renderProperties()}
           </div>
         </ShowWidget>

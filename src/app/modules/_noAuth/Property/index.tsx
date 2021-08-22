@@ -83,6 +83,8 @@ const PropertyContainer = () => {
     fetchPropertyAgent();
   }, [fetchPropertyAgent]);
 
+  // console.log('agent', agent.picture);
+
   return (
     <div>
       <div className="container mx-auto px-0 md:px-8 no-scrollbars">
@@ -92,6 +94,7 @@ const PropertyContainer = () => {
           <PropertyDetails
             loading={loading}
             property={property as IProperty}
+            profile={`${agent?.picture}`}
           />
           <div className="pb-3 block sm:flex sm:justify-between">
             <div className="block sm:flex">

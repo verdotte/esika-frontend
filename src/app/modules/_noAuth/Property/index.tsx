@@ -10,7 +10,7 @@ import Header from 'app/modules/__modules__/Header';
 import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
 import Footer from 'app/modules/_noAuth/Home/__modules__/Footer';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
-import { IProperty } from 'app/modules/@Types';
+import { IObject, IProperty } from 'app/modules/@Types';
 import Service from 'app/Services';
 import ENDPOINTS from 'app/Services/endpoints';
 import AgentCard from 'app/modules/__modules__/_Cards/AgentCard';
@@ -70,7 +70,7 @@ const PropertyContainer = () => {
       );
 
       if (data) {
-        setAgent(data);
+        setAgent(data.profile);
       }
     }
   }, [property]);
@@ -82,16 +82,6 @@ const PropertyContainer = () => {
   useEffect(() => {
     fetchPropertyAgent();
   }, [fetchPropertyAgent]);
-
-  const specs = useMemo(
-    () => ({
-      bathroom: property?.bathroom || null,
-      balcony: property?.balcony,
-      bedroom: property?.bedroom,
-      parking: property?.parking,
-    }),
-    [property],
-  );
 
   return (
     <div>
@@ -121,7 +111,7 @@ const PropertyContainer = () => {
                   <div className="flex pt-3 sm:pt-8">
                     <PropertySpecs
                       loading={loading || loading_}
-                      specs={specs}
+                      specs={property?.spec as IObject}
                     />
                   </div>
                 </div>

@@ -24,20 +24,9 @@ const defaultProps: IData & { preload?: boolean } = {
 };
 
 const HeroCarouselCard: React.FC<
-  Partial<IData & { preload?: boolean }>
+  Partial<IData & IObject & { preload?: boolean }>
 > = ({ data = {}, preload }) => {
-  const {
-    title,
-    price,
-    description,
-    balcony,
-    bathroom,
-    bedroom,
-    picture,
-    unit,
-  } = data;
-
-  const specs = { balcony, bathroom, bedroom };
+  const { title, price, description, picture, unit, spec } = data;
 
   return (
     <div className="w-full md:w-96 h-full rounded-[20px] py-4 bg-black/80 text-white flex flex-col justify-between">
@@ -77,7 +66,7 @@ const HeroCarouselCard: React.FC<
       >
         <div className="my-3 bg-yellow-400/70 text-black p-4 py-3">
           <p className="text-sm">
-            {price} fc/{unit !== 'month' ? 'mois' : unit}
+            ${price}/{unit === 'month' ? 'mois' : unit}
           </p>
         </div>
       </ShowWidget>
@@ -85,8 +74,8 @@ const HeroCarouselCard: React.FC<
       <div className="flex my-2 px-4">
         <PropertySpecs
           loading={preload as boolean}
-          specs={specs as IObject}
-          className="px-0"
+          specs={spec as unknown as IObject}
+          className="w-full overflow-x-auto px-0"
           tagClassName="bg-white text-gray-700"
         />
       </div>

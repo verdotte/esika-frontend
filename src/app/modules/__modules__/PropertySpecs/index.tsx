@@ -22,7 +22,7 @@ const PropertySpecs: FC<Props> = ({
 }: Props) => {
   if (loading) {
     return (
-      <>
+      <div className="flex flex-wrap content-center ml-4">
         {Array.from({ length: 3 }).map((_, index) => (
           <Tag
             key={`preloading_specs_${index.toFixed()}`}
@@ -30,25 +30,27 @@ const PropertySpecs: FC<Props> = ({
             tag={<div />}
           />
         ))}
-      </>
+      </div>
     );
   }
 
   return (
-    <div className={`flex flex-wrap content-center ${className}`}>
-      {Object.keys(specs).map((spec, index) => {
-        if (!specs[spec]) {
-          return null;
-        }
-        return (
-          <Tag
-            key={`property_spec_${index.toFixed()}`}
-            condition={!loading || !!specs[spec]}
-            tag={`${specs[spec]} ${spec}`}
-            className={tagClassName}
-          />
-        );
-      })}
+    <div className={`flex content-center ${className}`}>
+      {specs &&
+        typeof specs === 'object' &&
+        Object.keys(specs).map((spec, index) => {
+          if (!specs[spec]) {
+            return null;
+          }
+          return (
+            <Tag
+              key={`property_spec_${index.toFixed()}`}
+              condition={!loading || !!specs[spec]}
+              tag={`${specs[spec]} ${spec}`}
+              className={tagClassName}
+            />
+          );
+        })}
     </div>
   );
 };

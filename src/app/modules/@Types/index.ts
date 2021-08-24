@@ -25,11 +25,7 @@ export interface IProperty {
   price: string | null;
   unit: string;
   type: string;
-  bedroom: string | null;
-  bathroom: string | null;
   location: string | null;
-  parking: string | null;
-  balcony: string | null;
   createdAt: string;
   category: string | null;
   city: string | null;
@@ -39,6 +35,7 @@ export interface IProperty {
   image: string | null;
   propertyId: number | string;
   userId: number | string;
+  spec: IObject;
 }
 
 export interface ICategory {

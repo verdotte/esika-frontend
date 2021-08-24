@@ -103,8 +103,8 @@ const PropertyDetails = ({ loading, property }: Props) => {
             <div className="w-full flex items-center justify-center sm:justify-start p-3 sm:pl-5 sm:pt-10 sm:pb-10">
               <div className="bg-yellow-400/60 p-3">
                 <p className="text-md">
-                  {property?.price} fc/
-                  {property?.unit !== 'month'
+                  ${property?.price}/
+                  {property?.unit === 'month'
                     ? 'mois'
                     : property?.unit}
                 </p>

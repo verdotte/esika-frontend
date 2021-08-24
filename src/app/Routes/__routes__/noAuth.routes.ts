@@ -6,9 +6,9 @@ import VerifyCode from 'app/Initials/__noAuth/Verify';
 import IRoute from 'app/modules/@Types/route.interface';
 import Properties from 'app/Initials/__noAuth/Properties';
 import Profile from 'app/Initials/__noAuth/Profile';
-import PersonalInfos from 'app/modules/_noAuth/Profile/PersonalInfos';
 import Statistics from 'app/modules/_noAuth/Profile/Statistics';
 import Contacts from 'app/modules/_noAuth/Profile/Contacts';
+import PersonalInfos from 'app/modules/_noAuth/Profile/PersonalInfos';
 
 const noAuthRoutes: IRoute[] = [
   {

@@ -1,13 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
-import { onImageError } from 'app/modules/utils/helpers';
-import { VerifiedIcon } from 'app/modules/__modules__/_vectors/verifiedICon';
-import placeholderImg from 'app/static/images/placeholder.jpg';
 import SettingVector from 'app/modules/__modules__/_vectors/settingVector';
 import InboxVector from 'app/modules/__modules__/_vectors/inboxVector';
 import PhoneVector from 'app/modules/__modules__/_vectors/phoneVector';
 import LogoutVector from 'app/modules/__modules__/_vectors/logoutVector';
+import ImageProfile from 'app/modules/__modules__/ImageProfile';
 
 const ProfileContainer = () => {
   return (
@@ -21,15 +20,7 @@ const ProfileContainer = () => {
                 <div className="w-16 h-16 sm:w-16 sm:h-16 rounded-full bg-gray-200 animate-pulse" />
               }
             >
-              <div className="relative block w-16 h-16">
-                <img
-                  src={placeholderImg}
-                  alt="User avatar"
-                  className="w-16 h-16 sm:w-16 sm:h-16 rounded-full object-cover"
-                  onError={onImageError}
-                />
-                <VerifiedIcon className="absolute bottom-0 right-0 text-blue-500 text-sm h-5 w-5" />
-              </div>
+              <ImageProfile />
             </ShowWidget>
             <ShowWidget
               condition
@@ -48,12 +39,14 @@ const ProfileContainer = () => {
             </ShowWidget>
           </div>
           <div className="py-10 border-b border-gray-300">
-            <div className="flex justify-start items-center">
-              <SettingVector className="h-6 w-6 text-gray-500" />
-              <p className="ml-3 py-1 text-[1rem] sm:text-xl text-gray-800">
-                Informations personnelles
-              </p>
-            </div>
+            <Link to="/profile/infos">
+              <div className="flex justify-start items-center">
+                <SettingVector className="h-6 w-6 text-gray-500" />
+                <p className="ml-3 py-1 text-[1rem] sm:text-xl text-gray-800">
+                  Informations personnelles
+                </p>
+              </div>
+            </Link>
             <div className="flex justify-start items-center">
               <SettingVector className="h-6 w-6 text-gray-500" />
               <p className="ml-3 py-1 text-[1rem] sm:text-xl text-gray-800">

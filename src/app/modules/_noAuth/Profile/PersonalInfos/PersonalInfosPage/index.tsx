@@ -2,15 +2,18 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
-import placeholderImg from 'app/static/images/placeholder.jpg';
 import ChevronLeftVector from 'app/modules/__modules__/_vectors/chevronLetfVector';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
-import { onImageError } from 'app/modules/utils/helpers';
 import { useProfile } from 'app/modules/Contexts/ProfileContext';
+import ImageProfile from 'app/modules/__modules__/ImageProfile';
 import InfoItem from '../InfoItem';
+import NameForm from '../NameForm';
+import NumberForm from '../NumberForm';
+import AddressForm from '../AddressForm';
 
 const PersonalInfosPage = () => {
   const { editMode } = useProfile();
+
   return (
     <div>
       <div className="container mx-auto px-0 md:px-8 no-scrollbars">
@@ -29,14 +32,7 @@ const PersonalInfosPage = () => {
                   <div className="w-16 h-16 sm:w-16 sm:h-16 rounded-full bg-gray-200 animate-pulse" />
                 }
               >
-                <div className="block w-16 h-16">
-                  <img
-                    src={placeholderImg}
-                    alt="User avatar"
-                    className="w-16 h-16 sm:w-16 sm:h-16 rounded-full object-cover"
-                    onError={onImageError}
-                  />
-                </div>
+                <ImageProfile />
               </ShowWidget>
             </div>
             <div className="flex justify-center items-center">
@@ -56,30 +52,30 @@ const PersonalInfosPage = () => {
               </label>
             </div>
           </div>
-          <InfoItem
-            key="Prenom"
-            label="Prenom"
-            data="Eliezer"
-            action="Modifier"
-          />
+          <InfoItem key="Prenom" label="Prenom" data="Eliezer">
+            <NameForm data="Eliezer" label="Prénom" />
+          </InfoItem>
           <InfoItem
             key="Post_nom"
             label="Nom de Famille"
             data="Basubi"
-            action="Modifier"
-          />
+          >
+            <NameForm data="Basubi" label="Nom de Famille" />
+          </InfoItem>
           <InfoItem
             key="Numero"
             label="Numero de Telephone"
             data="(+256) 705 875 483"
-            action="Modifier"
-          />
+          >
+            <NumberForm data="705 875 483" />
+          </InfoItem>
           <InfoItem
             key="Addresse"
             label="Addresse"
             data="Information non fournie"
-            action="Ajouter"
-          />
+          >
+            <AddressForm label="Prenom" />
+          </InfoItem>
         </div>
         <BottomNavbar />
       </div>

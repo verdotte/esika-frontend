@@ -1,12 +1,10 @@
 import React from 'react';
 import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
-import { onImageError } from 'app/modules/utils/helpers';
-import { VerifiedIcon } from 'app/modules/__modules__/_vectors/verifiedICon';
-import placeholderImg from 'app/static/images/placeholder.jpg';
 import ChevronLeftVector from 'app/modules/__modules__/_vectors/chevronLetfVector';
 import StarVector from 'app/modules/__modules__/_vectors/starVector';
 import CheckVector from 'app/modules/__modules__/_vectors/checkVector';
+import ImageProfile from 'app/modules/__modules__/ImageProfile';
 
 const Statistics = () => {
   return (
@@ -38,16 +36,7 @@ const Statistics = () => {
                 <div className="w-16 h-16 sm:w-16 sm:h-16 rounded-full bg-gray-200 animate-pulse" />
               }
             >
-              <div className="relative block w-16 h-16">
-                <img
-                  // src="https://images.pexels.com/photos/2565222/pexels-photo-2565222.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                  src={placeholderImg}
-                  alt="User avatar"
-                  className="w-16 h-16 sm:w-16 sm:h-16 rounded-full object-cover"
-                  onError={onImageError}
-                />
-                <VerifiedIcon className="absolute bottom-0 right-0 text-blue-500 text-sm h-5 w-5" />
-              </div>
+              <ImageProfile />
             </ShowWidget>
           </div>
           <div className="py-4">

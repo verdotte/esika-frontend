@@ -7,18 +7,24 @@ interface IProps {
   onSearch?: () => void;
   showSearchBar?: boolean;
   className?: string | null;
+  action?: { name: string; push: string };
 }
 
 const defaultProps: IProps = {
   onSearch: () => null,
   showSearchBar: true,
   className: 'sticky top-0 z-10',
+  action: {
+    name: 'Creer un compte',
+    push: '/register',
+  },
 };
 
 const Header: FC<IProps> = ({
   onSearch,
   showSearchBar = true,
   className,
+  action,
 }): JSX.Element => {
   const history = useHistory();
   return (
@@ -61,11 +67,11 @@ const Header: FC<IProps> = ({
 
       <button
         type="button"
-        onClick={() => history.push('/register')}
-        className="md:border rounded-lg flex items-center justify-center p-4 space-x-3 w-auto lg:w-1/4"
+        onClick={() => history.push(action?.push || '/register')}
+        className="md:border rounded-lg flex items-center justify-center p-4 space-x-3 w-auto lg:w-1/4 bg-brand-bold text-white"
       >
         <UserVector />
-        <p className="text-black hidden md:block">Creer un compte</p>
+        <p className="hidden md:block">{action?.name}</p>
       </button>
     </div>
   );

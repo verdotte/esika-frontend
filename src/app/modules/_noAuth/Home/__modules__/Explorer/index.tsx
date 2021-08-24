@@ -11,6 +11,7 @@ import PropertyCategory from './PropertyCategory';
 
 const ExplorerPanel = () => {
   const {
+    agents,
     properties,
     categories,
     loading,
@@ -37,14 +38,20 @@ const ExplorerPanel = () => {
     }
     return (
       chunks[indicator] &&
-      chunks[indicator].map((property) => (
-        <PropertyCard
-          data={property}
-          key={`property_${property.propertyId}`}
-        />
-      ))
+      chunks[indicator].map((property) => {
+        property.phoneNumber = agents.find(
+          (agent) => agent.userId === property.userId,
+        )?.phoneNumber;
+
+        return (
+          <PropertyCard
+            data={property}
+            key={`property_${property.propertyId}`}
+          />
+        );
+      })
     );
-  }, [chunks, loading, indicator]);
+  }, [chunks, loading, indicator, agents]);
 
   useEffect(() => {
     if (!categories.length) {
@@ -62,9 +69,7 @@ const ExplorerPanel = () => {
         Explorer
       </p>
 
-      {/* <div className="pl-3 md:pl-0"> */}
       <PropertyCategory />
-      {/* </div> */}
       <div
         className={`w-full px-3 md:px-0 ${
           !loading && !chunks[indicator]

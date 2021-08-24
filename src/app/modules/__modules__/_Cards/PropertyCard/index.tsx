@@ -46,6 +46,7 @@ export const PropertyCard = ({
     createdAt,
     slug,
     spec,
+    phoneNumber,
   } = data;
 
   const history = useHistory();
@@ -55,16 +56,12 @@ export const PropertyCard = ({
     [image],
   );
 
-  // const specs = { balcony, bathroom, bedroom };
-
   const onClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
     onPropertyClick?.(event);
     history.push(`/properties/${slug as string}`);
   };
-
-  // console.log('spec', spec);
 
   return (
     <div className="w-full border rounded-lg py-4 h-full flex flex-col justify-between">
@@ -164,7 +161,7 @@ export const PropertyCard = ({
             <div className="h-5 w-40 bg-gray-200 animate-pulse" />
           }
         >
-          <ContactButton onClick={(e) => e.stopPropagation()} />
+          <ContactButton phoneNumber={phoneNumber} />
         </ShowWidget>
 
         <ShowWidget

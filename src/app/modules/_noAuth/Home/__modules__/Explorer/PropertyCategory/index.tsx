@@ -28,6 +28,7 @@ const PropertyCategory = () => {
     setProperties,
     setLoading,
     setCurrentCategory,
+    onFetchCategories,
   } = useHome();
 
   const fetchAllProperties = () => {
@@ -51,6 +52,16 @@ const PropertyCategory = () => {
     },
     [setCurrentCategory, setLoading, setProperties],
   );
+
+  useEffect(() => {
+    if (!categories.length) {
+      onFetchCategories();
+    }
+    return () => {
+      onFetchCategories();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onFetchCategories]);
 
   useEffect(() => {
     fetchByCategory();

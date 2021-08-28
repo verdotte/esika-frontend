@@ -1,6 +1,6 @@
 /* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable react/no-array-index-key */
-import React, { useEffect, useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { PropertyCard } from 'app/modules/__modules__/_Cards/PropertyCard';
 import { useHome } from 'app/modules/Contexts/HomeContext';
 import Paginate from 'app/modules/utils/helpers/paginator';
@@ -13,11 +13,9 @@ const ExplorerPanel = () => {
   const {
     agents,
     properties,
-    categories,
     loading,
     paginationIndicators,
     onIndicatorChange,
-    onFetchCategories,
   } = useHome();
 
   const { propertiesIndicator: indicator } = paginationIndicators;
@@ -52,16 +50,6 @@ const ExplorerPanel = () => {
       })
     );
   }, [chunks, loading, indicator, agents]);
-
-  useEffect(() => {
-    if (!categories.length) {
-      onFetchCategories();
-    }
-    return () => {
-      onFetchCategories();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onFetchCategories]);
 
   return (
     <div className="my-4">

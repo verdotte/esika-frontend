@@ -8,11 +8,14 @@ import AgentContainer from './__modules__/Agents';
 import Footer from './__modules__/Footer';
 
 const HomePage = () => {
-  const { onFetchProperties, onFetchAgents, properties } = useHome();
+  const { onFetchProperties, onFetchAgents, agents, properties } =
+    useHome();
 
   useEffect(() => {
     if (!properties.length) {
       onFetchProperties();
+    }
+    if (!agents.length) {
       onFetchAgents();
     }
     return () => {

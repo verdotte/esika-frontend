@@ -58,6 +58,7 @@ const LoginActivity: FC = (): JSX.Element => {
             ref={formRef as LegacyRef<HTMLFormElement> | undefined}
             onSubmit={onLogin}
             autoComplete="off"
+            className="w-full"
           >
             <div className="p-8 md:p-12 bg-white rounded-md w-full md:h-4/5 flex flex-col justify-between space-y-7 md:space-y-3 shadow-md md:shadow-none">
               <AlertBox

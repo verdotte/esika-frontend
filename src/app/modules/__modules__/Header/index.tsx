@@ -1,7 +1,11 @@
-import React, { memo, FC } from 'react';
+import React, { memo, FC, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import isExpired from 'app/modules/utils/helpers/isExpired';
+import useResponsive from 'app/modules/Hooks/useResponsive';
 import ShowWidget from '../ShowWidget';
 import UserVector from '../_vectors/userVector';
+import HamburgerVector from '../_vectors/hamburgerVector';
+import DropdownMenu from '../DropdownMenu';
 
 interface IProps {
   onSearch?: () => void;
@@ -27,6 +31,13 @@ const Header: FC<IProps> = ({
   action,
 }): JSX.Element => {
   const history = useHistory();
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isMobile] = useResponsive();
+
+  const onToggleMenu = () => {
+    setIsExpanded((expandState) => !expandState);
+  };
+
   return (
     <div
       className={`w-full flex justify-between py-3 md:py-8 bg-white px-3 md:px-0 border-b shadow-sm md:border-none md:shadow-none ${className}`}
@@ -65,14 +76,40 @@ const Header: FC<IProps> = ({
         </div>
       </ShowWidget>
 
-      <button
-        type="button"
-        onClick={() => history.push(action?.push || '/register')}
-        className="md:border rounded-lg flex items-center justify-center p-4 space-x-3 w-auto lg:w-1/4 bg-brand-bold text-white"
+      <ShowWidget
+        condition={isExpired()}
+        fallback={
+          <ShowWidget condition={!isMobile}>
+            <div className="relative">
+              <button
+                type="button"
+                onClick={onToggleMenu}
+                className="md:border rounded-full flex items-center justify-center p-4 py-2 space-x-3"
+              >
+                <HamburgerVector />
+                <UserVector className="h-6 w-6 text-brand-bold" />
+              </button>
+              <div className="relative">
+                <ShowWidget condition={isExpanded}>
+                  <DropdownMenu
+                    isExpanded={isExpanded}
+                    onExpand={onToggleMenu}
+                  />
+                </ShowWidget>
+              </div>
+            </div>
+          </ShowWidget>
+        }
       >
-        <UserVector />
-        <p className="hidden md:block">{action?.name}</p>
-      </button>
+        <button
+          type="button"
+          onClick={() => history.push(action?.push || '/register')}
+          className="md:border rounded-lg flex items-center justify-center p-4 space-x-3 w-auto lg:w-1/4 bg-brand-bold text-white"
+        >
+          <UserVector />
+          <p className="hidden md:block">{action?.name}</p>
+        </button>
+      </ShowWidget>
     </div>
   );
 };

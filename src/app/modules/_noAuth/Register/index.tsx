@@ -59,6 +59,7 @@ const RegisterActivity: FC = (): JSX.Element => {
             ref={formRef as LegacyRef<HTMLFormElement> | undefined}
             onSubmit={onRegister}
             autoComplete="off"
+            className="w-full"
           >
             <div className="p-8 md:p-12 bg-white rounded-md w-full md:h-[90%] flex flex-col justify-between space-y-5 md:space-y-3 shadow-md md:shadow-none">
               <AlertBox

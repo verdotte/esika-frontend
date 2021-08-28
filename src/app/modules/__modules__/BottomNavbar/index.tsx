@@ -21,7 +21,7 @@ const BottomNavbar: FC = (): JSX.Element => {
       />
       <BottomNavbarItem
         icon={<HouseVector />}
-        title="Properties"
+        title="Immobiliers"
         to="/properties"
         current={history.location.pathname === '/properties'}
       />
@@ -33,7 +33,7 @@ const BottomNavbar: FC = (): JSX.Element => {
       />
       <BottomNavbarItem
         icon={<UserVector />}
-        title={!isAuthed ? 'Profile' : 'Login'}
+        title={!isAuthed ? 'Profil' : 'Connexion'}
         to={!isAuthed ? '/profile' : '/login'}
         current={history.location.pathname === '/profile'}
       />

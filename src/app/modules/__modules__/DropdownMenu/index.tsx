@@ -20,7 +20,7 @@ const DropdownMenu: FC<Props> = ({ isExpanded, onExpand }) => {
     <ShowWidget condition={isExpanded}>
       <div
         ref={dropdownRef}
-        className="w-48 flex flex-col justify-between bg-white rounded-md py-4 absolute right-0 top-3 shadow-lg"
+        className="w-48 flex flex-col justify-between bg-white border rounded-md py-4 absolute right-0 top-3 shadow-lg"
       >
         <div className="flex-1">
           <div className="px-4 py-2 my-2  hover:bg-gray-100">

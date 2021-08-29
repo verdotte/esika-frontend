@@ -1,6 +1,11 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+// eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable jsx-a11y/no-onchange */
 import React from 'react';
+import { useHistory } from 'react-router';
 import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
 import { useProfile } from 'app/modules/Contexts/ProfileContext';
 import ChevronLeftVector from 'app/modules/__modules__/_vectors/chevronLetfVector';
@@ -13,14 +18,20 @@ import SocialMedia from '../SocialMedia';
 
 const ContactsPage = () => {
   const { code, onCodeChange } = useProfile();
-
+  const history = useHistory();
   return (
     <div>
       <div className="container mx-auto px-0 md:px-8 no-scrollbars">
         <div className="h-full mt-3 mb-24 md:mt-2 mx-7 sm:mx-0">
           <div className="pb-4 flex justify-between items-center">
-            <div className="flex justify-start items-center">
-              <ChevronLeftVector className="h-7 w-7 text-gray-500" />
+            <div className="flex justify-start items-center ml-[-1.3rem]">
+              <span
+                onClick={() => {
+                  return history.push('/profile');
+                }}
+              >
+                <ChevronLeftVector className="h-7 w-7 text-gray-500" />
+              </span>
               <p className="pl-2 text-[1.1rem] sm:text-xl">
                 Contacts
               </p>

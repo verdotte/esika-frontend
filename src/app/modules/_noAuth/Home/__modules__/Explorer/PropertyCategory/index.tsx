@@ -77,7 +77,7 @@ const PropertyCategory = () => {
           key={index.toFixed()}
           condition={!loading}
           fallback={
-            <div className="h-36 w-36 px-4 sm:px-8 rounded-xl bg-gray-200 animate-pulse" />
+            <div className="h-36 w-36 mx-1 sm:mx-3 rounded-xl bg-gray-200 animate-pulse" />
           }
         />
       ));

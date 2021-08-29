@@ -5,7 +5,7 @@ import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
 import ChevronLeftVector from 'app/modules/__modules__/_vectors/chevronLetfVector';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
 import { useProfile } from 'app/modules/Contexts/ProfileContext';
-import ImageProfile from 'app/modules/__modules__/ImageProfile';
+import ProfileImage from 'app/modules/__modules__/ProfileImage';
 import InfoItem from '../InfoItem';
 import NameForm from '../NameForm';
 import NumberForm from '../NumberForm';
@@ -32,14 +32,14 @@ const PersonalInfosPage = () => {
                   <div className="w-16 h-16 sm:w-16 sm:h-16 rounded-full bg-gray-200 animate-pulse" />
                 }
               >
-                <ImageProfile />
+                <ProfileImage />
               </ShowWidget>
             </div>
             <div className="flex justify-center items-center">
               <label>
                 <span
                   className={`py-2 text-sm sm:text-xl text-center transition-all duration-100 ${
-                    editMode ? 'text-gray-400' : 'text-blue-700'
+                    editMode ? 'text-gray-400' : 'text-blue-500'
                   }`}
                 >
                   Ajouter une photo de profile
@@ -53,14 +53,14 @@ const PersonalInfosPage = () => {
             </div>
           </div>
           <InfoItem key="Prenom" label="Prenom" data="Eliezer">
-            <NameForm data="Eliezer" label="Prénom" />
+            <NameForm defaultValue="Eliezer" label="Prénom" />
           </InfoItem>
           <InfoItem
             key="Post_nom"
             label="Nom de Famille"
             data="Basubi"
           >
-            <NameForm data="Basubi" label="Nom de Famille" />
+            <NameForm defaultValue="Basubi" label="Nom de Famille" />
           </InfoItem>
           <InfoItem
             key="Numero"

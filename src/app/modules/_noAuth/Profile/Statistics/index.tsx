@@ -4,7 +4,7 @@ import ShowWidget from 'app/modules/__modules__/ShowWidget';
 import ChevronLeftVector from 'app/modules/__modules__/_vectors/chevronLetfVector';
 import StarVector from 'app/modules/__modules__/_vectors/starVector';
 import CheckVector from 'app/modules/__modules__/_vectors/checkVector';
-import ImageProfile from 'app/modules/__modules__/ImageProfile';
+import ProfileImage from 'app/modules/__modules__/ProfileImage';
 
 const Statistics = () => {
   return (
@@ -36,7 +36,7 @@ const Statistics = () => {
                 <div className="w-16 h-16 sm:w-16 sm:h-16 rounded-full bg-gray-200 animate-pulse" />
               }
             >
-              <ImageProfile />
+              <ProfileImage />
             </ShowWidget>
           </div>
           <div className="py-4">

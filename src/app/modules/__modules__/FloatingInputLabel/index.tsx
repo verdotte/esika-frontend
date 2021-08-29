@@ -1,13 +1,27 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { memo } from 'react';
+import React, { FC, memo } from 'react';
 
 interface Props {
-  label: string;
-  data: string;
+  label?: string;
+  defaultValue?: string;
+  value?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const FloatingInputLabel = ({ label, data }: Props) => {
+const defaultProps: Props = {
+  label: '',
+  defaultValue: '',
+  value: '',
+  onChange: () => null,
+};
+
+const FloatingInputLabel: FC<Props> = ({
+  label,
+  defaultValue,
+  value,
+  onChange,
+}: Props): JSX.Element => {
   return (
     <div className="w-full relative">
       <input
@@ -16,7 +30,9 @@ const FloatingInputLabel = ({ label, data }: Props) => {
         type="text"
         placeholder="Prénom"
         className="peer outline-none text-black font-medium placeholder-transparent bg-transparent"
-        defaultValue={data}
+        defaultValue={defaultValue || undefined}
+        value={value || undefined}
+        onChange={onChange}
       />
       <label
         htmlFor="firstName"
@@ -27,5 +43,7 @@ const FloatingInputLabel = ({ label, data }: Props) => {
     </div>
   );
 };
+
+FloatingInputLabel.defaultProps = defaultProps;
 
 export default memo(FloatingInputLabel);

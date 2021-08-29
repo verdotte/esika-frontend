@@ -5,7 +5,7 @@
 import React, { memo } from 'react';
 import CountrySelectorInput from 'app/modules/__modules__/CountrySelectorInput';
 import ChevroDownVector from 'app/modules/__modules__/_vectors/ChevroDownVector';
-import InputForm from '../../../../__modules__/FloatingInputLabel';
+import FloatingInputLabel from '../../../../__modules__/FloatingInputLabel';
 
 interface Props {
   label: string;
@@ -29,20 +29,20 @@ const AddressForm = ({ label }: Props) => {
         </div>
       </div>
       <div className="w-full mb-3 border border-gray-300 rounded-md flex items-center pt-6 pb-2 pl-4 pr-4 overflow-hidden">
-        <InputForm data="Bukavu" label="Ville" />
+        <FloatingInputLabel defaultValue="Bukavu" label="Ville" />
       </div>
       <div className="w-full flex justify-between">
         <div className="w-[55%] mb-3 border border-gray-300 rounded-md flex items-center pt-6 pb-2 pl-4 pr-4 overflow-hidden">
-          <InputForm data="Bukavu" label="Etat" />
+          <FloatingInputLabel defaultValue="Bukavu" label="Etat" />
         </div>
         <div className="w-2/5 mb-3 border border-gray-300 rounded-md flex items-center pt-6 pb-2 pl-4 pr-4 overflow-hidden">
-          <InputForm data="" label="Code Postal" />
+          <FloatingInputLabel defaultValue="" label="Code Postal" />
         </div>
       </div>
       <div className="flex justify-end items-center">
         <button
           type="submit"
-          className="py-2 px-3 bg-blue-300 text-white rounded"
+          className="py-2 px-3 bg-brand-bold text-white rounded"
         >
           Enregistrer
         </button>

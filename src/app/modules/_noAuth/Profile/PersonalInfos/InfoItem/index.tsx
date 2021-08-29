@@ -53,7 +53,7 @@ const InfoItem = ({ label, data, children }: Props) => {
             className={`text-sm sm:text-xl ${
               editMode_ && !editMode
                 ? 'text-gray-400'
-                : 'text-blue-700'
+                : 'text-blue-500'
             } transition-all duration-300 `}
             disabled={editMode_ && !editMode}
           >
@@ -61,7 +61,7 @@ const InfoItem = ({ label, data, children }: Props) => {
           </button>
         </div>
         <div
-          className={`mb-3 w-[90%] transition-all duration-300 ${
+          className={`mb-3 transition-all duration-300 ${
             editMode ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
         >

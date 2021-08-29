@@ -13,6 +13,7 @@ interface IProfile {
   setEditMode: SetStateType<boolean>;
   setCode: SetStateType<string>;
   onEditChange: () => void;
+  onCodeChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const defaultCtx: IProfile = {
@@ -21,6 +22,7 @@ const defaultCtx: IProfile = {
   setCode: () => null,
   setEditMode: () => null,
   onEditChange: () => null,
+  onCodeChange: () => null,
 };
 
 export const ProfileContext =
@@ -35,11 +37,16 @@ const ProfileProvider: FC = ({ children }) => {
     setEditMode(true);
   }, []);
 
+  const onCodeChange = useCallback((event) => {
+    setCode(event?.target.value);
+  }, []);
+
   return (
     <ProfileContext.Provider
       value={{
         editMode,
         code,
+        onCodeChange,
         setEditMode,
         setCode,
         onEditChange,

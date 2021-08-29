@@ -12,7 +12,7 @@ import FacebookVector from 'app/modules/__modules__/_vectors/facebookVector';
 import SocialMedia from '../SocialMedia';
 
 const ContactsPage = () => {
-  const { code } = useProfile();
+  const { code, onCodeChange } = useProfile();
 
   return (
     <div>
@@ -39,7 +39,7 @@ const ContactsPage = () => {
                 Numero de Telephone professionel
               </p>
               <div className="w-full inline-block relative">
-                <CountrySelectorInput className="appearance-none block w-full border border-gray-300 rounded py-3 pl-4 pr-8 leading-tight focus:bg-white focus:outline-none focus:shadow-outline text-sm sm:text-xl text-gray-800" />
+                <CountrySelectorInput onChange={onCodeChange} />
                 <div className="pointer-events-none absolute inset-y-0 right-[03%] flex items-center px-2 text-gray-700">
                   <ChevroDownVector className="fill-brand-bold h-5 w-5" />
                 </div>

@@ -8,7 +8,7 @@ import { useProfile } from 'app/modules/Contexts/ProfileContext';
 interface Props {
   label: string;
   data: string;
-  children: any;
+  children: JSX.Element;
 }
 
 const InfoItem = ({ label, data, children }: Props) => {
@@ -19,17 +19,12 @@ const InfoItem = ({ label, data, children }: Props) => {
 
   const onAction = useCallback(() => {
     setEditMode(true);
-    if (setEditModeProfile) {
-      setEditModeProfile(true);
-    }
+    setEditModeProfile?.(true);
   }, [setEditModeProfile]);
 
   const onCancelAction = useCallback(() => {
-    // eslint-disable-next-line no-console
     setEditMode(false);
-    if (setEditModeProfile) {
-      setEditModeProfile(false);
-    }
+    setEditModeProfile?.(false);
   }, [setEditModeProfile]);
 
   return (
@@ -44,7 +39,9 @@ const InfoItem = ({ label, data, children }: Props) => {
             <p className="text-sm sm:text-xl">{label}</p>
             <p
               className={`pt-1 text-sm sm:text-xl text-gray-700 transition-all duration-300 ${
-                editMode ? 'opacity-0' : 'opacity-100'
+                editMode
+                  ? 'opacity-0 pointer-events-none'
+                  : 'opacity-100'
               }`}
             >
               {data}
@@ -65,7 +62,7 @@ const InfoItem = ({ label, data, children }: Props) => {
         </div>
         <div
           className={`mb-3 w-[90%] transition-all duration-300 ${
-            editMode ? 'opacity-100' : 'opacity-0'
+            editMode ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
         >
           {children}

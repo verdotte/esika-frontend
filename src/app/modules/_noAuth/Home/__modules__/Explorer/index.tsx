@@ -1,6 +1,6 @@
 /* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable react/no-array-index-key */
-import React, { useEffect, useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { PropertyCard } from 'app/modules/__modules__/_Cards/PropertyCard';
 import { useHome } from 'app/modules/Contexts/HomeContext';
 import Paginate from 'app/modules/utils/helpers/paginator';
@@ -11,12 +11,11 @@ import PropertyCategory from './PropertyCategory';
 
 const ExplorerPanel = () => {
   const {
+    agents,
     properties,
-    categories,
     loading,
     paginationIndicators,
     onIndicatorChange,
-    onFetchCategories,
   } = useHome();
 
   const { propertiesIndicator: indicator } = paginationIndicators;
@@ -37,39 +36,37 @@ const ExplorerPanel = () => {
     }
     return (
       chunks[indicator] &&
-      chunks[indicator].map((property) => (
-        <PropertyCard
-          data={property}
-          key={`property_${property.propertyId}`}
-        />
-      ))
-    );
-  }, [chunks, loading, indicator]);
+      chunks[indicator].map((property) => {
+        property.phoneNumber = agents.find(
+          (agent) => agent.userId === property.userId,
+        )?.phoneNumber;
 
-  useEffect(() => {
-    if (!categories.length) {
-      onFetchCategories();
-    }
-    return () => {
-      onFetchCategories();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onFetchCategories]);
+        return (
+          <PropertyCard
+            data={property}
+            key={`property_${property.propertyId}`}
+          />
+        );
+      })
+    );
+  }, [chunks, loading, indicator, agents]);
 
   return (
-    <div className="my-4 px-3 md:px-0">
-      <p className="font-extrabold text-4xl my-8">Explorer</p>
+    <div className="my-4">
+      <p className="font-extrabold text-4xl my-8 px-3 md:px-0">
+        Explorer
+      </p>
 
       <PropertyCategory />
       <div
-        className={`w-full ${
+        className={`w-full px-3 md:px-0 ${
           !loading && !chunks[indicator]
             ? 'h-[350px]'
             : 'min-h-[500px]'
         }`}
       >
         <ShowWidget condition={loading || !!chunks[indicator]}>
-          <div className="w-full grid md:grid-cols-2 md:gap-x-6 lg:grid-cols-3 gap-5 lg:gap-12 my-8">
+          <div className="w-full flex flex-col md:grid md:grid-cols-2 md:gap-x-6 lg:grid-cols-3 gap-5 lg:gap-12 my-8">
             {renderProperties()}
           </div>
         </ShowWidget>
@@ -83,7 +80,7 @@ const ExplorerPanel = () => {
       </div>
 
       <ShowWidget condition={chunks.length > 1}>
-        <div className="w-full flex justify-end">
+        <div className="w-full flex justify-end px-3 md:px-0">
           {chunks.map((_, index) => (
             <HeroCarouselIndicator
               key={index}

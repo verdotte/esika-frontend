@@ -31,8 +31,6 @@ const LoginActivity: FC = (): JSX.Element => {
               <h1 className="text-2xl lg:text-3xl font-extrabold relative z-[1]">
                 Se connecter
               </h1>
-
-              <div className="h-4 bg-red-400 absolute bottom-0 inset-x-0" />
             </div>
 
             <p className="text-sm">
@@ -40,11 +38,16 @@ const LoginActivity: FC = (): JSX.Element => {
               securite.
             </p>
 
+            <div className="flex items-center w-[70%]">
+              <div className="h-[0.1rem] w-full bg-white" />
+              <p className="hidden md:block m-2">Ou</p>
+              <div className="h-[0.1rem] w-full bg-white" />
+            </div>
+
             <p className="hidden md:block">
-              <span className="mr-2">Ou alors</span>
               <Link
                 to="/register"
-                className="font-bold hover:text-red-400"
+                className="bg-white p-2 px-4 rounded-sm text-brand-bold hover:text-brand-thin"
               >
                 <span>Creer un compte</span>
               </Link>
@@ -55,6 +58,7 @@ const LoginActivity: FC = (): JSX.Element => {
             ref={formRef as LegacyRef<HTMLFormElement> | undefined}
             onSubmit={onLogin}
             autoComplete="off"
+            className="w-full"
           >
             <div className="p-8 md:p-12 bg-white rounded-md w-full md:h-4/5 flex flex-col justify-between space-y-7 md:space-y-3 shadow-md md:shadow-none">
               <AlertBox

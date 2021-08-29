@@ -7,7 +7,7 @@ interface TokenType {
 
 const isExpired = (token = LocalStorage.getToken()) => {
   if (!token) {
-    return false;
+    return true;
   }
   if (token && jwtDecode(token)) {
     const decode = jwtDecode<TokenType>(token);

@@ -3,37 +3,36 @@ import PhoneVector from '../_vectors/phoneVector';
 
 interface IProps {
   onClick?: (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
   ) => void;
   vectorStyle?: string;
   className?: string;
-  disabled?: boolean;
+  phoneNumber?: string;
 }
 
 const defaultProps: IProps = {
   onClick: () => null,
   vectorStyle: undefined,
-  disabled: false,
   className:
     'bg-green-600 text-white flex items-center justify-center space-x-2 w-full p-3 rounded-lg',
+  phoneNumber: '',
 };
 
 const ContactButton = ({
   vectorStyle,
   className,
   onClick,
-  disabled,
+  phoneNumber,
 }: IProps): ReactElement => {
   return (
-    <button
-      type="button"
+    <a
+      href={`tel:${phoneNumber}`}
       className={className}
       onClick={onClick}
-      disabled={disabled}
     >
       <PhoneVector className={vectorStyle} />
       <p className="text-sm">Contacter</p>
-    </button>
+    </a>
   );
 };
 

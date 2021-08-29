@@ -28,6 +28,7 @@ const PropertyCategory = () => {
     setProperties,
     setLoading,
     setCurrentCategory,
+    onFetchCategories,
   } = useHome();
 
   const fetchAllProperties = () => {
@@ -51,6 +52,16 @@ const PropertyCategory = () => {
     },
     [setCurrentCategory, setLoading, setProperties],
   );
+
+  useEffect(() => {
+    if (!categories.length) {
+      onFetchCategories();
+    }
+    return () => {
+      onFetchCategories();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onFetchCategories]);
 
   useEffect(() => {
     fetchByCategory();
@@ -101,7 +112,7 @@ const PropertyCategory = () => {
   }, [fetchAllProperties, categories, fetchByCategory]);
 
   return (
-    <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-3 md:gap-3 xl:gap-4 lg:my-8">
+    <div className="w-full overflow-x-auto no-scrollbars flex">
       {renderCategories()}
     </div>
   );

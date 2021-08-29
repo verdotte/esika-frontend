@@ -46,6 +46,7 @@ const AgentCard: React.FC<Partial<IProps | IObject>> = ({
     picture,
     verified,
     description,
+    phoneNumber,
   } = data;
 
   return (
@@ -118,6 +119,7 @@ const AgentCard: React.FC<Partial<IProps | IObject>> = ({
             }
           >
             <ContactButton
+              phoneNumber={phoneNumber}
               className="border  text-black flex items-center justify-center space-x-1 lg:space-x-2 w-full p-2 rounded-lg text-xs"
               vectorStyle="text-green-600 h-4 w-4"
             />

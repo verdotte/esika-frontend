@@ -24,12 +24,12 @@ export const ExplorerCard = ({
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-xl p-4 sm:p-8 flex flex-col items-center justify-center xl:w-40 text-white ${
+      className={`square rounded-xl p-4 first:ml-3 md:first:ml-0 mr-3 w-40 flex flex-col items-center justify-center text-white ${
         current ? 'bg-brand-bold' : 'bg-brand-thin'
       }`}
     >
       {icon}
-      <p className="mt-2 text-xs md:text-sm">{title}</p>
+      <p className="mt-2 text-xs md:text-sm line-clamp-2">{title}</p>
     </button>
   );
 };

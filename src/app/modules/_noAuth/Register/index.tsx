@@ -21,7 +21,10 @@ const RegisterActivity: FC = (): JSX.Element => {
 
   return (
     <div className="container mx-auto md:px-8">
-      <Header showSearchBar={false} />
+      <Header
+        showSearchBar={false}
+        action={{ name: 'Connexion', push: '/login' }}
+      />
 
       <div className="px-3 md:px-0 my-5 md:my-3 w-full ">
         <div className="flex items-center justify-between flex-wrap md:flex-nowrap p-6 md:p-8 xl:p-10 bg-brand-bold h-[200px] md:h-[75vh] rounded-sm space-y-4 md:space-y-0">
@@ -30,20 +33,22 @@ const RegisterActivity: FC = (): JSX.Element => {
               <h1 className="text-2xl lg:text-3xl xl:text-4xl font-extrabold relative z-[1]">
                 Creer son compte Agent
               </h1>
-
-              <div className="h-4 bg-red-400 absolute bottom-0 inset-x-0" />
             </div>
 
-            <p className="text-sm">
+            <p className="text-sm md:text-md">
               Connectez-vous a votre compte facilement et en toute
               securite.
             </p>
 
+            <div className="flex items-center w-[70%]">
+              <div className="h-[0.1rem] w-full bg-white" />
+              <p className="hidden md:block m-2">Ou</p>
+              <div className="h-[0.1rem] w-full bg-white" />
+            </div>
             <p className="hidden md:block">
-              Ou alors{' '}
               <Link
                 to="/login"
-                className="font-bold hover:text-red-400"
+                className="bg-white p-2 px-4 rounded-sm text-brand-bold hover:text-brand-thin"
               >
                 <span>Se connecter</span>
               </Link>
@@ -54,6 +59,7 @@ const RegisterActivity: FC = (): JSX.Element => {
             ref={formRef as LegacyRef<HTMLFormElement> | undefined}
             onSubmit={onRegister}
             autoComplete="off"
+            className="w-full"
           >
             <div className="p-8 md:p-12 bg-white rounded-md w-full md:h-[90%] flex flex-col justify-between space-y-5 md:space-y-3 shadow-md md:shadow-none">
               <AlertBox
@@ -176,7 +182,7 @@ const RegisterActivity: FC = (): JSX.Element => {
                   En continuant, vous acceptez nos{' '}
                   <Link
                     to="/terms"
-                    className="text-blue-600 hover:text-white"
+                    className="text-blue-600 hover:text-blue-400"
                   >
                     Terms and conditions
                   </Link>

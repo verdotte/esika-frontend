@@ -1,19 +1,30 @@
-import React, { memo } from 'react';
+import React, { FC, memo } from 'react';
 import timeAgo from 'time-ago';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
 import ClockVector from 'app/modules/__modules__/_vectors/clockVector';
 import LocationVector from 'app/modules/__modules__/_vectors/LocationVector';
-import { VerifiedIcon } from 'app/modules/__modules__/_vectors/verifiedICon';
 import { IProperty } from 'app/modules/@Types';
 import { onImageError } from 'app/modules/utils/helpers';
 import { HeartVector } from 'app/modules/__modules__/_vectors/heartVector';
+import ProfileImage from 'app/modules/__modules__/ProfileImage';
 
 interface Props {
-  loading: boolean;
-  property: IProperty;
+  loading?: boolean;
+  property?: IProperty;
+  profile?: string;
 }
 
-const PropertyDetails = ({ loading, property }: Props) => {
+const defaultProps: Props = {
+  loading: false,
+  property: {} as IProperty,
+  profile: '',
+};
+
+const PropertyDetails: FC<Props> = ({
+  loading,
+  property,
+  profile,
+}: Props) => {
   const images: string[] = property?.image?.split(',') || [];
 
   return (
@@ -27,15 +38,10 @@ const PropertyDetails = ({ loading, property }: Props) => {
                 <div className="w-16 h-16 sm:w-16 sm:h-16 rounded-full bg-gray-200 animate-pulse" />
               }
             >
-              <div className="relative block w-16 h-16">
-                <img
-                  src="https://images.pexels.com/photos/2565222/pexels-photo-2565222.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                  alt="User avatar"
-                  className="w-16 h-16 sm:w-16 sm:h-16 rounded-full object-cover"
-                  onError={onImageError}
-                />
-                <VerifiedIcon className="absolute bottom-0 right-0 text-blue-500 text-sm h-5 w-5" />
-              </div>
+              <ProfileImage
+                image={profile}
+                verified={property?.verified}
+              />
             </ShowWidget>
             <ShowWidget
               condition={!loading}
@@ -194,5 +200,7 @@ const PropertyDetails = ({ loading, property }: Props) => {
     </>
   );
 };
+
+PropertyDetails.defaultProps = defaultProps;
 
 export default memo(PropertyDetails);

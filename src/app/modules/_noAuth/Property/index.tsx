@@ -92,6 +92,7 @@ const PropertyContainer = () => {
           <PropertyDetails
             loading={loading}
             property={property as IProperty}
+            profile={`${agent?.picture}`}
           />
           <div className="pb-3 block sm:flex sm:justify-between">
             <div className="block sm:flex">

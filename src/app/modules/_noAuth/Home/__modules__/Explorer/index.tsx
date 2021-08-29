@@ -78,7 +78,6 @@ const ExplorerPanel = () => {
           </NoPropertyFound>
         </ShowWidget>
       </div>
-
       <ShowWidget condition={chunks.length > 1}>
         <div className="w-full flex justify-end px-3 md:px-0">
           {chunks.map((_, index) => (

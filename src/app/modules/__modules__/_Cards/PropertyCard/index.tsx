@@ -3,11 +3,11 @@ import timeAgo from 'time-ago';
 import { useHistory } from 'react-router-dom';
 import ContactButton from 'app/modules/__modules__/ContactButton';
 import { HeartVector } from 'app/modules/__modules__/_vectors/heartVector';
-import { VerifiedIcon } from 'app/modules/__modules__/_vectors/verifiedICon';
 import { onImageError } from 'app/modules/utils/helpers';
 import placeholderImg from 'app/static/images/placeholder.jpg';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
 import { IObject } from 'app/modules/@Types';
+import ProfileImage from 'app/modules/__modules__/ProfileImage';
 import PropertySpecs from '../../PropertySpecs';
 
 interface Props {
@@ -47,6 +47,7 @@ export const PropertyCard = ({
     slug,
     spec,
     phoneNumber,
+    verified,
   } = data;
 
   const history = useHistory();
@@ -79,15 +80,11 @@ export const PropertyCard = ({
               <div className="h-10 w-10 rounded-full bg-gray-200 animate-pulse" />
             }
           >
-            <div className="relative">
-              <img
-                src={(picture as string) || placeholderImg}
-                alt="User avatar"
-                className="w-10 h-10 rounded-full object-cover"
-                onError={onImageError}
-              />
-              <VerifiedIcon />
-            </div>
+            <ProfileImage
+              image={picture}
+              verified={verified}
+              className="relative"
+            />
           </ShowWidget>
           <div className="ml-3 flex-1">
             <ShowWidget

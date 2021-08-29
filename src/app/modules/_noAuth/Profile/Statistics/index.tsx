@@ -1,4 +1,9 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
+import { useHistory } from 'react-router';
 import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
 import ChevronLeftVector from 'app/modules/__modules__/_vectors/chevronLetfVector';
@@ -7,12 +12,19 @@ import CheckVector from 'app/modules/__modules__/_vectors/checkVector';
 import ProfileImage from 'app/modules/__modules__/ProfileImage';
 
 const Statistics = () => {
+  const history = useHistory();
   return (
     <div>
       <div className="container mx-auto px-0 md:px-8 no-scrollbars">
-        <div className="h-full mt-3 mb-16 md:mt-2 mx-7 sm:mx-0">
-          <div className="pb-4">
-            <ChevronLeftVector className="h-8 w-8 text-gray-500" />
+        <div className="h-full mt-4 mb-16 md:mt-2 mx-7 sm:mx-0">
+          <div className="ml-[-1.3rem] pb-4">
+            <span
+              onClick={() => {
+                return history.push('/profile');
+              }}
+            >
+              <ChevronLeftVector className="h-8 w-8 text-gray-500" />
+            </span>
           </div>
           <div className="pb-9 flex justify-between items-center">
             <ShowWidget

@@ -34,12 +34,12 @@ const PropertiesActivity = () => {
   }, [loading, properties]);
 
   return (
-    <div className="container mx-auto px-0 md:px-8 no-scrollbars">
+    <div className="container mt-24 md:mt-4 mx-auto px-0 md:px-8 no-scrollbars">
       <Header className="fixed md:sticky z-20 md:z-10 top-0" />
-      <div className="my-8">
+      <div className="my-5">
         <PropertyCategory />
       </div>
-      <div className="w-full flex flex-col sm:grid md:grid-cols-2 md:gap-x-6 lg:grid-cols-3 gap-5 lg:gap-12 my-24 md:my-4 px-3 md:px-0">
+      <div className="w-full flex flex-col sm:grid md:grid-cols-2 md:gap-x-6 lg:grid-cols-3 gap-5 lg:gap-12 my-12 md:my-10 px-3 md:px-0">
         {renderProperties()}
       </div>
       <Footer />

@@ -1,6 +1,11 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+// eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
+import { useHistory } from 'react-router';
 import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
 import ChevronLeftVector from 'app/modules/__modules__/_vectors/chevronLetfVector';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
@@ -13,13 +18,21 @@ import AddressForm from '../AddressForm';
 
 const PersonalInfosPage = () => {
   const { editMode } = useProfile();
+  const history = useHistory();
 
   return (
     <div>
       <div className="container mx-auto px-0 md:px-8 no-scrollbars">
-        <div className="h-full mt-4 mb-16 md:mt-2 ml-6 mr-5 sm:mx-0">
+        <div className="h-full mt-6 mb-16 md:mt-2 ml-6 mr-5 sm:mx-0">
           <div className="flex items-center">
-            <ChevronLeftVector className="h-6 w-6 text-gray-500" />
+            <span
+              className="ml-[-1.3rem]"
+              onClick={() => {
+                return history.push('/profile');
+              }}
+            >
+              <ChevronLeftVector className="h-8 w-8 text-gray-500" />
+            </span>
             <p className="ml-3 py-1 text-[1rem] sm:text-xl text-gray-800">
               Informations Personnelles
             </p>

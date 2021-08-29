@@ -53,23 +53,27 @@ const ProfileContainer = () => {
                 Mon compte
               </p>
             </div>
-            <div className="flex justify-start items-center">
-              <SettingVector className="h-6 w-6 text-gray-500" />
-              <p className="ml-3 py-1 text-sm sm:text-xl text-gray-800">
-                Contacts
-              </p>
-            </div>
+            <Link to="/profile/contacts">
+              <div className="flex justify-start items-center">
+                <SettingVector className="h-6 w-6 text-gray-500" />
+                <p className="ml-3 py-1 text-sm sm:text-xl text-gray-800">
+                  Contacts
+                </p>
+              </div>
+            </Link>
           </div>
           <div className="pt-3 pb-6 border-b border-gray-300">
             <p className="py-1 text-sm text-gray-700 sm:text-xl">
               Analytics
             </p>
-            <div className="py-3 flex justify-start items-center">
-              <SettingVector className="h-6 w-6 text-gray-500" />
-              <p className="ml-2 py-1 text-sm sm:text-xl text-gray-800">
-                Statistiques
-              </p>
-            </div>
+            <Link to="/profile/statistics">
+              <div className="py-3 flex justify-start items-center">
+                <SettingVector className="h-6 w-6 text-gray-500" />
+                <p className="ml-2 py-1 text-sm sm:text-xl text-gray-800">
+                  Statistiques
+                </p>
+              </div>
+            </Link>
           </div>
           <div className="pt-3 pb-8 border-b border-gray-300">
             <p className="pt-1 pb-3 text-sm text-gray-700 sm:text-xl">

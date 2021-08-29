@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useState, useMemo, useEffect } from 'react';
 
-const UseElementOnScreen = (options, targetRef) => {
+const useElementOnScreen = (options, targetRef) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const callbackFunction = (entries) => {
@@ -30,4 +30,4 @@ const UseElementOnScreen = (options, targetRef) => {
   return isVisible;
 };
 
-export default UseElementOnScreen;
+export default useElementOnScreen;

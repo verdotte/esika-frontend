@@ -6,7 +6,7 @@ import VerifyCode from 'app/Initials/__noAuth/Verify';
 import IRoute from 'app/modules/@Types/route.interface';
 import Properties from 'app/Initials/__noAuth/Properties';
 import Profile from 'app/Initials/__noAuth/Profile';
-import Statistics from 'app/modules/_noAuth/Profile/Statistics';
+import Statistics from 'app/modules/_noAuth/Profile/Account';
 import Contacts from 'app/modules/_noAuth/Profile/Contacts';
 import PersonalInfos from 'app/modules/_noAuth/Profile/PersonalInfos';
 
@@ -70,7 +70,7 @@ const noAuthRoutes: IRoute[] = [
   {
     name: 'Esika - Statistics',
     secured: false,
-    path: '/profile/statistics',
+    path: '/profile/compte',
     exact: true,
     component: Statistics,
   },

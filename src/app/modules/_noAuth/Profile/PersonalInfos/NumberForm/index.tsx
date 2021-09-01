@@ -5,12 +5,8 @@ import { useProfile } from 'app/modules/Contexts/ProfileContext';
 import ChevroDownVector from 'app/modules/__modules__/_vectors/ChevroDownVector';
 import CountrySelectorInput from 'app/modules/__modules__/CountrySelectorInput';
 
-interface Props {
-  data: string;
-}
-
-const NumberForm = ({ data }: Props) => {
-  const { code, onCodeChange } = useProfile();
+const NumberForm = () => {
+  const { code, currentUserNumber, onCodeChange } = useProfile();
 
   return (
     <>
@@ -29,13 +25,13 @@ const NumberForm = ({ data }: Props) => {
             className="appearance-none block w-full rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm sm:text-xl text-gray-900"
             id="grid-last-name"
             type="text"
-            defaultValue={data}
+            defaultValue={currentUserNumber}
           />
         </div>
         <div className="flex justify-end items-center">
           <button
             type="submit"
-            className="py-2 px-3 bg-blue-300 text-white rounded"
+            className="py-2 px-3 bg-brand-bold text-white rounded"
           >
             Enregistrer
           </button>

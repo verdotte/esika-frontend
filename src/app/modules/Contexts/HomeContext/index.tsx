@@ -74,7 +74,7 @@ export const HomeContext = createContext<homeType>(defaultCtxProps);
 export const useHome = () => useContext(HomeContext);
 
 const HomeProvider: FC = ({ children }): JSX.Element => {
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [properties, setProperties] = useState<IObject[]>([]);
   const [allProperties, setAllProperties] = useState<IObject[]>([]);
   const [categories, setCategories] = useState<ICategory[]>([]);
@@ -88,6 +88,8 @@ const HomeProvider: FC = ({ children }): JSX.Element => {
     });
 
   const onFetchProperties = useCallback(async () => {
+    setLoading(true);
+
     const { error, data } = await Service.get(ENDPOINTS.PROPERTIES);
 
     setLoading(false);
@@ -121,6 +123,8 @@ const HomeProvider: FC = ({ children }): JSX.Element => {
   }, []);
 
   const onFetchCategories = useCallback(async () => {
+    setLoading(true);
+
     const { data } = await Service.get(ENDPOINTS.CATEGORIES);
 
     setLoading(false);

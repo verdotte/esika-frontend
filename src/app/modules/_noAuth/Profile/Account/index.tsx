@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router';
 import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
@@ -10,8 +10,22 @@ import ChevronLeftVector from 'app/modules/__modules__/_vectors/chevronLetfVecto
 import StarVector from 'app/modules/__modules__/_vectors/starVector';
 import CheckVector from 'app/modules/__modules__/_vectors/checkVector';
 import ProfileImage from 'app/modules/__modules__/ProfileImage';
+import { useProfile } from 'app/modules/Contexts/ProfileContext';
 
-const Statistics = () => {
+const Account = () => {
+  const {
+    loading,
+    currentUser,
+    currentUserNumber,
+    onFetchCurrentUser,
+  } = useProfile();
+
+  useEffect(() => {
+    if (!currentUser.userId) {
+      onFetchCurrentUser();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onFetchCurrentUser]);
   const history = useHistory();
   return (
     <div>
@@ -28,14 +42,14 @@ const Statistics = () => {
           </div>
           <div className="pb-9 flex justify-between items-center">
             <ShowWidget
-              condition
+              condition={!loading}
               fallback={
-                <div className="block sm:hidden h-4 mt-2 sm:mt-0 bg-gray-200 animate-pulse" />
+                <div className="block h-8 w-44 bg-gray-200 animate-pulse" />
               }
             >
               <div className="block sm:hidden">
                 <p className="sm:line-clamp-1 text-[1.1rem] sm:text-xl font-bold">
-                  John Waya
+                  {currentUser?.firstName} {currentUser?.lastName}
                 </p>
                 <p className="text-xs sm:text-xl underline">
                   Modifier mon profile
@@ -43,7 +57,7 @@ const Statistics = () => {
               </div>
             </ShowWidget>
             <ShowWidget
-              condition
+              condition={!loading}
               fallback={
                 <div className="w-16 h-16 sm:w-16 sm:h-16 rounded-full bg-gray-200 animate-pulse" />
               }
@@ -56,7 +70,7 @@ const Statistics = () => {
             <div className="pt-1 flex items-center">
               <CheckVector className="text-green-600 text-sm h-6 w-6" />
               <p className="pl-1 text-sm sm:text-xl text-gray-700">
-                (+256) 705 875 483
+                (+256) {currentUserNumber}
               </p>
             </div>
           </div>
@@ -97,4 +111,4 @@ const Statistics = () => {
   );
 };
 
-export default Statistics;
+export default Account;

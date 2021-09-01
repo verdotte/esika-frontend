@@ -4,7 +4,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable jsx-a11y/no-onchange */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router';
 import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
 import { useProfile } from 'app/modules/Contexts/ProfileContext';
@@ -17,8 +17,22 @@ import FacebookVector from 'app/modules/__modules__/_vectors/facebookVector';
 import SocialMedia from '../SocialMedia';
 
 const ContactsPage = () => {
-  const { code, onCodeChange } = useProfile();
+  const {
+    code,
+    currentUserNumber,
+    currentUser,
+    onFetchCurrentUser,
+    onCodeChange,
+  } = useProfile();
   const history = useHistory();
+
+  useEffect(() => {
+    if (!currentUser.userId) {
+      onFetchCurrentUser();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onFetchCurrentUser]);
+
   return (
     <div>
       <div className="container mx-auto px-0 md:px-8 no-scrollbars">
@@ -63,7 +77,7 @@ const ContactsPage = () => {
                   className="appearance-none block w-full rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm sm:text-xl text-gray-900"
                   id="grid-last-name"
                   type="text"
-                  defaultValue=""
+                  defaultValue={currentUserNumber}
                 />
               </div>
             </div>

@@ -12,7 +12,7 @@ const BottomNavbar: FC = (): JSX.Element => {
   const history = useHistory();
 
   return (
-    <div className="w-full flex justify-between fixed bottom-0 p-3 px-5 bg-white z-20 border-t shadow-md md:hidden">
+    <div className="w-full flex justify-between fixed bottom-0 p-3 px-5 bg-white z-10 border-t shadow-md md:hidden">
       <BottomNavbarItem
         icon={<GlobeVector />}
         title="Explorer"

@@ -4,7 +4,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable jsx-a11y/no-onchange */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router';
 import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
 import { useProfile } from 'app/modules/Contexts/ProfileContext';
@@ -15,23 +15,13 @@ import TwitterVector from 'app/modules/__modules__/_vectors/twitterVector';
 import InstagramVector from 'app/modules/__modules__/_vectors/instagramVector';
 import FacebookVector from 'app/modules/__modules__/_vectors/facebookVector';
 import SocialMedia from '../SocialMedia';
+import useFetchCurrentUser from '../../UseFetchCurrentUser';
 
 const ContactsPage = () => {
-  const {
-    code,
-    currentUserNumber,
-    currentUser,
-    onFetchCurrentUser,
-    onCodeChange,
-  } = useProfile();
+  const { code, currentUserNumber, onCodeChange } = useProfile();
   const history = useHistory();
 
-  useEffect(() => {
-    if (!currentUser.userId) {
-      onFetchCurrentUser();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onFetchCurrentUser]);
+  useFetchCurrentUser();
 
   return (
     <div>
@@ -39,11 +29,7 @@ const ContactsPage = () => {
         <div className="h-full mt-3 mb-24 md:mt-2 mx-7 sm:mx-0">
           <div className="pb-4 flex justify-between items-center">
             <div className="flex justify-start items-center ml-[-1.3rem]">
-              <span
-                onClick={() => {
-                  return history.push('/profile');
-                }}
-              >
+              <span onClick={() => history.push('/profile')}>
                 <ChevronLeftVector className="h-7 w-7 text-gray-500" />
               </span>
               <p className="pl-2 text-[1.1rem] sm:text-xl">

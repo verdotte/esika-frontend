@@ -73,12 +73,11 @@ const ProfileProvider: FC = ({ children }) => {
 
   const onFetchCurrentUser = useCallback(async () => {
     const user = getCurrentUser();
-    const userId = user?.id;
 
     setLoading(true);
 
     const { error, data } = await Service.get(
-      `${ENDPOINTS.USER_PROFILE}/${userId}`,
+      `${ENDPOINTS.USER_PROFILE}/${user?.id}`,
     );
 
     setLoading(false);
@@ -93,15 +92,12 @@ const ProfileProvider: FC = ({ children }) => {
 
       const { phoneNumber } = profile;
 
-      const codeString = phoneNumber.split(' ');
-      const codeNumber = codeString[0];
-
       const numbersString = phoneNumber.split(' ');
-      const numbers =
-        numbersString[1] + numbersString[2] + numbersString[3];
 
-      setCode(codeNumber);
-      setCurrentUserNumber(numbers);
+      setCode(numbersString[0]);
+      setCurrentUserNumber(
+        numbersString[1] + numbersString[2] + numbersString[3],
+      );
     }
   }, []);
 

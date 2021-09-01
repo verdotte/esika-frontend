@@ -8,9 +8,7 @@ interface TokenType {
 
 const getCurrentUser = (token = LocalStorage.getToken()) => {
   if (token && jwtDecode(token)) {
-    const decode = jwtDecode<TokenType>(token);
-
-    return decode;
+    return jwtDecode<TokenType>(token);
   }
   return null;
 };

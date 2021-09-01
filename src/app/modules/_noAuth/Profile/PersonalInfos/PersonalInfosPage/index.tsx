@@ -4,7 +4,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router';
 import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
 import ChevronLeftVector from 'app/modules/__modules__/_vectors/chevronLetfVector';
@@ -15,6 +15,7 @@ import InfoItem from '../InfoItem';
 import NameForm from '../NameForm';
 import NumberForm from '../NumberForm';
 import AddressForm from '../AddressForm';
+import useFetchCurrentUser from '../../../../Hooks/useFetchCurrentUser';
 
 const PersonalInfosPage = () => {
   const {
@@ -23,7 +24,7 @@ const PersonalInfosPage = () => {
     code,
     currentUserNumber,
     setEditMode,
-    onFetchCurrentUser,
+    // onFetchCurrentUser,
   } = useProfile();
   const history = useHistory();
 
@@ -32,12 +33,7 @@ const PersonalInfosPage = () => {
     return history.push('/profile');
   };
 
-  useEffect(() => {
-    if (!currentUser.userId) {
-      onFetchCurrentUser();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onFetchCurrentUser]);
+  useFetchCurrentUser();
 
   return (
     <div>

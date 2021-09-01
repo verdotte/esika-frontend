@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
@@ -8,16 +8,12 @@ import PhoneVector from 'app/modules/__modules__/_vectors/phoneVector';
 import LogoutVector from 'app/modules/__modules__/_vectors/logoutVector';
 import ProfileImage from 'app/modules/__modules__/ProfileImage';
 import { useProfile } from 'app/modules/Contexts/ProfileContext';
+import useFetchCurrentUser from '../../Hooks/useFetchCurrentUser';
 
 const ProfileContainer = () => {
-  const { loading, currentUser, onFetchCurrentUser } = useProfile();
+  const { loading, currentUser } = useProfile();
 
-  useEffect(() => {
-    if (!currentUser.userId) {
-      onFetchCurrentUser();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onFetchCurrentUser]);
+  useFetchCurrentUser();
 
   return (
     <>

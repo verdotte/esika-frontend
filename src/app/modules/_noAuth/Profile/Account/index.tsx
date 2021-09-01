@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router';
 import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
@@ -11,22 +11,16 @@ import StarVector from 'app/modules/__modules__/_vectors/starVector';
 import CheckVector from 'app/modules/__modules__/_vectors/checkVector';
 import ProfileImage from 'app/modules/__modules__/ProfileImage';
 import { useProfile } from 'app/modules/Contexts/ProfileContext';
+import useFetchCurrentUser from '../../../Hooks/useFetchCurrentUser';
 
 const Account = () => {
-  const {
-    loading,
-    currentUser,
-    currentUserNumber,
-    onFetchCurrentUser,
-  } = useProfile();
+  const { code, loading, currentUser, currentUserNumber } =
+    useProfile();
 
-  useEffect(() => {
-    if (!currentUser.userId) {
-      onFetchCurrentUser();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onFetchCurrentUser]);
   const history = useHistory();
+
+  useFetchCurrentUser();
+
   return (
     <div>
       <div className="container mx-auto px-0 md:px-8 no-scrollbars">
@@ -70,7 +64,7 @@ const Account = () => {
             <div className="pt-1 flex items-center">
               <CheckVector className="text-green-600 text-sm h-6 w-6" />
               <p className="pl-1 text-sm sm:text-xl text-gray-700">
-                (+256) {currentUserNumber}
+                {code} {currentUserNumber}
               </p>
             </div>
           </div>

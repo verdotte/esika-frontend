@@ -1,7 +1,7 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { memo } from 'react';
-import FloatingInputLabel from '../../../../__modules__/FloatingInputLabel';
+import FloatingInputLabel from '../FloatingInputLabel';
 
 interface Props {
   label: string;

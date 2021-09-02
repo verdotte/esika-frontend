@@ -15,21 +15,21 @@ import TwitterVector from 'app/modules/__modules__/_vectors/twitterVector';
 import InstagramVector from 'app/modules/__modules__/_vectors/instagramVector';
 import FacebookVector from 'app/modules/__modules__/_vectors/facebookVector';
 import SocialMedia from '../SocialMedia';
+import useFetchCurrentUser from '../../UseFetchCurrentUser';
 
 const ContactsPage = () => {
-  const { code, onCodeChange } = useProfile();
+  const { code, currentUserNumber, onCodeChange } = useProfile();
   const history = useHistory();
+
+  useFetchCurrentUser();
+
   return (
     <div>
       <div className="container mx-auto px-0 md:px-8 no-scrollbars">
         <div className="h-full mt-3 mb-24 md:mt-2 mx-7 sm:mx-0">
           <div className="pb-4 flex justify-between items-center">
             <div className="flex justify-start items-center ml-[-1.3rem]">
-              <span
-                onClick={() => {
-                  return history.push('/profile');
-                }}
-              >
+              <span onClick={() => history.push('/profile')}>
                 <ChevronLeftVector className="h-7 w-7 text-gray-500" />
               </span>
               <p className="pl-2 text-[1.1rem] sm:text-xl">
@@ -63,7 +63,7 @@ const ContactsPage = () => {
                   className="appearance-none block w-full rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm sm:text-xl text-gray-900"
                   id="grid-last-name"
                   type="text"
-                  defaultValue=""
+                  defaultValue={currentUserNumber}
                 />
               </div>
             </div>

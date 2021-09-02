@@ -7,15 +7,21 @@ import InboxVector from 'app/modules/__modules__/_vectors/inboxVector';
 import PhoneVector from 'app/modules/__modules__/_vectors/phoneVector';
 import LogoutVector from 'app/modules/__modules__/_vectors/logoutVector';
 import ProfileImage from 'app/modules/__modules__/ProfileImage';
+import { useProfile } from 'app/modules/Contexts/ProfileContext';
+import useFetchCurrentUser from './UseFetchCurrentUser';
 
 const ProfileContainer = () => {
+  const { loading, currentUser } = useProfile();
+
+  useFetchCurrentUser();
+
   return (
     <>
       <div className="container mx-auto px-0 md:px-8 py-4 no-scrollbars">
         <div className="h-full mt-3 mb-16 md:mt-2 mx-4 sm:mx-0">
           <div className="pb-5 border-b border-gray-300 flex justify-start items-center">
             <ShowWidget
-              condition
+              condition={!loading}
               fallback={
                 <div className="w-16 h-16 sm:w-16 sm:h-16 rounded-full bg-gray-200 animate-pulse" />
               }
@@ -23,14 +29,14 @@ const ProfileContainer = () => {
               <ProfileImage />
             </ShowWidget>
             <ShowWidget
-              condition
+              condition={!loading}
               fallback={
-                <div className="block sm:hidden h-4 mt-2 sm:mt-0 bg-gray-200 animate-pulse" />
+                <div className="block h-8 w-44 ml-4 bg-gray-200 animate-pulse" />
               }
             >
               <div className="ml-4 block sm:hidden">
                 <p className="sm:line-clamp-1 text-md sm:text-xl font-bold">
-                  John Waya
+                  {currentUser?.firstName} {currentUser?.lastName}
                 </p>
                 <p className="text-xs sm:text-xl underline">
                   Voir mon profile
@@ -47,12 +53,14 @@ const ProfileContainer = () => {
                 </p>
               </div>
             </Link>
-            <div className="flex justify-start items-center">
-              <SettingVector className="h-6 w-6 text-gray-500" />
-              <p className="ml-3 py-1 text-sm sm:text-xl text-gray-800">
-                Mon compte
-              </p>
-            </div>
+            <Link to="/profile/compte">
+              <div className="flex justify-start items-center">
+                <SettingVector className="h-6 w-6 text-gray-500" />
+                <p className="ml-3 py-1 text-sm sm:text-xl text-gray-800">
+                  Mon compte
+                </p>
+              </div>
+            </Link>
             <Link to="/profile/contacts">
               <div className="flex justify-start items-center">
                 <SettingVector className="h-6 w-6 text-gray-500" />
@@ -66,14 +74,13 @@ const ProfileContainer = () => {
             <p className="py-1 text-sm text-gray-700 sm:text-xl">
               Analytics
             </p>
-            <Link to="/profile/statistics">
-              <div className="py-3 flex justify-start items-center">
-                <SettingVector className="h-6 w-6 text-gray-500" />
-                <p className="ml-2 py-1 text-sm sm:text-xl text-gray-800">
-                  Statistiques
-                </p>
-              </div>
-            </Link>
+
+            <div className="py-3 flex justify-start items-center">
+              <SettingVector className="h-6 w-6 text-gray-500" />
+              <p className="ml-2 py-1 text-sm sm:text-xl text-gray-800">
+                Statistiques
+              </p>
+            </div>
           </div>
           <div className="pt-3 pb-8 border-b border-gray-300">
             <p className="pt-1 pb-3 text-sm text-gray-700 sm:text-xl">

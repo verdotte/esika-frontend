@@ -6,6 +6,7 @@ import BottomNavbarItem from './BottomNavItem';
 import UserVector from '../_vectors/userVector';
 import GlobeVector from '../_vectors/globeVector';
 import { HeartVector } from '../_vectors/heartVector';
+import ProfileIcon from '../ProfileIcon';
 
 const BottomNavbar: FC = (): JSX.Element => {
   const isAuthed = isExpired();
@@ -32,7 +33,7 @@ const BottomNavbar: FC = (): JSX.Element => {
         current={history.location.pathname === '/wishlists'}
       />
       <BottomNavbarItem
-        icon={<UserVector />}
+        icon={!isAuthed ? <ProfileIcon /> : <UserVector />}
         title={!isAuthed ? 'Profil' : 'Connexion'}
         to={!isAuthed ? '/profile' : '/login'}
         current={history.location.pathname === '/profile'}

@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { onImageError } from 'app/modules/utils/helpers';
 import placeholderImg from 'app/static/images/placeholder.jpg';
+import UserVector from '../_vectors/userVector';
 
 interface Props {
   image?: string;
@@ -17,16 +18,18 @@ const ProfileIcon: FC<Props> = ({
   className,
 }): JSX.Element => {
   return (
-    <>
-      <div className={className}>
+    <div className={className}>
+      {image === null ? (
         <img
           src={image || placeholderImg}
           alt="User avatar"
           className="h-6 w-6 rounded-full object-cover"
           onError={onImageError}
         />
-      </div>
-    </>
+      ) : (
+        <UserVector />
+      )}
+    </div>
   );
 };
 

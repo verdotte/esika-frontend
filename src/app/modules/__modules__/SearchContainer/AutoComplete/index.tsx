@@ -4,7 +4,7 @@
 /* eslint-disable react/no-danger */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/button-has-type */
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   AutocompleteOptions,
   AutocompleteState,
@@ -34,7 +34,7 @@ type AutocompleteItem = Hit<{
 const Autocomplete = (
   props: Partial<AutocompleteOptions<AutocompleteItem>>,
 ) => {
-  const [autocompleteState, setAutocompleteState] = React.useState<
+  const [autocompleteState, setAutocompleteState] = useState<
     AutocompleteState<AutocompleteItem>
   >({
     collections: [],
@@ -46,9 +46,10 @@ const Autocomplete = (
     status: 'idle',
   });
 
-  const inputRef = React.useRef<HTMLInputElement>(null);
-  const formRef = React.useRef<HTMLFormElement>(null);
-  const panelRef = React.useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const isMounted = useRef(true);
 
   const { onToggleVisibility } = useSearch();
 
@@ -61,7 +62,9 @@ const Autocomplete = (
         React.KeyboardEvent
       >({
         onStateChange({ state }) {
-          setAutocompleteState(state);
+          if (isMounted.current) {
+            setAutocompleteState(state);
+          }
         },
         getSources() {
           return [
@@ -95,6 +98,12 @@ const Autocomplete = (
   );
 
   const { getEnvironmentProps } = autocomplete;
+
+  useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (!formRef.current || !panelRef.current || !inputRef.current) {

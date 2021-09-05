@@ -59,7 +59,16 @@ const Header: FC<IProps> = ({
       <ShowWidget
         condition={isExpired()}
         fallback={
-          <ShowWidget condition={!isMobile}>
+          <ShowWidget
+            condition={!isMobile}
+            fallback={
+              <SearchInputBar
+                className="flex items-center border rounded-full p-3 py-2 px-4 space-x-2 shadow-md text-black cursor-pointer"
+                vectorClassName="h-5 w-5"
+                onClick={onSearchClick}
+              />
+            }
+          >
             <div className="relative">
               <button
                 type="button"

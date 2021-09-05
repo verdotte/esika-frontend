@@ -2,6 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/no-danger */
 import React, { FC, forwardRef } from 'react';
+import { Link } from 'react-router-dom';
 import {
   AutocompleteState,
   AutocompleteApi,
@@ -50,48 +51,52 @@ const SearchResults: FC<Props> = forwardRef<HTMLDivElement, Props>(
                   >
                     {items.map((item) => {
                       return (
-                        <li
+                        <Link
+                          to={`/properties/${item.objectID}`}
                           key={item.objectID}
-                          className="mb-3"
-                          {...autocomplete.getItemProps({
-                            item,
-                            source,
-                          })}
                         >
-                          <div className="flex w-full space-x-3">
-                            <div className="w-14 md:w-16">
-                              <img
-                                src={item.image}
-                                alt={item.title}
-                                width="40"
-                                height="40"
-                                className="w-14 md:w-16 h-14 md:h-16 object-cover rounded-md"
-                              />
-                            </div>
-                            <div className="flex-1">
-                              <div
-                                className="aa-ItemContentTitle"
-                                dangerouslySetInnerHTML={{
-                                  __html: item._highlightResult?.title
-                                    ?.value as string,
-                                }}
-                              />
-                            </div>
-                            <button
-                              className="aa-ItemActionButton aa-DesktopOnly aa-ActiveOnly"
-                              type="button"
-                              title="Select"
-                              style={{ pointerEvents: 'none' }}
-                            >
-                              <svg
-                                fill="currentColor"
-                                viewBox="0 0 24 24"
+                          <li
+                            className="mb-3 p-2 hover:bg-gray-100 rounded-md"
+                            {...autocomplete.getItemProps({
+                              item,
+                              source,
+                            })}
+                          >
+                            <div className="flex w-full space-x-3">
+                              <div className="w-14 md:w-16 peer">
+                                <img
+                                  src={item.image}
+                                  alt={item.title}
+                                  width="40"
+                                  height="40"
+                                  className="w-14 md:w-16 h-14 md:h-16 object-cover rounded-md"
+                                />
+                              </div>
+                              <div className="flex-1 peer">
+                                <div
+                                  className="aa-ItemContentTitle"
+                                  dangerouslySetInnerHTML={{
+                                    __html: item._highlightResult
+                                      ?.title?.value as string,
+                                  }}
+                                />
+                              </div>
+                              <button
+                                className="pointer-events-none w-4 hidden peer-hover:block"
+                                type="button"
+                                title="Select"
                               >
-                                <path d="M18.984 6.984h2.016v6h-15.188l3.609 3.609-1.406 1.406-6-6 6-6 1.406 1.406-3.609 3.609h13.172v-4.031z" />
-                              </svg>
-                            </button>
-                          </div>
-                        </li>
+                                <svg
+                                  fill="currentColor"
+                                  viewBox="0 0 24 24"
+                                  className="text-gray-400"
+                                >
+                                  <path d="M18.984 6.984h2.016v6h-15.188l3.609 3.609-1.406 1.406-6-6 6-6 1.406 1.406-3.609 3.609h13.172v-4.031z" />
+                                </svg>
+                              </button>
+                            </div>
+                          </li>
+                        </Link>
                       );
                     })}
                   </ul>

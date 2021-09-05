@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { FC, memo } from 'react';
 import ShowWidget from '../ShowWidget';
-import SearchVector from '../_vectors/searchVector';
+import Autocomplete from './AutoComplete';
 
 interface Props {
   show?: boolean;
@@ -30,34 +30,11 @@ const SearchContainer: FC<Props> = ({
           role="none"
           onClick={(event) => event.stopPropagation()}
         >
-          <div className="flex items-center flex-none border-b h-16 md:h-20 px-3 md:px-4 lg:px-6 space-x-2 border-transparent">
-            <form className="w-full flex space-x-3 border-r focus-within:text-brand-bold">
-              <SearchVector />
-              <input
-                className="w-full bg-transparent focus:text-black active:border-none outline-none appearance-none caret-brand-bold"
-                aria-autocomplete="both"
-                aria-labelledby="search-label"
-                id="search-input"
-                autoComplete="off"
-                autoCorrect="off"
-                autoCapitalize="off"
-                spellCheck="false"
-                // eslint-disable-next-line jsx-a11y/no-autofocus
-                autoFocus
-                placeholder="Rechercher des immobiliers"
-                maxLength={512}
-                type="search"
-                enterKeyHint="go"
-              />
-            </form>
-            <button
-              type="button"
-              className="text-xs text-gray-500"
-              onClick={onClose}
-            >
-              Cancel
-            </button>
-          </div>
+          <Autocomplete
+            placeholder="Rechercher des immobiliers"
+            debug
+            openOnFocus
+          />
         </div>
       </div>
     </ShowWidget>

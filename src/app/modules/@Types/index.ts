@@ -1,5 +1,8 @@
 /* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+import { Hit } from '@algolia/client-search';
+
 export interface classNameInterface {
   className?: string;
 }
@@ -69,3 +72,11 @@ export interface CountryData {
 }
 
 export type formRefType = HTMLInputElement | null;
+
+export type AutocompleteItem = Hit<{
+  image: string;
+  title: string;
+  objectID: string;
+  location: string;
+  resource: string;
+}>;

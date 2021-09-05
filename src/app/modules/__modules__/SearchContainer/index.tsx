@@ -32,7 +32,6 @@ const SearchContainer: FC<Props> = ({
         >
           <Autocomplete
             placeholder="Rechercher des immobiliers"
-            debug
             openOnFocus
           />
         </div>

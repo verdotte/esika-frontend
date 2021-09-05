@@ -21,10 +21,6 @@ const HomePage = () => {
     if (!agents.length) {
       onFetchAgents();
     }
-    return () => {
-      onFetchProperties();
-      onFetchAgents();
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onFetchProperties]);
 

@@ -12,19 +12,16 @@ interface Props {
 }
 
 const InfoItem = ({ label, data, children }: Props) => {
-  const { editMode: editMode_, setEditMode: setEditModeProfile } =
-    useProfile();
+  const {
+    editMode: editModeProfile,
+    setEditMode: setEditModeProfile,
+  } = useProfile();
 
   const [editMode, setEditMode] = useState(false);
 
   const onAction = useCallback(() => {
-    setEditMode(true);
-    setEditModeProfile?.(true);
-  }, [setEditModeProfile]);
-
-  const onCancelAction = useCallback(() => {
-    setEditMode(false);
-    setEditModeProfile?.(false);
+    setEditMode((prev) => !prev);
+    setEditModeProfile?.((prev) => !prev);
   }, [setEditModeProfile]);
 
   return (
@@ -48,14 +45,14 @@ const InfoItem = ({ label, data, children }: Props) => {
             </p>
           </div>
           <button
-            onClick={editMode ? onCancelAction : onAction}
+            onClick={onAction}
             type="submit"
             className={`text-sm sm:text-xl ${
-              editMode_ && !editMode
+              editModeProfile && !editMode
                 ? 'text-gray-400'
                 : 'text-blue-500'
             } transition-all duration-300 `}
-            disabled={editMode_ && !editMode}
+            disabled={editModeProfile && !editMode}
           >
             {editMode ? 'Annuler' : 'Modifier'}
           </button>

@@ -14,7 +14,7 @@ const SocialMedia = ({ icon, placeholder }: Props) => {
         </div>
         <input
           className="appearance-none block w-full rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm sm:text-xl "
-          type="text"
+          type="url"
           placeholder={placeholder}
         />
       </div>

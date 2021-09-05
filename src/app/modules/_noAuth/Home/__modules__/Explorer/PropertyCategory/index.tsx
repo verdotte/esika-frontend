@@ -38,9 +38,9 @@ const PropertyCategory = () => {
 
   const fetchByCategory = useCallback(
     async (item?: number, index = 0) => {
-      setLoading(true);
       setCurrentCategory(index);
       if (item) {
+        setLoading(true);
         const { data } = await Service.get(
           `${ENDPOINTS.PROPERTIES_BY_CATEGORY}/${item}`,
         );
@@ -57,9 +57,6 @@ const PropertyCategory = () => {
     if (!categories.length) {
       onFetchCategories();
     }
-    return () => {
-      onFetchCategories();
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onFetchCategories]);
 

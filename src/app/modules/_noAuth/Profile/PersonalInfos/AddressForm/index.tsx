@@ -5,7 +5,7 @@
 import React, { memo } from 'react';
 import CountrySelectorInput from 'app/modules/__modules__/CountrySelectorInput';
 import ChevroDownVector from 'app/modules/__modules__/_vectors/ChevroDownVector';
-import FloatingInputLabel from '../../../../__modules__/FloatingInputLabel';
+import FloatingInputLabel from '../FloatingInputLabel';
 
 interface Props {
   label: string;

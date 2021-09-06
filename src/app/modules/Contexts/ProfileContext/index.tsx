@@ -92,9 +92,10 @@ const ProfileProvider: FC = ({ children }) => {
 
       const { phoneNumber } = profile;
 
+      const codeString = phoneNumber.split(' ');
       const numbersString = phoneNumber.split(' ');
 
-      setCode(numbersString[0]);
+      setCode(codeString[0]);
       setCurrentUserNumber(
         numbersString[1] + numbersString[2] + numbersString[3],
       );

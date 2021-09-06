@@ -1,14 +1,17 @@
 import React, { FC } from 'react';
 import { useHistory } from 'react-router-dom';
 import isExpired from 'app/modules/utils/helpers/isExpired';
+import { useProfile } from 'app/modules/Contexts/ProfileContext';
 import HouseVector from '../_vectors/houseVector';
 import BottomNavbarItem from './BottomNavItem';
 import UserVector from '../_vectors/userVector';
 import GlobeVector from '../_vectors/globeVector';
 import { HeartVector } from '../_vectors/heartVector';
+import ProfileIcon from '../ProfileIcon';
 
 const BottomNavbar: FC = (): JSX.Element => {
   const isAuthed = isExpired();
+  const { loading, currentUser } = useProfile();
   const history = useHistory();
 
   return (
@@ -32,7 +35,15 @@ const BottomNavbar: FC = (): JSX.Element => {
         current={history.location.pathname === '/wishlists'}
       />
       <BottomNavbarItem
-        icon={<UserVector />}
+        icon={
+          !isAuthed ? (
+            <ProfileIcon
+              image={!loading ? `${currentUser.picture}` : ''}
+            />
+          ) : (
+            <UserVector />
+          )
+        }
         title={!isAuthed ? 'Profil' : 'Connexion'}
         to={!isAuthed ? '/profile' : '/login'}
         current={history.location.pathname === '/profile'}

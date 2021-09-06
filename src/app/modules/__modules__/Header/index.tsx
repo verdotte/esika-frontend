@@ -90,14 +90,22 @@ const Header: FC<IProps> = ({
           </ShowWidget>
         }
       >
-        <button
-          type="button"
-          onClick={() => history.push(action?.push || '/register')}
-          className="md:border rounded-lg flex items-center justify-center p-4 space-x-3 w-auto lg:w-1/4 bg-brand-bold text-white"
-        >
-          <UserVector />
-          <p className="hidden md:block">{action?.name}</p>
-        </button>
+        {isMobile ? (
+          <SearchInputBar
+            className="flex items-center border rounded-full p-3 py-2 px-4 space-x-2 shadow-md text-black cursor-pointer"
+            vectorClassName="h-5 w-5"
+            onClick={onSearchClick}
+          />
+        ) : (
+          <button
+            type="button"
+            onClick={() => history.push(action?.push || '/register')}
+            className="md:border rounded-lg flex items-center justify-center p-4 space-x-3 w-auto lg:w-1/4 bg-brand-bold text-white"
+          >
+            <UserVector />
+            <p className="hidden md:block">{action?.name}</p>
+          </button>
+        )}
       </ShowWidget>
     </div>
   );

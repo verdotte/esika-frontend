@@ -9,6 +9,7 @@ import Profile from 'app/Initials/__noAuth/Profile';
 import Statistics from 'app/modules/_noAuth/Profile/Account';
 import Contacts from 'app/modules/_noAuth/Profile/Contacts';
 import PersonalInfos from 'app/modules/_noAuth/Profile/PersonalInfos';
+import PropertyMobile from 'app/Initials/__noAuth/PropertyMobile';
 
 const noAuthRoutes: IRoute[] = [
   {
@@ -38,6 +39,13 @@ const noAuthRoutes: IRoute[] = [
     path: '/verify',
     exact: true,
     component: VerifyCode,
+  },
+  {
+    name: 'Esika - Propriété',
+    secured: false,
+    path: '/property/:slug',
+    exact: true,
+    component: PropertyMobile,
   },
   {
     name: 'Esika - Propriété',

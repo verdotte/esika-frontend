@@ -10,7 +10,7 @@ interface Props {
 
 const PropertyDetails = ({ property, isLoading }: Props) => {
   return (
-    <div className="py-4 mx-4 border-b border-gray-300">
+    <div className="md:container md:mx-auto md:px-16 lg:px-24 py-4 mx-4 border-b border-gray-300">
       <ShowWidget
         condition={!isLoading}
         fallback={

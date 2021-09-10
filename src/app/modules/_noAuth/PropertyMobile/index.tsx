@@ -28,6 +28,7 @@ const PropertyMobileContainer = () => {
   const [property, setProperty] = useState<IProperty | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [agent, setAgent] = useState<IAgent | null>(null);
+  const [readMore, setReadMore] = useState(false);
 
   const isCurrent = useRef(true);
 
@@ -102,6 +103,10 @@ const PropertyMobileContainer = () => {
     fetchPropertyAgent();
   }, [fetchPropertyAgent]);
 
+  const onReadMore = () => {
+    setReadMore(!readMore);
+  };
+
   return (
     <div>
       <PropertyCarousel
@@ -109,16 +114,17 @@ const PropertyMobileContainer = () => {
         propertyImages={property?.image}
       />
       <PropertyDetails isLoading={isLoading} property={property} />
-      <div className="py-4 mx-4 border-b border-gray-300">
+      <div className="py-4 mx-4 md:container md:mx-auto md:px-16 border-b border-gray-300">
         <PropertyAgent isLoading={isLoading} agent={agent} />
-        <div className="mt-5 flex items-center justify-between overflow-x-scroll">
+        <div className="flex items-center justify-between overflow-x-scroll no-scrollbars">
           <PropertySpecs
             loading={loading || isLoading}
             specs={property?.spec as IObject}
+            tagClassName="bg-gray-300 my-1"
           />
         </div>
       </div>
-      <div className="py-4 mx-4 border-b border-gray-300">
+      <div className="py-4 mx-4 md:container md:mx-auto md:px-16 border-b border-gray-300">
         <div className="flex justify-between items-center">
           <ShowWidget
             condition={!isLoading}
@@ -126,21 +132,27 @@ const PropertyMobileContainer = () => {
               <div className="w-4/5 h-8 sm:mt-0 bg-gray-200 animate-pulse" />
             }
           >
-            <p className="text-sm text-black line-clamp-4">
+            <p
+              className={`text-sm text-black ${
+                readMore ? 'line-clamp-none' : 'line-clamp-3'
+              }`}
+            >
               {property?.description} {property?.description}
             </p>
           </ShowWidget>
         </div>
         <button
           type="submit"
-          className="mt-2 text-black font-medium justify-center items-center"
-          style={{ display: `${!isLoading ? 'flex' : 'none'}` }}
+          onClick={onReadMore}
+          className={`mt-2 text-sm text-black font-medium justify-center items-center transition-all duration-500 ${
+            !isLoading ? 'flex' : 'hidden'
+          }`}
         >
-          Afficher plus{' '}
-          <ChevronRightVector className="pl-1 h-7 w-7" />
+          {readMore ? 'Afficher moins' : 'Afficher plus'}
+          <ChevronRightVector className="pl-1 h-5 w-5" />
         </button>
       </div>
-      <div className="mx-4 my-5 flex justify-center items-center">
+      <div className="mx-4 my-5 md:container md:mx-auto md:px-56 flex justify-center items-center">
         <ShowWidget
           condition={!isLoading}
           fallback={
@@ -149,16 +161,18 @@ const PropertyMobileContainer = () => {
         >
           <button
             type="submit"
-            className="w-full p-3 bg-blue-400 text-white rounded-lg"
+            className="w-full p-3 bg-brand-bold text-white rounded-lg md:mx-auto md:px-16"
           >
             Contacter l&apos;agent
           </button>
         </ShowWidget>
       </div>
-      <RelatedProperties
-        loading={loading || isLoading}
-        properties={relatedProperties}
-      />
+      <div className="md:container md:mx-auto md:px-16">
+        <RelatedProperties
+          loading={loading || isLoading}
+          properties={relatedProperties}
+        />
+      </div>
       <Footer />
       <BottomNavbar />
     </div>

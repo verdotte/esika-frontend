@@ -18,9 +18,11 @@ const PropertyAgent = ({ agent, isLoading }: Props) => {
             <div className="w-4/5 h-8 sm:mt-0 bg-gray-200 animate-pulse" />
           }
         >
-          <p className="text-sm text-black font-medium">
+          <p className="text-sm text-black">
             Le service entier de la propriété est hébergé par
-            {agent?.firstName} {agent?.lastName}
+            <span className="ml-1 font-medium">
+              {agent?.firstName} {agent?.lastName}
+            </span>
           </p>
         </ShowWidget>
       </div>
@@ -34,7 +36,7 @@ const PropertyAgent = ({ agent, isLoading }: Props) => {
           <ProfileImage
             image={agent?.picture as string}
             verified={agent?.verified}
-            className="w-25 h-10"
+            className="w-25 h-25 relative"
           />
         </ShowWidget>
       </div>

@@ -24,7 +24,8 @@ interface ISwipe {
   direction: IDirection;
   xPosition?: number | null;
   wrapperRef: LegacyRef<HTMLDivElement> | null;
-  onTouchStart: (event: TouchEvent) => void;
+  childrenRefElement: HTMLImageElement[] | null;
+  onTouchStart: (event: TouchEvent, index: number) => void;
   onTouchMove: (event: TouchEvent) => void;
 }
 
@@ -40,6 +41,7 @@ const defaultCtx: ISwipe = {
   direction: null,
   pressed: false,
   wrapperRef: null,
+  childrenRefElement: null,
   onTouchStart: () => null,
   onTouchMove: () => null,
 };
@@ -50,9 +52,18 @@ export const useSwipe = () => useContext(SwipeContext);
 
 const SwipeProvider: FC = ({ children }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const childrenRefElement = useRef<HTMLImageElement[] | null>(
+    [],
+  ).current;
   const xPositionRef = useRef<number | null>(null);
 
   const [xPosition, setXPosition] = useState<number | null>(null);
+  const [currentPosition, setCurrentPosition] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const startX = useRef(0);
+  const prevXPosition = useRef(0);
+
+  const movementRef = useRef(false);
 
   const origin = useMemo(
     () => ({
@@ -70,9 +81,15 @@ const SwipeProvider: FC = ({ children }) => {
   );
 
   const onTouchStart = useCallback(
-    (event: TouchEvent) => {
+    (event: TouchEvent, index: number) => {
       origin.x = event.touches[0].clientX;
       origin.y = event.touches[0].clientY;
+
+      movementRef.current = true;
+      setCurrentIndex(index);
+      if (wrapperRef.current) {
+        startX.current = origin.x - wrapperRef.current?.offsetLeft;
+      }
     },
     [origin],
   );
@@ -85,7 +102,9 @@ const SwipeProvider: FC = ({ children }) => {
    * @returns
    */
   const onTouchMove = useCallback(
-    (event: TouchEvent) => {
+    (event: TouchEvent, index: number) => {
+      if (!movementRef.current) return;
+
       destination.x = event.touches[0].clientX;
       destination.y = event.touches[0].clientY;
 
@@ -99,27 +118,106 @@ const SwipeProvider: FC = ({ children }) => {
         );
         return;
       }
-      xPositionRef.current = dX;
+
+      console.log('index', index);
+
+      if (wrapperRef.current) {
+        const wrapperWidth =
+          wrapperRef.current?.getBoundingClientRect().width;
+
+        wrapperRef.current.style.position = 'relative';
+
+        wrapperRef.current.style.left = `${
+          destination.x - startX.current
+        }px`;
+
+        prevXPosition.current = destination.x - startX.current;
+
+        if (prevXPosition.current > 10) {
+          wrapperRef.current.style.left = '0px';
+        }
+
+        console.log('prevXPosition.current', prevXPosition.current);
+
+        console.log('-wrapperWidth * index', -wrapperWidth * index);
+
+        if (
+          prevXPosition.current >
+          -wrapperWidth * index
+          // ||
+          // currentPosition === wrapperWidth * index
+        ) {
+          console.log('!!!!!STOP !!!!!!');
+          wrapperRef.current.style.left = `${
+            -wrapperWidth * index
+          }px`;
+        }
+
+        if (
+          wrapperWidth - Math.abs(wrapperRef.current.offsetLeft) >=
+            300 &&
+          wrapperWidth - Math.abs(wrapperRef.current.offsetLeft) < 315
+        ) {
+          console.log(
+            '<==== BOOM ====>',
+            wrapperWidth - Math.abs(wrapperRef.current.offsetLeft),
+          );
+          wrapperRef.current.style.left = `-${
+            wrapperWidth * (index + 1)
+          }px`;
+        }
+
+        console.log('prevXPosition.current', prevXPosition.current);
+      }
     },
     [destination, origin.x, origin.y],
   );
 
   const onTouchEnd = useCallback(() => {
+    movementRef.current = false;
     setXPosition(xPositionRef.current);
   }, []);
 
+  console.log('currentPosition', currentPosition);
+
   useEffect(() => {
-    wrapperRef.current?.addEventListener('touchstart', onTouchStart);
-    wrapperRef.current?.addEventListener('touchmove', onTouchMove);
-    wrapperRef.current?.addEventListener('touchend', onTouchEnd);
+    if (wrapperRef.current) {
+      wrapperRef.current.style.position = 'relative';
+      wrapperRef.current.style.left = `-${currentPosition}px`;
+    }
+  }, [currentPosition]);
+
+  useEffect(() => {
+    // wrapperRef.current?.addEventListener('touchstart', onTouchStart);
+    // wrapperRef.current?.addEventListener('touchmove', onTouchMove);
+    // wrapperRef.current?.addEventListener('touchend', onTouchEnd);
+
+    setTimeout(() => {
+      childrenRefElement?.forEach((element, index) => {
+        console.log('element', element);
+
+        element.addEventListener('touchstart', (event) =>
+          onTouchStart(event, index),
+        );
+        element.addEventListener('touchmove', (event) =>
+          onTouchMove(event, index),
+        );
+        element.addEventListener('touchend', onTouchEnd);
+      });
+    }, 1500);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [childrenRefElement]);
 
   return (
     <SwipeContext.Provider
       value={{
+        currentIndex,
         xPosition,
         wrapperRef,
+        childrenRefElement,
+        setCurrentIndex,
+        setCurrentPosition,
         onTouchMove,
         onTouchStart,
       }}

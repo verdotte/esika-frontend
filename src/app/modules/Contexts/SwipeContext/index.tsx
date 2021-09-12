@@ -9,59 +9,49 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { ITouchEvent, SetStateType } from 'app/modules/@Types';
 
-interface ICoordinates {
-  x: number | null;
-  y: number | null;
-}
-
-type IDirection = 'right' | 'left' | null;
+type Ttouch = ITouchEvent<HTMLImageElement>;
 
 interface ISwipe {
-  origin: ICoordinates;
-  destination: ICoordinates;
-  pressed: boolean;
-  direction: IDirection;
   xPosition?: number | null;
+  currentIndex: number;
   wrapperRef: LegacyRef<HTMLDivElement> | null;
-  childrenRefElement: HTMLImageElement[] | null;
-  onTouchStart: (event: TouchEvent, index: number) => void;
-  onTouchMove: (event: TouchEvent) => void;
+  childrenRefElement: (HTMLImageElement | null)[];
+  setCurrentIndex: SetStateType<number>;
+  onTouchStart: (event: Ttouch) => void;
+  onTouchMove: (event: Ttouch, index: number) => void;
+  onTouchEnd: (event: Ttouch, index: number) => void;
 }
 
 const defaultCtx: ISwipe = {
-  origin: {
-    x: 0,
-    y: 0,
-  },
-  destination: {
-    x: 0,
-    y: 0,
-  },
-  direction: null,
-  pressed: false,
   wrapperRef: null,
-  childrenRefElement: null,
+  currentIndex: 0,
+  childrenRefElement: [],
+  setCurrentIndex: () => null,
   onTouchStart: () => null,
   onTouchMove: () => null,
+  onTouchEnd: () => null,
 };
 
-export const SwipeContext =
-  createContext<Partial<ISwipe>>(defaultCtx);
+export const SwipeContext = createContext<ISwipe>(defaultCtx);
 export const useSwipe = () => useContext(SwipeContext);
 
 const SwipeProvider: FC = ({ children }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const childrenRefElement = useRef<HTMLImageElement[] | null>(
+  const childrenRefElement = useRef<(HTMLImageElement | null)[]>(
     [],
   ).current;
-  const xPositionRef = useRef<number | null>(null);
+  const xPositionRef = useRef<number | null>(0);
 
   const [xPosition, setXPosition] = useState<number | null>(null);
-  const [currentPosition, setCurrentPosition] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const startX = useRef(0);
-  const prevXPosition = useRef(0);
+  const startX = useRef<number>(0);
+  const prevXPosition = useRef<number>(0);
+
+  const wrapperWidth =
+    wrapperRef.current?.getBoundingClientRect().width ||
+    window.innerWidth;
 
   const movementRef = useRef(false);
 
@@ -81,12 +71,12 @@ const SwipeProvider: FC = ({ children }) => {
   );
 
   const onTouchStart = useCallback(
-    (event: TouchEvent, index: number) => {
+    (event: Ttouch) => {
       origin.x = event.touches[0].clientX;
       origin.y = event.touches[0].clientY;
 
       movementRef.current = true;
-      setCurrentIndex(index);
+
       if (wrapperRef.current) {
         startX.current = origin.x - wrapperRef.current?.offsetLeft;
       }
@@ -102,7 +92,7 @@ const SwipeProvider: FC = ({ children }) => {
    * @returns
    */
   const onTouchMove = useCallback(
-    (event: TouchEvent, index: number) => {
+    (event: ITouchEvent<HTMLImageElement>, index: number) => {
       if (!movementRef.current) return;
 
       destination.x = event.touches[0].clientX;
@@ -111,103 +101,90 @@ const SwipeProvider: FC = ({ children }) => {
       const dX = destination.x - origin.x;
       const dY = destination.y - origin.y;
 
+      xPositionRef.current = dX;
+
       if (Math.abs(dY) > Math.abs(dX)) {
         wrapperRef.current?.removeEventListener(
           'touchmove',
-          onTouchMove,
+          (event) => onTouchMove(event as unknown as Ttouch, index),
         );
         return;
       }
 
-      console.log('index', index);
-
       if (wrapperRef.current) {
-        const wrapperWidth =
-          wrapperRef.current?.getBoundingClientRect().width;
-
         wrapperRef.current.style.position = 'relative';
-
-        wrapperRef.current.style.left = `${
-          destination.x - startX.current
-        }px`;
 
         prevXPosition.current = destination.x - startX.current;
 
-        if (prevXPosition.current > 10) {
-          wrapperRef.current.style.left = '0px';
-        }
-
-        console.log('prevXPosition.current', prevXPosition.current);
-
-        console.log('-wrapperWidth * index', -wrapperWidth * index);
-
-        if (
-          prevXPosition.current >
-          -wrapperWidth * index
-          // ||
-          // currentPosition === wrapperWidth * index
-        ) {
-          console.log('!!!!!STOP !!!!!!');
-          wrapperRef.current.style.left = `${
-            -wrapperWidth * index
-          }px`;
-        }
-
-        if (
-          wrapperWidth - Math.abs(wrapperRef.current.offsetLeft) >=
-            300 &&
-          wrapperWidth - Math.abs(wrapperRef.current.offsetLeft) < 315
-        ) {
-          console.log(
-            '<==== BOOM ====>',
-            wrapperWidth - Math.abs(wrapperRef.current.offsetLeft),
-          );
-          wrapperRef.current.style.left = `-${
-            wrapperWidth * (index + 1)
-          }px`;
-        }
-
-        console.log('prevXPosition.current', prevXPosition.current);
+        wrapperRef.current.style.left = `${prevXPosition.current}px`;
       }
     },
     [destination, origin.x, origin.y],
   );
 
-  const onTouchEnd = useCallback(() => {
-    movementRef.current = false;
-    setXPosition(xPositionRef.current);
-  }, []);
+  const onTouchEnd = useCallback(
+    (event: Ttouch, index: number) => {
+      movementRef.current = false;
+      setXPosition(xPositionRef.current);
 
-  console.log('currentPosition', currentPosition);
+      const dX = destination.x - origin.x;
+      let indicator = 0;
+      const lastIndex = childrenRefElement.length - 1;
+
+      if (wrapperRef.current) {
+        if (Math.abs(dX / wrapperWidth) > 0.2) {
+          if (dX < 0) {
+            // REVERT TO THE FIRST ITEM IF THE CURRENT ITEM IS THE LAST ONE
+            if (index === lastIndex) {
+              wrapperRef.current.style.left = `0px`;
+              setCurrentIndex(0);
+              return;
+            }
+
+            indicator = index + 1;
+
+            wrapperRef.current.style.left = `-${
+              wrapperWidth * indicator
+            }px`;
+          } else {
+            // REVERT TO THE LAST ITEM IF THE CURRENT ITEM IS THE FIRST ONE
+            if (index === 0) {
+              wrapperRef.current.style.left = `-${
+                wrapperWidth * lastIndex
+              }px`;
+              setCurrentIndex(lastIndex);
+              return;
+            }
+
+            indicator = index - 1;
+            wrapperRef.current.style.left = `-${
+              wrapperWidth * indicator
+            }px`;
+          }
+          if (indicator >= 0 && indicator < childrenRefElement.length)
+            setCurrentIndex(indicator);
+        } else {
+          wrapperRef.current.style.left = `-${
+            wrapperWidth * index
+          }px`;
+        }
+      }
+    },
+    [
+      childrenRefElement.length,
+      destination.x,
+      origin.x,
+      wrapperWidth,
+    ],
+  );
 
   useEffect(() => {
     if (wrapperRef.current) {
+      const { width } = wrapperRef.current.getBoundingClientRect();
       wrapperRef.current.style.position = 'relative';
-      wrapperRef.current.style.left = `-${currentPosition}px`;
+      wrapperRef.current.style.left = `-${width * currentIndex}px`;
     }
-  }, [currentPosition]);
-
-  useEffect(() => {
-    // wrapperRef.current?.addEventListener('touchstart', onTouchStart);
-    // wrapperRef.current?.addEventListener('touchmove', onTouchMove);
-    // wrapperRef.current?.addEventListener('touchend', onTouchEnd);
-
-    setTimeout(() => {
-      childrenRefElement?.forEach((element, index) => {
-        console.log('element', element);
-
-        element.addEventListener('touchstart', (event) =>
-          onTouchStart(event, index),
-        );
-        element.addEventListener('touchmove', (event) =>
-          onTouchMove(event, index),
-        );
-        element.addEventListener('touchend', onTouchEnd);
-      });
-    }, 1500);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [childrenRefElement]);
+  }, [currentIndex]);
 
   return (
     <SwipeContext.Provider
@@ -217,9 +194,9 @@ const SwipeProvider: FC = ({ children }) => {
         wrapperRef,
         childrenRefElement,
         setCurrentIndex,
-        setCurrentPosition,
-        onTouchMove,
         onTouchStart,
+        onTouchMove,
+        onTouchEnd,
       }}
     >
       {children}

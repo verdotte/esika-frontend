@@ -111,7 +111,7 @@ const PropertyMobileContainer = () => {
     <div>
       <PropertyCarousel
         isLoading={isLoading}
-        propertyImages={property?.image}
+        propertyImages={property?.image as string}
       />
       <PropertyDetails isLoading={isLoading} property={property} />
       <div className="py-4 mx-4 md:container md:mx-auto md:px-16 border-b border-gray-300">

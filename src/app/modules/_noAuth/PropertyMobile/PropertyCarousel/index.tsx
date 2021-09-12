@@ -1,11 +1,10 @@
-import React, { useEffect, useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { useHistory } from 'react-router';
 import { onImageError } from 'app/modules/utils/helpers';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
 import ChevronLeftVector from 'app/modules/__modules__/_vectors/chevronLetfVector';
 import { HeartVector } from 'app/modules/__modules__/_vectors/heartVector';
 import { useSwipe } from 'app/modules/Contexts/SwipeContext';
-import { useHome } from 'app/modules/Contexts/HomeContext';
 import { HeroCarouselIndicator } from '../../Home/__modules__/HeroCarousel/Indicator';
 
 interface Props {
@@ -16,101 +15,43 @@ interface Props {
 const PropertyCarousel = ({ propertyImages, isLoading }: Props) => {
   const history = useHistory();
 
-  const { paginationIndicators, onIndicatorChange } = useHome();
-
   const images: string[] = propertyImages?.split(',') || [];
 
   const {
     currentIndex,
-    xPosition,
-    setCurrentIndex,
-    setCurrentPosition,
     wrapperRef,
     childrenRefElement,
+    setCurrentIndex,
+    onTouchStart,
+    onTouchEnd,
+    onTouchMove,
   } = useSwipe();
 
-  const { heroIndicator: indicator } = paginationIndicators;
+  const appendRef = useCallback(
+    (ref) => {
+      if (!childrenRefElement.includes(ref)) {
+        childrenRefElement.push(ref);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [childrenRefElement],
+  );
 
   const onIndicatorClick = useCallback(
     (position: number) => {
-      if (wrapperRef && wrapperRef.current) {
-        console.log('wrapperWidth');
-        setCurrentIndex(position);
-        setCurrentPosition(
-          position * wrapperRef.current.getBoundingClientRect().width,
-        );
-      }
+      setCurrentIndex(position);
     },
-    [setCurrentIndex, setCurrentPosition],
+    [setCurrentIndex],
   );
-
-  useEffect(() => {
-    if (xPosition && xPosition < 0) {
-      let swipeIndicator = 0;
-      if (indicator === images.length - 1) {
-        swipeIndicator = 0;
-        setCurrentIndex(0);
-      } else {
-        swipeIndicator = indicator + 1;
-        setCurrentIndex(indicator + 1);
-      }
-      onIndicatorChange(swipeIndicator, 'heroIndicator');
-      return;
-    }
-
-    if (xPosition && xPosition > 0 && indicator > 0) {
-      const swipeIndicator = indicator - 1;
-      setCurrentIndex(indicator - 1);
-      onIndicatorChange(swipeIndicator, 'heroIndicator');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [xPosition]);
-
-  if (indicator === images.length - 1) {
-    console.log('Last Image !!!');
-  }
-
-  console.log('currentIndex', currentIndex);
-
-  // const imageElement = useMemo(() => {
-  //   images.map((image, index) => (
-  //     <img
-  //       ref={(element) => {
-  //         // if (childrenRefElement && childrenRefElement[index]) {
-  //         childrenRefElement[index] = element;
-  //         return childrenRefElement[index];
-  //         // }
-  //         // return element;
-  //       }}
-  //       key={index.toFixed()}
-  //       src={image}
-  //       alt="House on hood"
-  //       className="w-full h-full object-cover"
-  //       onError={onImageError}
-  //     />
-  //   ));
-  // }, [childrenRefElement, images]);
-
-  // const slidesToScroll = 1;
-  // const slidesVisible = 1;
-
-  // const ratio = images.length / slidesVisible;
-
-  // const carouselWrapperWidth = ratio * 100;
 
   return (
     <div className="w-full relative transition-all ease-in-out flex-shrink-0">
-      <div className="absolute top-[5%]">
-        <button
-          type="submit"
-          onClick={() => {
-            return history.push('/');
-          }}
-        >
+      <div className="absolute top-[5%] z-10">
+        <button type="submit" onClick={() => history.push('/')}>
           <ChevronLeftVector className="h-8 w-8 text-white" />
         </button>
       </div>
-      <div className="absolute top-[5%] right-[3%]">
+      <div className="absolute top-[5%] right-[3%] z-10">
         <HeartVector className="h-8 w-8 text-white" />
       </div>
       <ShowWidget
@@ -125,18 +66,15 @@ const PropertyCarousel = ({ propertyImages, isLoading }: Props) => {
         >
           {images.map((image, index) => (
             <img
-              ref={(element) => {
-                // if (childrenRefElement && childrenRefElement[index]) {
-                childrenRefElement[index] = element;
-                return childrenRefElement[index];
-                // }
-                // return element;
-              }}
+              ref={appendRef}
               key={index.toFixed()}
               src={image}
               alt="House on hood"
               className="w-full h-full object-cover flex-shrink-0"
               onError={onImageError}
+              onTouchStart={onTouchStart}
+              onTouchMove={(event) => onTouchMove(event, index)}
+              onTouchEnd={(event) => onTouchEnd(event, index)}
             />
           ))}
         </div>

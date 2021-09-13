@@ -1,4 +1,3 @@
-import Property from 'app/Initials/__noAuth/Property';
 import Home from 'app/Initials/__noAuth/Home';
 import Login from 'app/Initials/__noAuth/Login';
 import Register from 'app/Initials/__noAuth/Register';
@@ -9,7 +8,7 @@ import Profile from 'app/Initials/__noAuth/Profile';
 import Statistics from 'app/modules/_noAuth/Profile/Account';
 import Contacts from 'app/modules/_noAuth/Profile/Contacts';
 import PersonalInfos from 'app/modules/_noAuth/Profile/PersonalInfos';
-import PropertyMobile from 'app/Initials/__noAuth/PropertyMobile';
+import PropertyMobile from 'app/Initials/__noAuth/Property';
 
 const noAuthRoutes: IRoute[] = [
   {
@@ -46,13 +45,6 @@ const noAuthRoutes: IRoute[] = [
     path: '/property/:slug',
     exact: true,
     component: PropertyMobile,
-  },
-  {
-    name: 'Esika - Propriété',
-    secured: false,
-    path: '/properties/:slug',
-    exact: true,
-    component: Property,
   },
   {
     name: 'Esika - Propriétés',

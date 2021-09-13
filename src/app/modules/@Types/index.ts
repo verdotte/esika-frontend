@@ -81,4 +81,6 @@ export type AutocompleteItem = Hit<{
   resource: string;
 }>;
 
-export type ITouchEvent<T> = React.TouchEvent<T>;
+export type ITouchEvent<T> =
+  | React.TouchEvent<T>
+  | React.TouchEvent<HTMLDivElement>;

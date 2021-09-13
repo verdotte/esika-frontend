@@ -47,12 +47,16 @@ const PropertyCarousel = ({ propertyImages, isLoading }: Props) => {
   return (
     <div className="w-full relative transition-all ease-in-out flex-shrink-0">
       <div className="absolute top-[5%] z-10">
-        <button type="submit" onClick={() => history.push('/')}>
-          <ChevronLeftVector className="h-8 w-8 text-white" />
-        </button>
+        <ShowWidget condition={!isLoading}>
+          <button type="submit" onClick={() => history.push('/')}>
+            <ChevronLeftVector className="h-8 w-8 text-white" />
+          </button>
+        </ShowWidget>
       </div>
       <div className="absolute top-[5%] right-[3%] z-10">
-        <HeartVector className="h-8 w-8 text-white" />
+        <ShowWidget condition={!isLoading}>
+          <HeartVector className="h-8 w-8 text-white" />
+        </ShowWidget>
       </div>
       <ShowWidget
         condition={!isLoading}
@@ -61,7 +65,7 @@ const PropertyCarousel = ({ propertyImages, isLoading }: Props) => {
         }
       >
         <div
-          className="h-80 md:h-[35rem] w-full flex transition-all"
+          className="h-80 md:h-[35rem] w-full flex transition-all duration-700"
           ref={wrapperRef}
         >
           {images.map((image, index) => (

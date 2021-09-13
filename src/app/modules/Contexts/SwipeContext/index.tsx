@@ -136,6 +136,7 @@ const SwipeProvider: FC = ({ children }) => {
           if (dX < 0) {
             // REVERT TO THE FIRST ITEM IF THE CURRENT ITEM IS THE LAST ONE
             if (index === lastIndex) {
+              // wrapperRef.current.style.transitionDuration = '1s';
               wrapperRef.current.style.left = `0px`;
               setCurrentIndex(0);
               return;
@@ -149,6 +150,7 @@ const SwipeProvider: FC = ({ children }) => {
           } else {
             // REVERT TO THE LAST ITEM IF THE CURRENT ITEM IS THE FIRST ONE
             if (index === 0) {
+              wrapperRef.current.style.transitionDuration = '1s';
               wrapperRef.current.style.left = `-${
                 wrapperWidth * lastIndex
               }px`;

@@ -11,7 +11,6 @@ import {
   createAutocomplete,
 } from '@algolia/autocomplete-core';
 import { getAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
-import { Hit } from '@algolia/client-search';
 import {
   indexName,
   searchClient,
@@ -19,17 +18,10 @@ import {
 import { useSearch } from 'app/modules/Contexts/SearchContext';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
 import SearchVector from 'app/modules/__modules__/_vectors/searchVector';
+import { AutocompleteItem } from 'app/modules/@Types';
 import SearchResults from '../SearchResults';
 
 import './style.css';
-
-type AutocompleteItem = Hit<{
-  image: string;
-  title: string;
-  objectID: string;
-  location: string;
-  resource: string;
-}>;
 
 const Autocomplete = (
   props: Partial<AutocompleteOptions<AutocompleteItem>>,

@@ -76,6 +76,8 @@ export type formRefType = HTMLInputElement | null;
 export type AutocompleteItem = Hit<{
   image: string;
   title: string;
+  description: string;
+  price: string;
   objectID: string;
   location: string;
   resource: string;

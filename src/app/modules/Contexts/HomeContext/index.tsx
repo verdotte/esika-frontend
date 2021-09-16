@@ -74,7 +74,7 @@ export const HomeContext = createContext<homeType>(defaultCtxProps);
 export const useHome = () => useContext(HomeContext);
 
 const HomeProvider: FC = ({ children }): JSX.Element => {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [properties, setProperties] = useState<IObject[]>([]);
   const [allProperties, setAllProperties] = useState<IObject[]>([]);
   const [categories, setCategories] = useState<ICategory[]>([]);

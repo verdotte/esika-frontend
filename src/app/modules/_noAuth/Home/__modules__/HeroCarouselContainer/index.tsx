@@ -39,13 +39,14 @@ const HeroCarouselContainer = () => {
   );
 
   const trendingProperties = useCallback(() => {
-    if (loading)
+    if (loading && !allProperties.length) {
       return (
         <HeroCarousel
           data={{}}
           preload={loading && !allProperties.length}
         />
       );
+    }
     return allProperties.slice(0, 5).map((property, index) => (
       <div
         ref={appendRef}

@@ -27,6 +27,7 @@ type IndicatorType =
 
 type homeType = {
   loading: boolean;
+  loadingExpoler: boolean;
   currentCategory: number;
   properties: IObject[];
   allProperties: IObject[];
@@ -34,6 +35,7 @@ type homeType = {
   agents: IAgent[];
   paginationIndicators: Indictators;
   setLoading: SetStateType<boolean>;
+  setLoadingExpoler: SetStateType<boolean>;
   setCurrentCategory: SetStateType<number>;
   setPaginationIndicators: SetStateType<Indictators>;
   setProperties: SetStateType<IObject[]>;
@@ -49,6 +51,7 @@ type homeType = {
 
 const defaultCtxProps: homeType = {
   loading: true,
+  loadingExpoler: true,
   currentCategory: 0,
   properties: [],
   allProperties: [],
@@ -60,6 +63,7 @@ const defaultCtxProps: homeType = {
     agentsIndicator: 0,
   },
   setLoading: () => null,
+  setLoadingExpoler: () => null,
   setCurrentCategory: () => null,
   setAgents: () => null,
   setProperties: () => null,
@@ -75,6 +79,8 @@ export const useHome = () => useContext(HomeContext);
 
 const HomeProvider: FC = ({ children }): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadingExpoler, setLoadingExpoler] =
+    useState<boolean>(false);
   const [properties, setProperties] = useState<IObject[]>([]);
   const [allProperties, setAllProperties] = useState<IObject[]>([]);
   const [categories, setCategories] = useState<ICategory[]>([]);
@@ -89,10 +95,12 @@ const HomeProvider: FC = ({ children }): JSX.Element => {
 
   const onFetchProperties = useCallback(async () => {
     setLoading(true);
+    setLoadingExpoler(true);
 
     const { error, data } = await Service.get(ENDPOINTS.PROPERTIES);
 
     setLoading(false);
+    setLoadingExpoler(false);
 
     if (error) {
       return;
@@ -155,6 +163,7 @@ const HomeProvider: FC = ({ children }): JSX.Element => {
     <HomeContext.Provider
       value={{
         loading,
+        loadingExpoler,
         agents,
         properties,
         categories,
@@ -163,6 +172,7 @@ const HomeProvider: FC = ({ children }): JSX.Element => {
         allProperties,
         setCurrentCategory,
         setLoading,
+        setLoadingExpoler,
         setPaginationIndicators,
         setAgents,
         setProperties,

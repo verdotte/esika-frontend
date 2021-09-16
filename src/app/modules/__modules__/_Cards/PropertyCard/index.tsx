@@ -61,11 +61,11 @@ export const PropertyCard = ({
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
     onPropertyClick?.(event);
-    history.push(`/properties/${slug as string}`);
+    history.push(`/property/${slug as string}`);
   };
 
   return (
-    <div className="w-full border rounded-lg py-4 h-full flex flex-col justify-between">
+    <div className="w-full border rounded-lg py-4 h-full flex flex-col justify-between mb-4 sm:mb-0">
       <div
         className="px-4"
         role="button"

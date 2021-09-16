@@ -10,8 +10,9 @@ import ChevronLeftVector from 'app/modules/__modules__/_vectors/chevronLetfVecto
 import StarVector from 'app/modules/__modules__/_vectors/starVector';
 import CheckVector from 'app/modules/__modules__/_vectors/checkVector';
 import ProfileImage from 'app/modules/__modules__/ProfileImage';
+// eslint-disable-next-line import/namespace
 import { useProfile } from 'app/modules/Contexts/ProfileContext';
-import useFetchCurrentUser from '../../../Hooks/useFetchCurrentUser';
+import useFetchCurrentUser from '../UseFetchCurrentUser';
 
 const Account = () => {
   const { code, loading, currentUser, currentUserNumber } =

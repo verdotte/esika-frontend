@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { useHistory } from 'react-router';
 import { VerifiedIcon } from 'app/modules/__modules__/_vectors/verifiedICon';
 import { HeartVector } from 'app/modules/__modules__/_vectors/heartVector';
 import ContactButton from 'app/modules/__modules__/ContactButton';
@@ -23,13 +24,36 @@ const defaultProps: IData & { preload?: boolean } = {
   preload: false,
 };
 
+interface ICardData {
+  preload: boolean;
+  onPropertyClick?: (
+    event?: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => void;
+}
+
 const HeroCarouselCard: React.FC<
-  Partial<IData & IObject & { preload?: boolean }>
-> = ({ data = {}, preload }) => {
-  const { title, price, description, picture, unit, spec } = data;
+  Partial<IData & IObject & ICardData>
+> = ({ data = {}, preload, onPropertyClick }) => {
+  const history = useHistory();
+
+  const { title, price, description, picture, unit, spec, slug } =
+    data;
+
+  const onClick = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    onPropertyClick?.(event);
+    history.push(`/property/${slug as string}`);
+  };
 
   return (
-    <div className="w-full md:w-96 h-full rounded-[20px] py-4 bg-black/80 text-white flex flex-col justify-between">
+    <div
+      className="w-full md:w-96 h-full rounded-[20px] py-4 bg-black/80 text-white flex flex-col justify-between"
+      role="button"
+      tabIndex={0}
+      onClick={onClick}
+      onKeyDown={() => null}
+    >
       <div className="flex items-center pb-3 px-4">
         <ShowWidget
           condition={!preload}

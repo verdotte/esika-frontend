@@ -1,31 +1,40 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, {
-  useCallback,
   useState,
   useEffect,
   useMemo,
+  useCallback,
+  useRef,
 } from 'react';
-import { useParams } from 'react-router-dom';
-import { useHome } from 'app/modules/Contexts/HomeContext';
-import Header from 'app/modules/__modules__/Header';
+import { useParams } from 'react-router';
 import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
 import Footer from 'app/modules/_noAuth/Home/__modules__/Footer';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
-import { IObject, IProperty } from 'app/modules/@Types';
+import { useHome } from 'app/modules/Contexts/HomeContext';
+import { IAgent, IObject, IProperty } from 'app/modules/@Types';
 import Service from 'app/Services';
 import ENDPOINTS from 'app/Services/endpoints';
-import AgentCard from 'app/modules/__modules__/_Cards/AgentCard';
 import PropertySpecs from 'app/modules/__modules__/PropertySpecs';
+import ChevronRightVector from 'app/modules/__modules__/_vectors/chevronRightVector';
 import RelatedProperties from './RelatedProperties';
+import PropertyCarousel from './PropertyCarousel';
 import PropertyDetails from './PropertyDetails';
+import PropertyAgent from './PropertyAgent';
 
 const PropertyContainer = () => {
   const [property, setProperty] = useState<IProperty | null>(null);
-  const [loading_, setLoading_] = useState<boolean>(false);
-  const [agent, setAgent] = useState({});
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [agent, setAgent] = useState<IAgent | null>(null);
+  const [readMore, setReadMore] = useState(false);
+
+  const isCurrent = useRef(true);
 
   const { slug } = useParams<{ slug?: string }>();
 
-  const { onFetchProperties, properties, loading } = useHome();
+  const { loading, properties, onFetchProperties } = useHome();
 
   useEffect(() => {
     if (!properties.length) {
@@ -47,18 +56,23 @@ const PropertyContainer = () => {
     if (categoryProperties.length) {
       return categoryProperties as IProperty[];
     }
-    return properties as IProperty[];
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [slug, properties]);
+    return properties.filter(
+      (itemProperty) => itemProperty.slug !== slug,
+    ) as IProperty[];
+  }, [slug, property, properties]);
 
   const fetchProperty = useCallback(async () => {
-    setLoading_(true);
+    setIsLoading(true);
 
-    const { data } = await Service.get(
+    const { data, error } = await Service.get(
       `${ENDPOINTS.PROPERTIES}/${slug}`,
     );
-    setLoading_(false);
-    if (data) {
+    if (isCurrent.current && error) {
+      setIsLoading(false);
+      return;
+    }
+    if (isCurrent.current && data) {
+      setIsLoading(false);
       setProperty(data);
     }
   }, [slug]);
@@ -69,11 +83,17 @@ const PropertyContainer = () => {
         `${ENDPOINTS.USER_PROFILE}/${property.userId}`,
       );
 
-      if (data) {
+      if (isCurrent.current && data) {
         setAgent(data.profile);
       }
     }
   }, [property]);
+
+  useEffect(() => {
+    return () => {
+      isCurrent.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     fetchProperty();
@@ -83,56 +103,76 @@ const PropertyContainer = () => {
     fetchPropertyAgent();
   }, [fetchPropertyAgent]);
 
+  const onReadMore = () => {
+    setReadMore(!readMore);
+  };
+
   return (
     <div>
-      <div className="container mx-auto px-0 md:px-8 no-scrollbars">
-        <Header className="fixed md:sticky z-20 md:z-10 top-0" />
-
-        <div className="h-full mt-[5.5rem] md:mt-4 my-4 mx-2 sm:mx-0 bg-brand-thin/10 ">
-          <PropertyDetails
-            loading={loading}
-            property={property as IProperty}
-            profile={`${agent?.picture}`}
+      <PropertyCarousel
+        isLoading={isLoading}
+        propertyImages={property?.image as string}
+      />
+      <PropertyDetails isLoading={isLoading} property={property} />
+      <div className="py-4 mx-4 md:container md:mx-auto md:px-16 border-b border-gray-300">
+        <PropertyAgent isLoading={isLoading} agent={agent} />
+        <div className="flex items-center justify-between overflow-x-scroll no-scrollbars">
+          <PropertySpecs
+            loading={loading || isLoading}
+            specs={property?.spec as IObject}
+            tagClassName="bg-gray-300 my-1"
           />
-          <div className="pb-3 block sm:flex sm:justify-between">
-            <div className="block sm:flex">
-              <div className="w-full p-1 pt-2 pb-2 sm:w-[65%] sm:pt-10 sm:pl-10 sm:pb-10">
-                <div className=" block border bg-white p-3 sm:p-8 ">
-                  <ShowWidget
-                    condition={!loading_}
-                    fallback={
-                      <div className="h-6 sm:h-4 w-full pt-2 pl-5 bg-gray-200 animate-pulse" />
-                    }
-                  >
-                    <p className="text-sm text-gray-600  sm:pt-2 sm:pl-5">
-                      {property?.description}
-                    </p>
-                  </ShowWidget>
-
-                  <div className="flex pt-3 sm:pt-8">
-                    <PropertySpecs
-                      loading={loading || loading_}
-                      specs={property?.spec as IObject}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="p-1 sm:w-[35%] sm:pl-5 sm:pt-10 sm:pb-10 sm:pr-5">
-                <AgentCard
-                  data={agent}
-                  preload={loading}
-                  className="bg-white w-full"
-                />
-              </div>
-            </div>
-          </div>
         </div>
+      </div>
+      <div className="py-4 mx-4 md:container md:mx-auto md:px-16 border-b border-gray-300">
+        <div className="flex justify-between items-center">
+          <ShowWidget
+            condition={!isLoading}
+            fallback={
+              <div className="w-4/5 h-8 sm:mt-0 bg-gray-200 animate-pulse" />
+            }
+          >
+            <p
+              className={`text-sm text-black ${
+                readMore ? 'line-clamp-none' : 'line-clamp-3'
+              }`}
+            >
+              {property?.description} {property?.description}
+            </p>
+          </ShowWidget>
+        </div>
+        <button
+          type="submit"
+          onClick={onReadMore}
+          className={`mt-2 text-sm text-black font-medium justify-center items-center transition-all duration-500 ${
+            !isLoading ? 'flex' : 'hidden'
+          }`}
+        >
+          {readMore ? 'Afficher moins' : 'Afficher plus'}
+          <ChevronRightVector className="pl-1 h-5 w-5" />
+        </button>
+      </div>
+      <div className="mx-4 my-5 md:container md:mx-auto md:px-56 flex justify-center items-center">
+        <ShowWidget
+          condition={!isLoading}
+          fallback={
+            <div className="w-full h-10 rounded-lg bg-gray-200 animate-pulse" />
+          }
+        >
+          <button
+            type="submit"
+            className="w-full p-3 bg-brand-bold text-white rounded-lg md:mx-auto md:px-16"
+          >
+            Contacter l&apos;agent
+          </button>
+        </ShowWidget>
+      </div>
+      <div className="md:container md:mx-auto md:px-16">
         <RelatedProperties
-          loading={loading || loading_}
+          loading={loading || isLoading}
           properties={relatedProperties}
         />
       </div>
-
       <Footer />
       <BottomNavbar />
     </div>

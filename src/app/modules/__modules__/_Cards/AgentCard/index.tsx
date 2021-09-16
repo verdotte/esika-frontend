@@ -51,7 +51,7 @@ const AgentCard: React.FC<Partial<IProps | IObject>> = ({
 
   return (
     <div
-      className={`w-full flex border rounded-lg space-x-2 overflow-hidden ${className}`}
+      className={`w-full h-40 sm:h-[auto] flex border rounded-lg space-x-2 overflow-hidden ${className}`}
     >
       <ShowWidget
         condition={!preload}

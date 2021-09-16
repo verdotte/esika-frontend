@@ -4,18 +4,21 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router';
+import Compress from 'react-image-file-resizer';
 import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
 import ChevronLeftVector from 'app/modules/__modules__/_vectors/chevronLetfVector';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
+// eslint-disable-next-line import/namespace
 import { useProfile } from 'app/modules/Contexts/ProfileContext';
 import ProfileImage from 'app/modules/__modules__/ProfileImage';
+// import axios from 'app/Services/http';
 import InfoItem from '../InfoItem';
 import NameForm from '../NameForm';
 import NumberForm from '../NumberForm';
 import AddressForm from '../AddressForm';
-import useFetchCurrentUser from '../../../../Hooks/useFetchCurrentUser';
+import useFetchCurrentUser from '../../UseFetchCurrentUser';
 
 const PersonalInfosPage = () => {
   const {
@@ -28,12 +31,47 @@ const PersonalInfosPage = () => {
   } = useProfile();
   const history = useHistory();
 
+  const [url, setUrl] = useState('');
+
+  const uploadImage = ({ target }) => {
+    const profileImage = target.files[0];
+    Compress.imageFileResizer(
+      profileImage as Blob, // the file from input
+      480, // width
+      480, // height
+      'PNG', // compress format WEBP, JPEG, PNG
+      70, // quality
+      0, // rotation
+      (uri) => {
+        // You upload logic goes here
+        const data = new FormData();
+        data.append('file', uri as Blob);
+        data.append('tags', `codeinfuse, medium, gist`);
+        data.append('upload_preset', 'lcarnyle'); // Replace the preset name with your own
+        data.append('api_key', '763699599957591'); // Replace API key with your own Cloudinary key
+        data.append('timestamp', `${Date.now() / 1000}`);
+        fetch('https://api.cloudinary.com/v1_1/mtk67/image/upload', {
+          method: 'post',
+          body: data,
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            setUrl(data.url);
+          })
+          .catch((err) => console.log(err));
+      },
+      'blob', // blob or base64 default base64
+    );
+  };
+
   const goBack = () => {
     setEditMode(false);
     return history.push('/profile');
   };
 
   useFetchCurrentUser();
+
+  console.log('url', url);
 
   return (
     <div>
@@ -71,6 +109,7 @@ const PersonalInfosPage = () => {
                   type="file"
                   className="hidden"
                   disabled={editMode}
+                  onChange={uploadImage}
                 />
               </label>
             </div>

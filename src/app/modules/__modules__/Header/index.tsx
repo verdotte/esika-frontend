@@ -6,16 +6,17 @@ import ShowWidget from '../ShowWidget';
 import UserVector from '../_vectors/userVector';
 import HamburgerVector from '../_vectors/hamburgerVector';
 import DropdownMenu from '../DropdownMenu';
+import SearchInputBar from './SearchInputBar';
 
 interface IProps {
-  onSearch?: () => void;
+  onSearchClick?: () => void;
   showSearchBar?: boolean;
   className?: string | null;
   action?: { name: string; push: string };
 }
 
 const defaultProps: IProps = {
-  onSearch: () => null,
+  onSearchClick: () => null,
   showSearchBar: true,
   className: 'sticky top-0 z-10',
   action: {
@@ -25,7 +26,7 @@ const defaultProps: IProps = {
 };
 
 const Header: FC<IProps> = ({
-  onSearch,
+  onSearchClick,
   showSearchBar = true,
   className,
   action,
@@ -52,34 +53,22 @@ const Header: FC<IProps> = ({
       </Link>
 
       <ShowWidget condition={showSearchBar}>
-        <div className="hidden md:flex items-center border rounded-full p-4 px-6 space-x-3 md:w-1/3 text-black">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
-          <input
-            type="text"
-            placeholder="Recherche..."
-            onChange={onSearch}
-            className="w-full bg-transparent focus:border-none active:border-none outline-none appearance-none placeholder-black"
-          />
-        </div>
+        <SearchInputBar onClick={onSearchClick} />
       </ShowWidget>
 
       <ShowWidget
         condition={isExpired()}
         fallback={
-          <ShowWidget condition={!isMobile}>
+          <ShowWidget
+            condition={!isMobile}
+            fallback={
+              <SearchInputBar
+                className="flex items-center border rounded-full p-3 py-2 px-4 space-x-2 shadow-md text-black cursor-pointer"
+                vectorClassName="h-5 w-5"
+                onClick={onSearchClick}
+              />
+            }
+          >
             <div className="relative">
               <button
                 type="button"
@@ -101,14 +90,22 @@ const Header: FC<IProps> = ({
           </ShowWidget>
         }
       >
-        <button
-          type="button"
-          onClick={() => history.push(action?.push || '/register')}
-          className="md:border rounded-lg flex items-center justify-center p-4 space-x-3 w-auto lg:w-1/4 bg-brand-bold text-white"
-        >
-          <UserVector />
-          <p className="hidden md:block">{action?.name}</p>
-        </button>
+        {isMobile ? (
+          <SearchInputBar
+            className="flex items-center border rounded-full p-3 py-2 px-4 space-x-2 shadow-md text-black cursor-pointer"
+            vectorClassName="h-5 w-5"
+            onClick={onSearchClick}
+          />
+        ) : (
+          <button
+            type="button"
+            onClick={() => history.push(action?.push || '/register')}
+            className="md:border rounded-lg flex items-center justify-center p-4 space-x-3 w-auto lg:w-1/4 bg-brand-bold text-white"
+          >
+            <UserVector />
+            <p className="hidden md:block">{action?.name}</p>
+          </button>
+        )}
       </ShowWidget>
     </div>
   );

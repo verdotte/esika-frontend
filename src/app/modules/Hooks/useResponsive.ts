@@ -11,10 +11,19 @@ const useResponsive = (screen = '(max-width: 768px)') => {
 
   useEffect(() => {
     setMatches(watchMedia.matches);
-    watchMedia.addEventListener('change', onResizeScreen);
+
+    try {
+      watchMedia.addEventListener('change', onResizeScreen);
+    } catch (error) {
+      watchMedia.addListener(onResizeScreen);
+    }
 
     return () => {
-      watchMedia.removeEventListener('change', onResizeScreen);
+      try {
+        watchMedia.removeEventListener('change', onResizeScreen);
+      } catch (error) {
+        watchMedia.removeListener(onResizeScreen);
+      }
     };
   }, [watchMedia]);
 

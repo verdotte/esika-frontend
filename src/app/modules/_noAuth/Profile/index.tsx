@@ -7,8 +7,9 @@ import InboxVector from 'app/modules/__modules__/_vectors/inboxVector';
 import PhoneVector from 'app/modules/__modules__/_vectors/phoneVector';
 import LogoutVector from 'app/modules/__modules__/_vectors/logoutVector';
 import ProfileImage from 'app/modules/__modules__/ProfileImage';
+// eslint-disable-next-line import/namespace
 import { useProfile } from 'app/modules/Contexts/ProfileContext';
-import useFetchCurrentUser from '../../Hooks/useFetchCurrentUser';
+import useFetchCurrentUser from './UseFetchCurrentUser';
 
 const ProfileContainer = () => {
   const { loading, currentUser } = useProfile();
@@ -38,9 +39,11 @@ const ProfileContainer = () => {
                 <p className="sm:line-clamp-1 text-md sm:text-xl font-bold">
                   {currentUser?.firstName} {currentUser?.lastName}
                 </p>
-                <p className="text-xs sm:text-xl underline">
-                  Voir mon profile
-                </p>
+                <Link to="/profile/infos">
+                  <p className="text-xs sm:text-xl underline">
+                    Voir mon profile
+                  </p>
+                </Link>
               </div>
             </ShowWidget>
           </div>

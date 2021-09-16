@@ -31,7 +31,7 @@ const RelatedProperties = ({ properties, loading }: Props) => {
         Voir aussi...
       </p>
 
-      <div className="w-full p-2 sm:p-0 sm:my-20 min-h-[500px]">
+      <div className="w-full px-2 sm:p-0 sm:my-20 min-h-[500px]">
         <div className="w-full flex flex-col sm:grid md:grid-cols-2 md:gap-x-6 lg:grid-cols-3 gap-5 lg:gap-12 my-8">
           {renderProperties()}
         </div>

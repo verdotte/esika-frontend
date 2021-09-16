@@ -7,6 +7,7 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
+// eslint-disable-next-line import/namespace
 import { useProfile } from 'app/modules/Contexts/ProfileContext';
 import ChevronLeftVector from 'app/modules/__modules__/_vectors/chevronLetfVector';
 import ChevroDownVector from 'app/modules/__modules__/_vectors/ChevroDownVector';
@@ -15,7 +16,7 @@ import TwitterVector from 'app/modules/__modules__/_vectors/twitterVector';
 import InstagramVector from 'app/modules/__modules__/_vectors/instagramVector';
 import FacebookVector from 'app/modules/__modules__/_vectors/facebookVector';
 import SocialMedia from '../SocialMedia';
-import useFetchCurrentUser from '../../../../Hooks/useFetchCurrentUser';
+import useFetchCurrentUser from '../../UseFetchCurrentUser';
 
 const ContactsPage = () => {
   const { code, currentUserNumber, onCodeChange } = useProfile();

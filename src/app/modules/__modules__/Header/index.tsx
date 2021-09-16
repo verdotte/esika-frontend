@@ -33,7 +33,7 @@ const Header: FC<IProps> = ({
 }): JSX.Element => {
   const history = useHistory();
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isMobile] = useResponsive();
+  const [isMobile] = useResponsive('(max-width: 678px)');
 
   const onToggleMenu = () => {
     setIsExpanded((expandState) => !expandState);

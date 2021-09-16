@@ -9,6 +9,7 @@ import {
 } from '@algolia/autocomplete-core';
 import { AutocompleteItem } from 'app/modules/@Types';
 import ShowWidget from '../../ShowWidget';
+import LocationVector from '../../_vectors/LocationVector';
 
 interface Props {
   autocompleteState: AutocompleteState<AutocompleteItem>;
@@ -63,13 +64,22 @@ const SearchResults: FC<Props> = forwardRef<HTMLDivElement, Props>(
                             })}
                           >
                             <div className="flex w-full space-x-3">
-                              <div className="w-14 md:w-16 peer">
+                              <div className="w-14 md:w-16 peer relative">
                                 <img
                                   src={item.image}
                                   alt={item.title}
                                   width="40"
                                   height="40"
                                   className="w-14 md:w-16 h-14 md:h-16 object-cover rounded-md"
+                                />
+                                <div
+                                  className="bg-red-400 text-white p-1 px-2 rounded-tl-md rounded-br-md md:rounded-br-none text-xs absolute bottom-0 right-0"
+                                  dangerouslySetInnerHTML={{
+                                    __html: `$${
+                                      item._highlightResult?.price
+                                        ?.value as string
+                                    }`,
+                                  }}
                                 />
                               </div>
                               <div className="flex-1 peer">
@@ -80,6 +90,25 @@ const SearchResults: FC<Props> = forwardRef<HTMLDivElement, Props>(
                                       ?.title?.value as string,
                                   }}
                                 />
+                                <div
+                                  className="line-clamp-1 text-xs text-gray-700 w-full"
+                                  dangerouslySetInnerHTML={{
+                                    __html: item._highlightResult
+                                      ?.description?.value as string,
+                                  }}
+                                />
+                                <div className="flex items-center justify-between md:justify-start space-x-3 mt-1">
+                                  <div className="flex items-center space-x-2 text-brand-bold">
+                                    <LocationVector className="h-4 w-4" />
+                                    <div
+                                      className="line-clamp-1 text-xs"
+                                      dangerouslySetInnerHTML={{
+                                        __html: item._highlightResult
+                                          ?.location?.value as string,
+                                      }}
+                                    />
+                                  </div>
+                                </div>
                               </div>
                               <button
                                 className="pointer-events-none w-4 hidden peer-hover:block"

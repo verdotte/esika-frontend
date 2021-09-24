@@ -24,66 +24,12 @@ const HeroCarouselContainer = () => {
     // onTouchMove,
   } = useSwipe();
 
-  // const appendRef = useCallback(
-  //   (ref) => {
-  //     if (!childrenRefElement.includes(ref)) {
-  //       childrenRefElement.push(ref);
-  //     }
-  //   },
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   [childrenRefElement],
-  // );
-
   const onIndicatorClick = useCallback(
     (position: number) => {
       setCurrentIndex(position);
     },
     [setCurrentIndex],
   );
-
-  // const preloadProperties = useCallback(() => {
-  //   if (loading) {
-  //     return (
-  //       <HeroCarousel
-  //         data={{}}
-  //         preload={loading && !allProperties.length}
-  //       />
-  //     );
-  //   }
-  //   return null;
-  // }, [loading]);
-
-  // const trendingProperties = useCallback(() => {
-  //   if (loading && !allProperties.length) {
-  //     console.log('DEBUGGER', loading);
-
-  //     return (
-  //       <HeroCarousel
-  //         data={{}}
-  //         preload={loading && !allProperties.length}
-  //       />
-  //     );
-  //   }
-  //   return (
-  //     !loading &&
-  //     allProperties.slice(0, 5).map((property, index) => (
-  //       <div
-  //         ref={appendRef}
-  //         key={index.toFixed()}
-  //         className="w-full h-full flex-shrink-0"
-  //         onTouchStart={onTouchStart}
-  //         onTouchMove={(event) => onTouchMove(event, index)}
-  //         onTouchEnd={(event) => onTouchEnd(event, index)}
-  //       >
-  //         <HeroCarousel
-  //           data={property}
-  //           preload={loading && !allProperties.length}
-  //         />
-  //       </div>
-  //     ))
-  //   );
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [allProperties]);
 
   return (
     <div className="mt-[4.5rem] md:mt-4 my-4 overflow-hidden">

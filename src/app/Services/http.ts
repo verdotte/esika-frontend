@@ -7,6 +7,8 @@ const token = LocalStorage.getToken();
 
 axios.defaults.baseURL = baseURL as string;
 axios.defaults.headers.post.Accept = 'application/json';
-axios.defaults.headers.Authorization = token;
+axios.defaults.headers.Authorization = token
+  ? `Bearer ${token}`
+  : null;
 
 export default axios;

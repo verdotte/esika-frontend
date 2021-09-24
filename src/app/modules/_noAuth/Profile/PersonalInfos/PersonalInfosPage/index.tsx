@@ -13,55 +13,99 @@ import ShowWidget from 'app/modules/__modules__/ShowWidget';
 // eslint-disable-next-line import/namespace
 import { useProfile } from 'app/modules/Contexts/ProfileContext';
 import ProfileImage from 'app/modules/__modules__/ProfileImage';
-// import axios from 'app/Services/http';
+import ENDPOINTS from 'app/Services/endpoints';
+import Service from 'app/Services';
+import { IObject } from 'app/modules/@Types';
 import InfoItem from '../InfoItem';
-import NameForm from '../NameForm';
 import NumberForm from '../NumberForm';
 import AddressForm from '../AddressForm';
 import useFetchCurrentUser from '../../UseFetchCurrentUser';
+import FloatingInputLabel from '../FloatingInputLabel';
 
 const PersonalInfosPage = () => {
   const {
-    editMode,
+    hideChildren,
     currentUser,
     code,
     currentUserNumber,
-    setEditMode,
-    // onFetchCurrentUser,
+    setCurrentUser,
   } = useProfile();
   const history = useHistory();
 
-  const [url, setUrl] = useState('');
+  const [startProcess, setStartProcess] = useState(false);
+  const [imageProcess, setImageProcess] = useState<Blob | null>(null);
+  const [editMode, setEditMode] = useState(false);
+  const [preview, setPreview] = useState<string | null>(null);
+  const [formData, setFormData] = useState<IObject>({});
 
   const uploadImage = ({ target }) => {
     const profileImage = target.files[0];
+    setPreview(URL.createObjectURL(profileImage));
+    setStartProcess(true);
+    setImageProcess(profileImage);
+  };
+
+  const cancelProcess = async () => {
+    setStartProcess(false);
+    setPreview(currentUser.picture);
+  };
+
+  const uploadingProcess = async () => {
     Compress.imageFileResizer(
-      profileImage as Blob, // the file from input
+      imageProcess as Blob, // the file from input
       480, // width
       480, // height
       'PNG', // compress format WEBP, JPEG, PNG
       70, // quality
       0, // rotation
-      (uri) => {
-        // You upload logic goes here
-        const data = new FormData();
-        data.append('file', uri as Blob);
-        data.append('tags', `codeinfuse, medium, gist`);
-        data.append('upload_preset', 'lcarnyle'); // Replace the preset name with your own
-        data.append('api_key', '763699599957591'); // Replace API key with your own Cloudinary key
-        data.append('timestamp', `${Date.now() / 1000}`);
-        fetch('https://api.cloudinary.com/v1_1/mtk67/image/upload', {
-          method: 'post',
-          body: data,
-        })
-          .then((resp) => resp.json())
-          .then((data) => {
-            setUrl(data.url);
-          })
-          .catch((err) => console.log(err));
+      async (uri) => {
+        // Upload logic
+        const dataPicture = new FormData();
+        dataPicture.append('file', uri as Blob);
+        dataPicture.append('tags', `codeinfuse, medium, gist`);
+        dataPicture.append('upload_preset', 'lcarnyle');
+        dataPicture.append('api_key', '763699599957591');
+        dataPicture.append('timestamp', `${Date.now() / 1000}`);
+        const response = await fetch(
+          'https://api.cloudinary.com/v1_1/mtk67/image/upload',
+          {
+            method: 'post',
+            body: dataPicture,
+          },
+        );
+        const { url } = await response.json();
+
+        if (!url) {
+          return;
+        }
+
+        // Update user data
+        const newPicture = {
+          picture: url,
+        };
+
+        const { error, data } = await Service.put(
+          `${ENDPOINTS.EDIT_PROFILE}/${currentUser.userId}`,
+          newPicture,
+        );
+
+        if (error) {
+          setPreview(currentUser.picture);
+          return;
+        }
+
+        if (data) {
+          setPreview(url);
+        }
       },
       'blob', // blob or base64 default base64
     );
+
+    setStartProcess(false);
+  };
+
+  const onEditMode = () => {
+    setEditMode((prev) => !prev);
   };
 
   const goBack = () => {
@@ -69,9 +113,34 @@ const PersonalInfosPage = () => {
     return history.push('/profile');
   };
 
-  useFetchCurrentUser();
+  const onInputChange = (event) => {
+    const { target } = event;
+    const { name, value } = target;
 
-  console.log('url', url);
+    setFormData((formValue) => ({
+      ...formValue,
+      [name]: value,
+    }));
+  };
+
+  const onSave = async () => {
+    setEditMode(false);
+
+    const { error, data } = await Service.put(
+      `${ENDPOINTS.EDIT_PROFILE}/${currentUser.userId}`,
+      formData,
+    );
+
+    if (error) {
+      return;
+    }
+
+    if (data) {
+      setCurrentUser(data.profile);
+    }
+  };
+
+  useFetchCurrentUser();
 
   return (
     <div>
@@ -93,48 +162,98 @@ const PersonalInfosPage = () => {
                   <div className="w-16 h-16 sm:w-16 sm:h-16 rounded-full bg-gray-200 animate-pulse" />
                 }
               >
-                <ProfileImage />
+                <ProfileImage
+                  image={
+                    (preview as string) ||
+                    (currentUser.picture as string)
+                  }
+                />
               </ShowWidget>
             </div>
-            <div className="flex justify-center items-center">
-              <label>
-                <span
-                  className={`py-2 text-sm sm:text-xl text-center transition-all duration-100 ${
-                    editMode ? 'text-gray-400' : 'text-blue-500'
-                  }`}
-                >
-                  Ajouter une photo de profile
-                </span>
-                <input
-                  type="file"
-                  className="hidden"
-                  disabled={editMode}
-                  onChange={uploadImage}
-                />
-              </label>
-            </div>
+            {startProcess ? (
+              <div className="flex justify-center items-center">
+                <div className="w-[45%] flex justify-between items-center">
+                  <button
+                    className="p-1 text-sm text-gray-500"
+                    type="button"
+                    onClick={cancelProcess}
+                  >
+                    Annuler
+                  </button>
+                  <button
+                    className="p-1 text-sm text-blue-500"
+                    type="button"
+                    onClick={uploadingProcess}
+                  >
+                    Upload
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="flex justify-center items-center">
+                <label>
+                  <span
+                    className={`py-2 text-sm sm:text-xl text-center transition-all duration-100 ${
+                      editMode && !hideChildren
+                        ? 'text-gray-400'
+                        : 'text-blue-500'
+                    }`}
+                  >
+                    {currentUser.picture
+                      ? 'Modifier photo de profile'
+                      : 'Ajouter une photo de profile'}
+                  </span>
+                  <input
+                    type="file"
+                    className="hidden"
+                    disabled={editMode && !hideChildren}
+                    onChange={uploadImage}
+                  />
+                </label>
+              </div>
+            )}
           </div>
           <InfoItem
+            editMode={editMode}
+            onEditMode={onEditMode}
+            onSave={onSave}
+            processing={startProcess}
             key="Prénom"
             label="Prénom"
             data={currentUser ? `${currentUser.firstName}` : ''}
           >
-            <NameForm
-              defaultValue={`${currentUser?.firstName}`}
-              label="Prénom"
-            />
+            <div className="w-full mb-3 border border-gray-300 rounded-md flex items-center pt-6 pb-2 pl-4 pr-4 overflow-hidden">
+              <FloatingInputLabel
+                name="firstName"
+                defaultValue={`${currentUser?.firstName}`}
+                label="Prénom"
+                onChange={onInputChange}
+              />
+            </div>
           </InfoItem>
           <InfoItem
+            editMode={editMode}
+            onEditMode={onEditMode}
+            onSave={onSave}
+            processing={startProcess}
             key="Post_nom"
             label="Nom de Famille"
             data={currentUser ? `${currentUser.lastName}` : ''}
           >
-            <NameForm
-              defaultValue={`${currentUser?.lastName}`}
-              label="Nom de Famille"
-            />
+            <div className="w-full mb-3 border border-gray-300 rounded-md flex items-center pt-6 pb-2 pl-4 pr-4 overflow-hidden">
+              <FloatingInputLabel
+                name="lastName"
+                defaultValue={`${currentUser?.lastName}`}
+                label="Prénom"
+                onChange={onInputChange}
+              />
+            </div>
           </InfoItem>
           <InfoItem
+            editMode={editMode}
+            onEditMode={onEditMode}
+            onSave={onSave}
+            processing={startProcess}
             key="Numero"
             label="Numero de Telephone"
             data={currentUser ? `(${code}) ${currentUserNumber}` : ''}
@@ -142,6 +261,10 @@ const PersonalInfosPage = () => {
             <NumberForm />
           </InfoItem>
           <InfoItem
+            editMode={editMode}
+            onEditMode={onEditMode}
+            onSave={onSave}
+            processing={startProcess}
             key="Addresse"
             label="Addresse"
             data="Information non fournie"

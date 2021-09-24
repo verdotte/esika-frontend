@@ -39,14 +39,14 @@ const AddressForm = ({ label }: Props) => {
           <FloatingInputLabel defaultValue="" label="Code Postal" />
         </div>
       </div>
-      <div className="flex justify-end items-center">
+      {/* <div className="flex justify-end items-center">
         <button
           type="submit"
           className="py-2 px-3 bg-brand-bold text-white rounded"
         >
           Enregistrer
         </button>
-      </div>
+      </div> */}
     </>
   );
 };

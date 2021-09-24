@@ -10,19 +10,6 @@ import getCurrentUser from 'app/modules/utils/helpers/currentUser';
 import Service from 'app/Services';
 import ENDPOINTS from 'app/Services/endpoints';
 
-interface IProfile {
-  loading: boolean;
-  editMode: boolean;
-  code: string;
-  currentUserNumber: string;
-  currentUser: IAgent;
-  setEditMode: SetStateType<boolean>;
-  setCode: SetStateType<string>;
-  onEditChange: () => void;
-  onCodeChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-  onFetchCurrentUser: () => void;
-}
-
 const defaultCurrentUser = {
   active: true,
   createdAt: '',
@@ -37,16 +24,45 @@ const defaultCurrentUser = {
   verified: false,
 };
 
+interface IProfile {
+  loading: boolean;
+  editMode: boolean;
+  hideChildren: boolean;
+  code: string;
+  value: string;
+  credential: string;
+  currentUserNumber: string;
+  currentUser: IAgent;
+  setEditMode: SetStateType<boolean>;
+  setHideChildren: SetStateType<boolean>;
+  setCode: SetStateType<string>;
+  setValue: SetStateType<string>;
+  setCredential: SetStateType<string>;
+  setCurrentUser: SetStateType<IAgent>;
+  onEditChange: () => void;
+  onCodeChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  onValueChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onFetchCurrentUser: () => void;
+}
+
 const defaultCtx: IProfile = {
   loading: true,
   editMode: false,
+  hideChildren: false,
   code: '+243',
+  value: '',
+  credential: '',
   currentUserNumber: '',
   currentUser: defaultCurrentUser,
   setCode: () => null,
+  setValue: () => null,
+  setCredential: () => null,
   setEditMode: () => null,
+  setHideChildren: () => null,
+  setCurrentUser: () => null,
   onEditChange: () => null,
   onCodeChange: () => null,
+  onValueChange: () => null,
   onFetchCurrentUser: () => null,
 };
 
@@ -56,7 +72,10 @@ export const useProfile = () => useContext(ProfileContext);
 const ProfileProvider: FC = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [editMode, setEditMode] = useState<boolean>(false);
+  const [hideChildren, setHideChildren] = useState<boolean>(false);
   const [code, setCode] = useState<string>('+243');
+  const [value, setValue] = useState<string>('');
+  const [credential, setCredential] = useState<string>('');
   const [currentUserNumber, setCurrentUserNumber] =
     useState<string>('');
   const [currentUser, setCurrentUser] = useState<IAgent>(
@@ -69,6 +88,10 @@ const ProfileProvider: FC = ({ children }) => {
 
   const onCodeChange = useCallback((event) => {
     setCode(event?.target.value);
+  }, []);
+
+  const onValueChange = useCallback((event) => {
+    setValue(event.target.value);
   }, []);
 
   const onFetchCurrentUser = useCallback(async () => {
@@ -107,12 +130,20 @@ const ProfileProvider: FC = ({ children }) => {
       value={{
         loading,
         editMode,
+        hideChildren,
         code,
+        value,
+        credential,
         currentUserNumber,
         currentUser,
         onCodeChange,
+        onValueChange,
         setEditMode,
+        setHideChildren,
         setCode,
+        setValue,
+        setCredential,
+        setCurrentUser,
         onEditChange,
         onFetchCurrentUser,
       }}

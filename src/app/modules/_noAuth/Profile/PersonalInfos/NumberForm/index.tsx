@@ -1,12 +1,47 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable jsx-a11y/no-onchange */
-import React, { memo } from 'react';
+import React, { useState, memo } from 'react';
 import { useProfile } from 'app/modules/Contexts/ProfileContext';
 import ChevroDownVector from 'app/modules/__modules__/_vectors/ChevroDownVector';
 import CountrySelectorInput from 'app/modules/__modules__/CountrySelectorInput';
+import ENDPOINTS from 'app/Services/endpoints';
+import Service from 'app/Services';
 
 const NumberForm = () => {
-  const { code, currentUserNumber, onCodeChange } = useProfile();
+  const {
+    currentUser,
+    code,
+    currentUserNumber,
+    onCodeChange,
+    setHideChildren,
+  } = useProfile();
+  const [startProcess, setStartProcess] = useState(false);
+  const [value, setValue] = useState('');
+
+  const updatingProcess = async () => {
+    setStartProcess(true);
+
+    const userCredentials = {
+      phoneNumber: `${code} ${value}`,
+    };
+
+    const { error, data } = await Service.put(
+      `${ENDPOINTS.EDIT_PROFILE}/${currentUser.userId}`,
+      userCredentials,
+    );
+
+    if (error) {
+      setStartProcess(false);
+      return;
+    }
+
+    setStartProcess(false);
+    setHideChildren((prev) => !prev);
+  };
+
+  const onValueChange = (event) => {
+    setValue(event.target.value);
+  };
 
   return (
     <>
@@ -26,15 +61,8 @@ const NumberForm = () => {
             id="grid-last-name"
             type="text"
             defaultValue={currentUserNumber}
+            onChange={onValueChange}
           />
-        </div>
-        <div className="flex justify-end items-center">
-          <button
-            type="submit"
-            className="py-2 px-3 bg-brand-bold text-white rounded"
-          >
-            Enregistrer
-          </button>
         </div>
       </div>
     </>

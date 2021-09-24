@@ -61,11 +61,11 @@ const PropertyCarousel = ({ propertyImages, isLoading }: Props) => {
       <ShowWidget
         condition={!isLoading}
         fallback={
-          <div className="h-80 md:h-[35rem] w-full md:rounded-lg bg-gray-200 animate-pulse" />
+          <div className="h-80 w-full md:rounded-lg bg-gray-200 animate-pulse" />
         }
       >
         <div
-          className="h-80 md:h-[35rem] w-full flex transition-all duration-700"
+          className="h-80 w-full flex transition-all duration-700"
           ref={wrapperRef}
         >
           {images.map((image, index) => (

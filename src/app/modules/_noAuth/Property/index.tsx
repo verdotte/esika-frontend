@@ -19,10 +19,16 @@ import Service from 'app/Services';
 import ENDPOINTS from 'app/Services/endpoints';
 import PropertySpecs from 'app/modules/__modules__/PropertySpecs';
 import ChevronRightVector from 'app/modules/__modules__/_vectors/chevronRightVector';
+import useResponsive from 'app/modules/Hooks/useResponsive';
+import SearchContainer from 'app/modules/__modules__/SearchContainer';
+import Header from 'app/modules/__modules__/Header';
+import { useSearch } from 'app/modules/Contexts/SearchContext';
 import RelatedProperties from './RelatedProperties';
 import PropertyCarousel from './PropertyCarousel';
 import PropertyDetails from './PropertyDetails';
 import PropertyAgent from './PropertyAgent';
+import PropertyImages from './PropertyImages';
+import PropertyDetailsDesktop from './PropertyDetailsDesktop';
 
 const PropertyContainer = () => {
   const [property, setProperty] = useState<IProperty | null>(null);
@@ -30,11 +36,14 @@ const PropertyContainer = () => {
   const [agent, setAgent] = useState<IAgent | null>(null);
   const [readMore, setReadMore] = useState(false);
 
+  const [isMobile] = useResponsive();
+
   const isCurrent = useRef(true);
 
   const { slug } = useParams<{ slug?: string }>();
 
   const { loading, properties, onFetchProperties } = useHome();
+  const { isVisible, onToggleVisibility } = useSearch();
 
   useEffect(() => {
     if (!properties.length) {
@@ -108,28 +117,59 @@ const PropertyContainer = () => {
   };
 
   return (
-    <div>
-      <PropertyCarousel
-        isLoading={isLoading}
-        propertyImages={property?.image as string}
-      />
-      <PropertyDetails isLoading={isLoading} property={property} />
-      <div className="py-4 mx-4 md:container md:mx-auto md:px-16 border-b border-gray-300">
-        <PropertyAgent isLoading={isLoading} agent={agent} />
-        <div className="flex items-center justify-between overflow-x-scroll no-scrollbars">
-          <PropertySpecs
-            loading={loading || isLoading}
-            specs={property?.spec as IObject}
-            tagClassName="bg-gray-300 my-1"
+    <div className="container mx-auto px-0 md:px-8 no-scrollbars">
+      {isMobile ? (
+        <PropertyCarousel
+          isLoading={isLoading}
+          propertyImages={property?.image as string}
+        />
+      ) : (
+        <>
+          <Header
+            className="fixed md:sticky z-20 md:z-10 top-0"
+            onSearchClick={onToggleVisibility}
           />
-        </div>
-      </div>
-      <div className="py-4 mx-4 md:container md:mx-auto md:px-16 border-b border-gray-300">
+          <PropertyImages
+            isLoading={isLoading}
+            propertyImages={property?.image as string}
+            property={property}
+          />
+        </>
+      )}
+
+      {isMobile ? (
+        <>
+          <PropertyDetails
+            isLoading={isLoading}
+            property={property}
+          />
+
+          <div className="py-4 mx-4 md:container md:mx-auto md:px-16 border-b border-gray-300">
+            <PropertyAgent isLoading={isLoading} agent={agent} />
+            <div className="flex items-center justify-between overflow-x-scroll no-scrollbars">
+              <PropertySpecs
+                loading={loading || isLoading}
+                specs={property?.spec as IObject}
+                tagClassName="bg-gray-300 my-1"
+              />
+            </div>
+          </div>
+        </>
+      ) : (
+        <PropertyDetailsDesktop
+          loading={loading || isLoading}
+          isLoading={isLoading}
+          property={property}
+          agent={agent}
+        />
+      )}
+
+      <div className="py-4 mx-4 md:mx-0 md:container border-b md:border-none border-gray-300">
         <div className="flex justify-between items-center">
           <ShowWidget
             condition={!isLoading}
             fallback={
-              <div className="w-4/5 h-8 sm:mt-0 bg-gray-200 animate-pulse" />
+              <div className="w-4/5 h-8 md:w-full sm:mt-0 bg-gray-200 animate-pulse" />
             }
           >
             <p
@@ -137,37 +177,45 @@ const PropertyContainer = () => {
                 readMore ? 'line-clamp-none' : 'line-clamp-3'
               }`}
             >
-              {property?.description} {property?.description}
+              {property?.description}
             </p>
           </ShowWidget>
         </div>
-        <button
-          type="submit"
-          onClick={onReadMore}
-          className={`mt-2 text-sm text-black font-medium justify-center items-center transition-all duration-500 ${
-            !isLoading ? 'flex' : 'hidden'
-          }`}
-        >
-          {readMore ? 'Afficher moins' : 'Afficher plus'}
-          <ChevronRightVector className="pl-1 h-5 w-5" />
-        </button>
-      </div>
-      <div className="mx-4 my-5 md:container md:mx-auto md:px-56 flex justify-center items-center">
         <ShowWidget
-          condition={!isLoading}
-          fallback={
-            <div className="w-full h-10 rounded-lg bg-gray-200 animate-pulse" />
+          condition={
+            !isLoading &&
+            !!property?.description &&
+            property?.description.length > 89
           }
         >
           <button
             type="submit"
-            className="w-full p-3 bg-brand-bold text-white rounded-lg md:mx-auto md:px-16"
+            onClick={onReadMore}
+            className="flex mt-2 text-sm text-black font-medium justify-center items-center transition-all duration-500 md:hidden"
           >
-            Contacter l&apos;agent
+            {readMore ? 'Afficher moins' : 'Afficher plus'}
+            <ChevronRightVector className="pl-1 h-5 w-5" />
           </button>
         </ShowWidget>
       </div>
-      <div className="md:container md:mx-auto md:px-16">
+      {isMobile && (
+        <div className="mx-4 my-5 md:container md:mx-auto md:px-56 flex justify-center items-center">
+          <ShowWidget
+            condition={!isLoading}
+            fallback={
+              <div className="w-full h-10 rounded-lg bg-gray-200 animate-pulse" />
+            }
+          >
+            <button
+              type="submit"
+              className="w-full p-3 bg-brand-bold text-white rounded-lg md:mx-auto md:px-16"
+            >
+              Contacter l&apos;agent
+            </button>
+          </ShowWidget>
+        </div>
+      )}
+      <div>
         <RelatedProperties
           loading={loading || isLoading}
           properties={relatedProperties}
@@ -175,6 +223,10 @@ const PropertyContainer = () => {
       </div>
       <Footer />
       <BottomNavbar />
+      <SearchContainer
+        show={isVisible}
+        onClose={onToggleVisibility}
+      />
     </div>
   );
 };

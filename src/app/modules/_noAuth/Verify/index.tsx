@@ -28,8 +28,8 @@ const VerifyCodeActivity: FC = (): JSX.Element => {
     <div className="container mx-auto md:px-8">
       <Header showSearchBar={false} />
       <div className="px-3 md:px-0 my-5 md:my-3 w-full">
-        <div className="bg-brand-bold flex justify-center p-6 md:p-8 lg:p-12 md:h-[80vh] rounded-sm">
-          <div className="bg-white p-6 md:p-8 lg:p-12 rounded-md flex flex-col md:justify-center items-center shadow-md md:shadow-none h-full">
+        <div className="bg-brand-bold flex justify-center p-6 md:p-8 lg:p-12 h-40 md:h-[80vh] rounded-sm">
+          <div className="bg-white p-6 md:p-8 lg:p-12 rounded-md flex flex-col md:justify-center items-center shadow-md md:shadow-none h-[460px] sm:h-[500px] md:h-full">
             <div className="flex items-center space-x-3">
               <UserVector className="w-8 h-8" />
               <h1 className="md:text-xl">Verification du compte</h1>
@@ -55,7 +55,7 @@ const VerifyCodeActivity: FC = (): JSX.Element => {
               type={errors.type}
               onHide={onClearMessage}
             />
-            <div className="my-3 text-center">
+            <div className="my-2 md:my-3 text-center">
               <p>Entrez le code PIN</p>
               <OTPWidget
                 pins={4}
@@ -65,8 +65,8 @@ const VerifyCodeActivity: FC = (): JSX.Element => {
               />
             </div>
 
-            <div className="my-3">
-              <div className="mt-3 md:5 my-5 text-center">
+            <div className="mt-0 mb-3 md:mt-3 md:mb-0">
+              <div className="mb-5 md:my-5 text-center">
                 <button
                   type="button"
                   disabled={isPerforming}

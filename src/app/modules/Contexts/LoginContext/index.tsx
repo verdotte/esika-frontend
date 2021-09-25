@@ -15,6 +15,7 @@ import {
 import Service from 'app/Services';
 import ENDPOINTS from 'app/Services/endpoints';
 import LocalStorage from 'app/modules/utils/helpers/LocalStorage';
+import keys from 'app/modules/utils/configs/keys';
 
 type stateObject = Record<string, string>;
 
@@ -119,7 +120,7 @@ const LoginProvider: FC = ({ children }) => {
 
       setIsPerforming(true);
 
-      const { error, data } = await Service.post(
+      const { error, data, status } = await Service.post(
         ENDPOINTS.LOGIN,
         payload,
       );
@@ -127,6 +128,14 @@ const LoginProvider: FC = ({ children }) => {
       setIsPerforming(false);
 
       if (error) {
+        if (status === 403) {
+          LocalStorage.set(
+            keys.PHONE_STORAGE_KEY as string,
+            payload.phoneNumber,
+          );
+          history.push('/verify');
+          return;
+        }
         setErrors((prev) => ({
           ...prev,
           message: error,

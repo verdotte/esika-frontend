@@ -20,7 +20,7 @@ export interface IObject {
 
 export type SetStateType<T> = React.Dispatch<React.SetStateAction<T>>;
 
-export type alertType = 'success' | 'error';
+export type alertType = 'success' | 'error' | 'warning';
 
 export interface IProperty {
   title: string | null;

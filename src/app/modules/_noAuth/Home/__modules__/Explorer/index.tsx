@@ -13,7 +13,7 @@ const ExplorerPanel = () => {
   const {
     agents,
     properties,
-    loadingExpoler,
+    loadingExplorer,
     paginationIndicators,
     onIndicatorChange,
   } = useHome();
@@ -29,9 +29,9 @@ const ExplorerPanel = () => {
   );
 
   const renderProperties = useCallback(() => {
-    if (loadingExpoler) {
+    if (loadingExplorer) {
       return Array.from({ length: 6 }).map((_, index) => (
-        <PropertyCard key={index} preload={loadingExpoler} />
+        <PropertyCard key={index} preload={loadingExplorer} />
       ));
     }
     return (
@@ -49,7 +49,7 @@ const ExplorerPanel = () => {
         );
       })
     );
-  }, [chunks, loadingExpoler, indicator, agents]);
+  }, [chunks, loadingExplorer, indicator, agents]);
 
   return (
     <div className="my-4">
@@ -60,17 +60,21 @@ const ExplorerPanel = () => {
       <PropertyCategory />
       <div
         className={`w-full px-3 md:px-0 ${
-          !loadingExpoler && !chunks[indicator]
+          !loadingExplorer && !chunks[indicator]
             ? 'h-[350px]'
             : 'min-h-[500px]'
         }`}
       >
-        <ShowWidget condition={loadingExpoler || !!chunks[indicator]}>
+        <ShowWidget
+          condition={loadingExplorer || !!chunks[indicator]}
+        >
           <div className="w-full flex flex-col md:grid md:grid-cols-2 md:gap-x-6 lg:grid-cols-3 gap-5 lg:gap-12 my-8">
             {renderProperties()}
           </div>
         </ShowWidget>
-        <ShowWidget condition={!loadingExpoler && !chunks[indicator]}>
+        <ShowWidget
+          condition={!loadingExplorer && !chunks[indicator]}
+        >
           <NoPropertyFound className="w-1/2 md:w-1/4">
             <p className="mt-3">
               Aucun immobilier trouvé dans cette catégorie

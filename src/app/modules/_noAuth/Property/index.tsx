@@ -49,9 +49,6 @@ const PropertyContainer = () => {
     if (!properties.length) {
       onFetchProperties();
     }
-    return () => {
-      onFetchProperties();
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onFetchProperties]);
 

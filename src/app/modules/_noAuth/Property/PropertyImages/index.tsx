@@ -47,7 +47,7 @@ const PropertyImages = ({
           </ShowWidget>
         </div>
       </ShowWidget>
-      <div className="pt-5 h-[27rem] flex justify-between">
+      <div className="pt-5 h-[27rem] hidden sm:flex justify-between">
         <div className="w-[65%] h-full">
           <ShowWidget
             condition={!isLoading}

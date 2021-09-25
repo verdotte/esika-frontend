@@ -24,9 +24,6 @@ const HomePage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onFetchProperties]);
 
-  // console.log('HOME ===> properties', properties.length);
-  // console.log('HERO_CAROUSEL_CONTAINER ===> loading', loading);
-
   return (
     <div className="container mx-auto px-0 md:px-8 no-scrollbars">
       <Header

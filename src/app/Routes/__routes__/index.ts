@@ -1,8 +1,9 @@
 import NotFound from 'app/Initials/__noAuth/NotFound';
 import IRoute from 'app/modules/@Types/route.interface';
 import noAuthRoutes from './noAuth.routes';
+import authRoutes from './auth.routes';
 
-const notFoundRoute = {
+const notFoundRoute: IRoute = {
   name: 'Esika - 404 Page',
   secured: false,
   path: '*',
@@ -10,6 +11,10 @@ const notFoundRoute = {
   component: NotFound,
 };
 
-const appRoutes: IRoute[] = [...noAuthRoutes, notFoundRoute];
+const appRoutes: IRoute[] = [
+  ...authRoutes,
+  ...noAuthRoutes,
+  notFoundRoute,
+];
 
 export default appRoutes;

@@ -90,22 +90,20 @@ const PropertyCarousel = ({ propertyImages, isLoading }: Props) => {
             : ''
         } `}
       >
-        <div className="">
-          <ShowWidget condition={images.length > 1}>
-            <div className="flex items-center">
-              {images.map((_, index: number) => (
-                <HeroCarouselIndicator
-                  key={index.toFixed()}
-                  className="h-3 border border-white rounded-full mr-3"
-                  currentStyle="w-12 bg-white"
-                  position={index}
-                  current={currentIndex === index}
-                  onClick={onIndicatorClick}
-                />
-              ))}
-            </div>
-          </ShowWidget>
-        </div>
+        <ShowWidget condition={images.length > 1}>
+          <div className="flex items-center">
+            {images.map((_, index: number) => (
+              <HeroCarouselIndicator
+                key={index.toFixed()}
+                className="h-3 border border-white rounded-full mr-3"
+                currentStyle="w-12 bg-white"
+                position={index}
+                current={currentIndex === index}
+                onClick={onIndicatorClick}
+              />
+            ))}
+          </div>
+        </ShowWidget>
 
         <ShowWidget condition={images.length > 1}>
           <p className="text-[1rem] text-white">

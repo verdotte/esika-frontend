@@ -9,20 +9,9 @@ import { HeroCarouselIndicator } from '../HeroCarousel/Indicator';
 import TrendingProperties from './TrendingProperties';
 
 const HeroCarouselContainer = () => {
-  const {
-    allProperties,
-    // loading
-  } = useHome();
+  const { allProperties } = useHome();
 
-  const {
-    currentIndex,
-    wrapperRef,
-    // childrenRefElement,
-    setCurrentIndex,
-    // onTouchStart,
-    // onTouchEnd,
-    // onTouchMove,
-  } = useSwipe();
+  const { currentIndex, wrapperRef, setCurrentIndex } = useSwipe();
 
   const onIndicatorClick = useCallback(
     (position: number) => {

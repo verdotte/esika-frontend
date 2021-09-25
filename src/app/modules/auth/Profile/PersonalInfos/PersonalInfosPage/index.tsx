@@ -85,7 +85,7 @@ const PersonalInfosPage = () => {
         };
 
         const { error, data } = await Service.put(
-          `${ENDPOINTS.EDIT_PROFILE}/${currentUser.userId}`,
+          `${ENDPOINTS.USER_PROFILE}/${currentUser.userId}`,
           newPicture,
         );
 
@@ -124,19 +124,22 @@ const PersonalInfosPage = () => {
   };
 
   const onSave = async () => {
-    setEditMode(false);
-
+    setStartProcess(true);
     const { error, data } = await Service.put(
-      `${ENDPOINTS.EDIT_PROFILE}/${currentUser.userId}`,
+      `${ENDPOINTS.USER_PROFILE}/${currentUser.userId}`,
       formData,
     );
 
     if (error) {
+      setEditMode(false);
+      setStartProcess(false);
       return;
     }
 
     if (data) {
       setCurrentUser(data.profile);
+      setEditMode(false);
+      setStartProcess(false);
     }
   };
 
@@ -214,10 +217,10 @@ const PersonalInfosPage = () => {
             )}
           </div>
           <InfoItem
+            processing={startProcess}
             editMode={editMode}
             onEditMode={onEditMode}
             onSave={onSave}
-            processing={startProcess}
             key="Prénom"
             label="Prénom"
             data={currentUser ? `${currentUser.firstName}` : ''}
@@ -232,10 +235,10 @@ const PersonalInfosPage = () => {
             </div>
           </InfoItem>
           <InfoItem
+            processing={startProcess}
             editMode={editMode}
             onEditMode={onEditMode}
             onSave={onSave}
-            processing={startProcess}
             key="Post_nom"
             label="Nom de Famille"
             data={currentUser ? `${currentUser.lastName}` : ''}
@@ -250,10 +253,10 @@ const PersonalInfosPage = () => {
             </div>
           </InfoItem>
           <InfoItem
+            processing={startProcess}
             editMode={editMode}
             onEditMode={onEditMode}
             onSave={onSave}
-            processing={startProcess}
             key="Numero"
             label="Numero de Telephone"
             data={currentUser ? `(${code}) ${currentUserNumber}` : ''}
@@ -261,10 +264,10 @@ const PersonalInfosPage = () => {
             <NumberForm />
           </InfoItem>
           <InfoItem
+            processing={startProcess}
             editMode={editMode}
             onEditMode={onEditMode}
             onSave={onSave}
-            processing={startProcess}
             key="Addresse"
             label="Addresse"
             data="Information non fournie"

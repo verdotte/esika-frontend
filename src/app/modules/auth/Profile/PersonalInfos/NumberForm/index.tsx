@@ -26,7 +26,7 @@ const NumberForm = () => {
     };
 
     const { error, data } = await Service.put(
-      `${ENDPOINTS.EDIT_PROFILE}/${currentUser.userId}`,
+      `${ENDPOINTS.USER_PROFILE}/${currentUser.userId}`,
       userCredentials,
     );
 

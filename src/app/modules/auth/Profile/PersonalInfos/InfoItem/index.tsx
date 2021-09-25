@@ -1,11 +1,7 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable jsx-a11y/no-onchange */
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState, memo } from 'react';
-// import { useProfile } from 'app/modules/Contexts/ProfileContext';
+import React, { useState, memo, FC } from 'react';
 
 interface Props {
+  processing?: boolean;
   editMode: boolean;
   label: string;
   data: string;
@@ -14,17 +10,19 @@ interface Props {
   onSave: () => void;
 }
 
-const InfoItem = ({
+const defaultProps: Partial<Props> = {
+  processing: false,
+};
+
+const InfoItem: FC<Props> = ({
   label,
   data,
   children,
+  processing,
   editMode,
   onEditMode,
   onSave,
 }: Props) => {
-  // const { editMode, hideChildren, setEditMode, setHideChildren } =
-  //   useProfile();
-
   const [editModeProfile, setEditModeProfile] = useState(false);
 
   const onAction = () => {
@@ -32,8 +30,8 @@ const InfoItem = ({
     onEditMode();
   };
 
-  const onSaveChanges = () => {
-    onSave?.();
+  const onSaveChanges = async () => {
+    await onSave?.();
     setEditModeProfile(false);
   };
 
@@ -81,10 +79,11 @@ const InfoItem = ({
           <div className="flex justify-end items-center">
             <button
               type="submit"
-              className="py-2 px-3 bg-brand-bold text-white rounded"
+              className="min-w-[8rem] py-2 px-3 bg-brand-bold disabled:bg-gray-300 text-white disabled:text-gray-700 rounded"
               onClick={onSaveChanges}
+              disabled={processing}
             >
-              Enregistrer
+              {!processing ? 'Enregistrer' : 'En cours...'}
             </button>
           </div>
         </div>
@@ -93,4 +92,5 @@ const InfoItem = ({
   );
 };
 
+InfoItem.defaultProps = defaultProps;
 export default memo(InfoItem);

@@ -4,7 +4,7 @@ import { useSwipe } from 'app/modules/Contexts/SwipeContext';
 import HeroCarousel from '../../HeroCarousel';
 
 const TrendingProperties = () => {
-  const { allProperties, loading } = useHome();
+  const { allProperties, loading, loadingExplorer } = useHome();
 
   const {
     childrenRefElement,
@@ -22,11 +22,14 @@ const TrendingProperties = () => {
     [childrenRefElement],
   );
 
-  if (loading) {
+  if (loadingExplorer || loading) {
     return (
       <HeroCarousel
         data={{}}
-        preload={loading && !allProperties.length}
+        preload={
+          (loadingExplorer && !allProperties.length) ||
+          (loading && !allProperties.length)
+        }
       />
     );
   }

@@ -96,7 +96,7 @@ const PropertyImages = ({
           <ShowWidget condition={images.length >= 3}>
             <button
               type="button"
-              className="bg-gray-400 text-white border border-white text-sm rounded-lg p-2 px-5 absolute bottom-[5%] right-[5%]"
+              className="bg-black/60 hover:bg-white text-white hover:text-black border border-white hover:border-black text-sm rounded-lg p-2 px-5 absolute bottom-[5%] right-[5%]"
             >
               + Plus d&apos;images
             </button>

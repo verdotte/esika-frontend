@@ -107,13 +107,11 @@ const PropertyCarousel = ({ propertyImages, isLoading }: Props) => {
           </ShowWidget>
         </div>
 
-        <div className="">
-          <ShowWidget condition={images.length > 1}>
-            <p className="text-[1rem] text-white">
-              {currentIndex + 1}/{images.length}
-            </p>
-          </ShowWidget>
-        </div>
+        <ShowWidget condition={images.length > 1}>
+          <p className="text-[1rem] text-white">
+            {currentIndex + 1}/{images.length}
+          </p>
+        </ShowWidget>
       </div>
     </div>
   );

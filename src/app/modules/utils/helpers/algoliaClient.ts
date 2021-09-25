@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import algoliasearch from 'algoliasearch/lite';
 import keys from '../configs/keys';
 

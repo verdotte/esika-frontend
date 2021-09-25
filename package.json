@@ -19,7 +19,7 @@
     "@types/node": "^12.20.15",
     "@types/react": "^17.0.13",
     "@types/react-dom": "^17.0.8",
-    "algolia-search": "^2.0.1",
+    "algoliasearch": "^4.10.5",
     "axios": "^0.21.1",
     "copy-webpack-plugin": "^9.0.1",
     "dotenv-webpack": "^7.0.3",

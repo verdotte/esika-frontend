@@ -9,7 +9,6 @@ import Statistics from 'app/modules/_noAuth/Profile/Account';
 import Contacts from 'app/modules/_noAuth/Profile/Contacts';
 import PersonalInfos from 'app/modules/_noAuth/Profile/PersonalInfos';
 import PropertyMobile from 'app/Initials/__noAuth/Property';
-import NotFound from 'app/Initials/__noAuth/NotFound';
 
 const noAuthRoutes: IRoute[] = [
   {
@@ -81,13 +80,6 @@ const noAuthRoutes: IRoute[] = [
     path: '/profile/contacts',
     exact: true,
     component: Contacts,
-  },
-  {
-    name: 'Esika - 404 Page',
-    secured: false,
-    path: '/notFound',
-    exact: true,
-    component: NotFound,
   },
 ];
 

@@ -24,6 +24,10 @@ class LocalStorage {
   static removeToken() {
     localStorage.removeItem(keys.TOKEN_STORAGE_KEY as string);
   }
+
+  static clear() {
+    localStorage.clear();
+  }
 }
 
 export default LocalStorage;

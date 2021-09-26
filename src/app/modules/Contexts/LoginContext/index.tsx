@@ -118,6 +118,8 @@ const LoginProvider: FC = ({ children }) => {
       const payload = formDataToObject(formData);
       payload.country = undefined;
 
+      payload.phoneNumber = payload.phoneNumber?.replaceAll(' ', '');
+
       setIsPerforming(true);
 
       const { error, data, status } = await Service.post(

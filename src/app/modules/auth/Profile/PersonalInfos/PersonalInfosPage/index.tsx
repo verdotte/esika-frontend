@@ -10,7 +10,6 @@ import Compress from 'react-image-file-resizer';
 import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
 import ChevronLeftVector from 'app/modules/__modules__/_vectors/chevronLetfVector';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
-// eslint-disable-next-line import/namespace
 import { useProfile } from 'app/modules/Contexts/ProfileContext';
 import ProfileImage from 'app/modules/__modules__/ProfileImage';
 import ENDPOINTS from 'app/Services/endpoints';
@@ -19,7 +18,6 @@ import { IObject } from 'app/modules/@Types';
 import ChevroDownVector from 'app/modules/__modules__/_vectors/ChevroDownVector';
 import CountrySelectorInput from 'app/modules/__modules__/CountrySelectorInput';
 import InfoItem from '../InfoItem';
-// import AddressForm from '../AddressForm';
 import useFetchCurrentUser from '../../UseFetchCurrentUser';
 import FloatingInputLabel from '../FloatingInputLabel';
 import AddressInput from '../AddressInput';
@@ -32,6 +30,7 @@ const PersonalInfosPage = () => {
     currentUserNumber,
     onCodeChange,
     setCurrentUser,
+    setCurrentUserNumber,
   } = useProfile();
   const history = useHistory();
 
@@ -120,10 +119,18 @@ const PersonalInfosPage = () => {
     const { target } = event;
     const { name, value } = target;
 
-    setFormData((formValue) => ({
-      ...formValue,
-      [name]: value,
-    }));
+    if (name === 'phoneNumber') {
+      setCurrentUserNumber(value.replaceAll(' ', ''));
+      setFormData((formValue) => ({
+        ...formValue,
+        phoneNumber: `${code}${value.replaceAll(' ', '')}`,
+      }));
+    } else {
+      setFormData((formValue) => ({
+        ...formValue,
+        [name]: value,
+      }));
+    }
   };
 
   const onSave = async () => {
@@ -145,8 +152,6 @@ const PersonalInfosPage = () => {
       setStartProcess(false);
     }
   };
-
-  // console.log('currentUser', currentUser);
 
   return (
     <div>
@@ -222,6 +227,36 @@ const PersonalInfosPage = () => {
           <InfoItem
             processing={startProcess}
             editMode={editMode}
+            isBio
+            onEditMode={onEditMode}
+            onSave={onSave}
+            key="Biographie"
+            label="Biographie"
+            data={currentUser ? `${currentUser.bio}` : ''}
+          >
+            <div className="w-full mb-3 border border-gray-300 rounded-md flex items-center pt-6 pb-2 pl-4 pr-0 overflow-hidden">
+              <div className="w-full relative">
+                <textarea
+                  id="bio"
+                  name="bio"
+                  rows={3}
+                  placeholder="Bio"
+                  className="w-[95%] peer outline-none text-black font-medium placeholder-transparent bg-transparent"
+                  defaultValue={`${currentUser.bio}`}
+                  onChange={onInputChange}
+                />
+                <label
+                  htmlFor="bio"
+                  className="absolute left-0 -top-3.5 text-gray-400 text-xs transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:-top-0.5"
+                >
+                  Biographie
+                </label>
+              </div>
+            </div>
+          </InfoItem>
+          <InfoItem
+            processing={startProcess}
+            editMode={editMode}
             isBio={false}
             onEditMode={onEditMode}
             onSave={onSave}
@@ -252,39 +287,9 @@ const PersonalInfosPage = () => {
               <FloatingInputLabel
                 name="lastName"
                 defaultValue={`${currentUser?.lastName}`}
-                label="Prénom"
+                label="Nom de Famille"
                 onChange={onInputChange}
               />
-            </div>
-          </InfoItem>
-          <InfoItem
-            processing={startProcess}
-            editMode={editMode}
-            isBio
-            onEditMode={onEditMode}
-            onSave={onSave}
-            key="Biographie"
-            label="Biographie"
-            data={currentUser ? `${currentUser.bio}` : ''}
-          >
-            <div className="w-full mb-3 border border-gray-300 rounded-md flex items-center pt-6 pb-2 pl-4 pr-0 overflow-hidden">
-              <div className="w-full relative">
-                <textarea
-                  id="bio"
-                  name="bio"
-                  rows={3}
-                  placeholder="Prénom"
-                  className="w-[95%] peer outline-none text-black font-medium placeholder-transparent bg-transparent"
-                  defaultValue={`${currentUser.bio}`}
-                  onChange={onInputChange}
-                />
-                <label
-                  htmlFor="bio"
-                  className="absolute left-0 -top-3.5 text-gray-400 text-xs transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:-top-0.5"
-                >
-                  Biographie
-                </label>
-              </div>
             </div>
           </InfoItem>
           <InfoItem
@@ -297,7 +302,6 @@ const PersonalInfosPage = () => {
             label="Numero de Telephone"
             data={currentUser ? `(${code}) ${currentUserNumber}` : ''}
           >
-            {/* <NumberForm /> */}
             <div className="mb-3 p-2">
               <div className="w-full inline-block relative">
                 <CountrySelectorInput onChange={onCodeChange} />
@@ -314,69 +318,13 @@ const PersonalInfosPage = () => {
                   id="phoneNumber"
                   name="phoneNumber"
                   type="text"
-                  defaultValue="778 509 281"
+                  defaultValue={`${currentUserNumber}`}
                   onChange={onInputChange}
                 />
               </div>
             </div>
           </InfoItem>
-          <AddressInput />
-          {/* <InfoItem
-            processing={startProcess}
-            editMode={editMode}
-            isBio={false}
-            onEditMode={onEditMode}
-            onSave={onSave}
-            key="Addresse"
-            label="Addresse"
-            data={
-              currentUser
-                ? `${currentUser.address}`
-                : 'Information non fournie'
-            }
-          >
-            <>
-              <div className="mb-3 px-4 py-2 border border-gray-300 rounded">
-                <label
-                  htmlFor="address"
-                  className="text-gray-600 text-xs transition-all duration-100"
-                >
-                  Pays/Region
-                </label>
-                <div className="w-full inline-block relative">
-                  <CountrySelectorInput
-                    isCountryName
-                    className="appearance-none block w-full text-black font-medium focus:outline-none"
-                    onChange={onInputChange}
-                    nameSelectInput="Address"
-                  />
-                  <div className="pointer-events-none absolute inset-y-0 right-[03%] flex items-center px-2 text-gray-700">
-                    <ChevroDownVector className="fill-brand-bold h-5 w-5" />
-                  </div>
-                </div>
-              </div>
-              <div className="w-full mb-3 border border-gray-300 rounded-md flex items-center pt-6 pb-2 pl-4 pr-4 overflow-hidden">
-                <FloatingInputLabel
-                  defaultValue="Bukavu"
-                  label="Ville"
-                />
-              </div>
-              <div className="w-full flex justify-between">
-                <div className="w-[55%] mb-3 border border-gray-300 rounded-md flex items-center pt-6 pb-2 pl-4 pr-4 overflow-hidden">
-                  <FloatingInputLabel
-                    defaultValue="Bukavu"
-                    label="Etat"
-                  />
-                </div>
-                <div className="w-2/5 mb-3 border border-gray-300 rounded-md flex items-center pt-6 pb-2 pl-4 pr-4 overflow-hidden">
-                  <FloatingInputLabel
-                    defaultValue=""
-                    label="Code Postal"
-                  />
-                </div>
-              </div>
-            </>
-          </InfoItem> */}
+          <AddressInput onEditMode={onEditMode} editMode={editMode} />
         </div>
         <BottomNavbar />
       </div>

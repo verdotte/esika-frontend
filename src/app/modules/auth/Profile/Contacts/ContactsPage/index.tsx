@@ -4,7 +4,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable jsx-a11y/no-onchange */
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
 // eslint-disable-next-line import/namespace
@@ -15,12 +15,62 @@ import CountrySelectorInput from 'app/modules/__modules__/CountrySelectorInput';
 import TwitterVector from 'app/modules/__modules__/_vectors/twitterVector';
 import InstagramVector from 'app/modules/__modules__/_vectors/instagramVector';
 import FacebookVector from 'app/modules/__modules__/_vectors/facebookVector';
+import ENDPOINTS from 'app/Services/endpoints';
+import { IObject } from 'app/modules/@Types';
+import Service from 'app/Services';
 import SocialMedia from '../SocialMedia';
 import useFetchCurrentUser from '../../UseFetchCurrentUser';
 
 const ContactsPage = () => {
-  const { code, currentUserNumber, onCodeChange } = useProfile();
+  const [startProcess, setStartProcess] = useState(false);
+  const [formData, setFormData] = useState<IObject>({});
+
+  const {
+    currentUser,
+    code,
+    currentUserNumber,
+    onCodeChange,
+    setCurrentUser,
+    setCurrentUserNumber,
+  } = useProfile();
   const history = useHistory();
+
+  const onInputChange = (event) => {
+    const { target } = event;
+    const { name, value } = target;
+
+    if (name === 'phoneNumber') {
+      setCurrentUserNumber(value.replaceAll(' ', ''));
+      setFormData((formValue) => ({
+        ...formValue,
+        phoneNumber: `${code}${value.replaceAll(' ', '')}`,
+      }));
+    } else {
+      setFormData((formValue) => ({
+        ...formValue,
+        [name]: value,
+      }));
+    }
+  };
+
+  const onSave = async () => {
+    setStartProcess(true);
+
+    const { error, data } = await Service.put(
+      `${ENDPOINTS.USER_PROFILE}/${currentUser.userId}`,
+      formData,
+    );
+
+    if (error) {
+      setStartProcess(false);
+      return;
+    }
+
+    if (data) {
+      setCurrentUser(data.profile);
+      setStartProcess(false);
+    }
+  };
 
   useFetchCurrentUser();
 
@@ -37,9 +87,16 @@ const ContactsPage = () => {
                 Contacts
               </p>
             </div>
-            <p className="text-sm sm:text-xl text-blue-700">
-              Enregister
-            </p>
+            <div className="flex justify-center items-center">
+              <button
+                type="submit"
+                className="text-sm sm:text-xl text-blue-700 disabled:text-gray-700 rounded"
+                onClick={onSave}
+                disabled={startProcess}
+              >
+                {!startProcess ? 'Enregistrer' : 'En cours...'}
+              </button>
+            </div>
           </div>
           <div className="pt-4 pb-8 border-b border-gray-300">
             <p className="text-sm sm:text-xl text-gray-700">
@@ -62,9 +119,11 @@ const ContactsPage = () => {
                 </p>
                 <input
                   className="appearance-none block w-full rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm sm:text-xl text-gray-900"
+                  name="phoneNumber"
                   id="grid-last-name"
-                  type="text"
+                  type="number"
                   defaultValue={currentUserNumber}
+                  onChange={onInputChange}
                 />
               </div>
             </div>
@@ -75,8 +134,11 @@ const ContactsPage = () => {
                 </p>
                 <input
                   className="w-full mt-3 appearance-none block w-full border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm sm:text-xl text-gray-900"
-                  type="text"
+                  name="email"
+                  type="email"
                   placeholder="Entrer votre addresse e-mail"
+                  defaultValue={`${currentUser?.email}`}
+                  onChange={onInputChange}
                 />
               </div>
             </div>

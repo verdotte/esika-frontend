@@ -22,6 +22,8 @@ const Account = () => {
 
   useFetchCurrentUser();
 
+  console.log('currentUserNumber', currentUserNumber);
+
   return (
     <div>
       <div className="container mx-auto px-0 md:px-8 no-scrollbars">
@@ -72,7 +74,7 @@ const Account = () => {
           <div className="pt-4 pb-6 border-b border-gray-300">
             <p className="text-sm sm:text-xl">Adresse</p>
             <p className="pt-1 text-sm sm:text-xl text-gray-700">
-              DRC, Sud Kivu, Bukavu
+              {currentUser.address}
             </p>
           </div>
           <div className="py-5 flex justify-between items-center border-b border-gray-300">

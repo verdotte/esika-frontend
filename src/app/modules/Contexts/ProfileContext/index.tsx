@@ -40,6 +40,7 @@ interface IProfile {
   setValue: SetStateType<string>;
   setCredential: SetStateType<string>;
   setCurrentUser: SetStateType<IAgent>;
+  setCurrentUserNumber: SetStateType<string>;
   onEditChange: () => void;
   onCodeChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   onValueChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -61,6 +62,7 @@ const defaultCtx: IProfile = {
   setEditMode: () => null,
   setHideChildren: () => null,
   setCurrentUser: () => null,
+  setCurrentUserNumber: () => null,
   onEditChange: () => null,
   onCodeChange: () => null,
   onValueChange: () => null,
@@ -116,13 +118,12 @@ const ProfileProvider: FC = ({ children }) => {
 
       const { phoneNumber } = profile;
 
-      const codeString = phoneNumber.split(' ');
-      const numbersString = phoneNumber.split(' ');
+      const numbersString = phoneNumber.split('');
 
-      setCode(codeString[0]);
-      setCurrentUserNumber(
-        numbersString[1] + numbersString[2] + numbersString[3],
-      );
+      console.log('phoneNumber', phoneNumber);
+
+      setCode(numbersString.slice(0, 4).join(''));
+      setCurrentUserNumber(numbersString.slice(-9).join(''));
     }
   }, []);
 
@@ -145,6 +146,7 @@ const ProfileProvider: FC = ({ children }) => {
         setValue,
         setCredential,
         setCurrentUser,
+        setCurrentUserNumber,
         onEditChange,
         onFetchCurrentUser,
       }}

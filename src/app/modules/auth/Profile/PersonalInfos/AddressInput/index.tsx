@@ -1,4 +1,4 @@
-import React, { useState, memo } from 'react';
+import React, { useState, memo, FC } from 'react';
 import CountrySelectorInput from 'app/modules/__modules__/CountrySelectorInput';
 import ChevroDownVector from 'app/modules/__modules__/_vectors/ChevroDownVector';
 import { useProfile } from 'app/modules/Contexts/ProfileContext';
@@ -6,43 +6,41 @@ import Service from 'app/Services';
 import ENDPOINTS from 'app/Services/endpoints';
 import FloatingInputLabel from '../FloatingInputLabel';
 
-const AddressInput = () => {
+interface Props {
+  editMode: boolean;
+  onEditMode: () => void;
+}
+
+const AddressInput: FC<Props> = ({ editMode, onEditMode }: Props) => {
   const { currentUser, setCurrentUser } = useProfile();
 
   const [startProcess, setStartProcess] = useState(false);
-  const [editMode, setEditMode] = useState(false);
   const [editModeProfile, setEditModeProfile] = useState(false);
 
-  const [country, setCountry] = useState('');
-  const [state, setState] = useState('');
-  const [town, setTown] = useState('');
-  const [box, setBox] = useState('');
+  const [address, setAddress] = useState({
+    country: '',
+    state: '',
+    city: '',
+    postCode: '',
+  });
 
   const onAction = () => {
     setEditModeProfile((prev) => !prev);
-    setEditMode((prev) => !prev);
+    onEditMode();
   };
 
-  const onCountryChange = (event) => {
-    setCountry(event.target.value);
-  };
+  const onInputChange = (event) => {
+    const {
+      target: { name, value },
+    } = event;
 
-  const onStateChange = (event) => {
-    setState(event.target.value);
-  };
-
-  const onTownChange = (event) => {
-    setTown(event.target.value);
-  };
-
-  const onBoxChange = (event) => {
-    setBox(event.target.value);
+    setAddress((form) => ({ ...form, [name]: value }));
   };
 
   const onSave = async () => {
     setStartProcess(true);
     const formData = {
-      address: `${country}, ${state}, ${town}, ${box}`,
+      address: `${address.city} ${address.postCode}, ${address.state}, ${address.country}`,
     };
 
     const { error, data } = await Service.put(
@@ -51,14 +49,14 @@ const AddressInput = () => {
     );
 
     if (error) {
-      setEditMode(false);
+      onEditMode();
       setStartProcess(false);
       return;
     }
 
     if (data) {
       setCurrentUser(data.profile);
-      setEditMode(false);
+      onEditMode();
       setStartProcess(false);
       setEditModeProfile(false);
     }
@@ -113,8 +111,8 @@ const AddressInput = () => {
               <CountrySelectorInput
                 isCountryName
                 className="appearance-none block w-full text-black font-medium focus:outline-none"
-                onChange={onCountryChange}
-                nameSelectInput="Address"
+                onChange={onInputChange}
+                nameSelectInput="country"
               />
               <div className="pointer-events-none absolute inset-y-0 right-[03%] flex items-center px-2 text-gray-700">
                 <ChevroDownVector className="fill-brand-bold h-5 w-5" />
@@ -123,24 +121,27 @@ const AddressInput = () => {
           </div>
           <div className="w-full mb-3 border border-gray-300 rounded-md flex items-center pt-6 pb-2 pl-4 pr-4 overflow-hidden">
             <FloatingInputLabel
-              defaultValue="Bukavu"
+              name="state"
+              defaultValue={currentUser.address?.split(' ')[2]}
               label="Etat"
-              onChange={onStateChange}
+              onChange={onInputChange}
             />
           </div>
           <div className="w-full flex justify-between">
             <div className="w-[55%] mb-3 border border-gray-300 rounded-md flex items-center pt-6 pb-2 pl-4 pr-4 overflow-hidden">
               <FloatingInputLabel
-                defaultValue="Bukavu"
+                name="city"
+                defaultValue={currentUser.address?.split(' ')[0]}
                 label="Ville"
-                onChange={onTownChange}
+                onChange={onInputChange}
               />
             </div>
             <div className="w-2/5 mb-3 border border-gray-300 rounded-md flex items-center pt-6 pb-2 pl-4 pr-4 overflow-hidden">
               <FloatingInputLabel
-                defaultValue=""
+                name="postCode"
+                defaultValue={currentUser.address?.split(' ')[1]}
                 label="Code Postal"
-                onChange={onBoxChange}
+                onChange={onInputChange}
               />
             </div>
           </div>

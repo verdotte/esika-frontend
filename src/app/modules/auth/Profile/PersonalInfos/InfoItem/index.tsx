@@ -3,6 +3,7 @@ import React, { useState, memo, FC } from 'react';
 interface Props {
   processing?: boolean;
   editMode: boolean;
+  isBio: boolean;
   label: string;
   data: string;
   children: JSX.Element;
@@ -20,6 +21,7 @@ const InfoItem: FC<Props> = ({
   children,
   processing,
   editMode,
+  isBio,
   onEditMode,
   onSave,
 }: Props) => {
@@ -46,11 +48,18 @@ const InfoItem: FC<Props> = ({
           <div className="block">
             <p className="text-sm sm:text-xl">{label}</p>
             <p
-              className={`pt-1 text-sm sm:text-xl text-gray-700 transition-all duration-300 ${
+              className={`pt-1 text-sm sm:text-xl text-gray-700 transition-all duration-300 
+              ${
                 editModeProfile
                   ? 'opacity-0 pointer-events-none'
                   : 'opacity-100'
-              }`}
+              }
+              ${
+                isBio
+                  ? 'w-[250px] whitespace-nowrap overflow-hidden overflow-ellipsis'
+                  : ''
+              }
+              `}
             >
               {data}
             </p>

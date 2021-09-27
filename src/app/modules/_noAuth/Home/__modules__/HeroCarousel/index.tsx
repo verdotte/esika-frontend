@@ -36,7 +36,7 @@ const HeroCarousel: FC<Props> = ({ data, preload }) => {
       </div>
 
       <ShowWidget condition={!preload}>
-        <Link to={`/property/${slug as string}`}>
+        <Link to={`/properties/${slug as string}`}>
           <button
             type="button"
             className="bg-brand-bold text-white text-sm rounded-lg p-2 px-5 absolute bottom-[5%] right-[3%] hidden md:block"

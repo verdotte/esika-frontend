@@ -20,7 +20,7 @@ export interface IObject {
 
 export type SetStateType<T> = React.Dispatch<React.SetStateAction<T>>;
 
-export type alertType = 'success' | 'error';
+export type alertType = 'success' | 'error' | 'warning';
 
 export interface IProperty {
   title: string | null;
@@ -56,11 +56,13 @@ export type IAgent = {
   email: string | null;
   firstName: string | null;
   lastName: string | null;
+  bio: string | null;
   phoneNumber: string | null;
   picture: string | null;
   updatedAt: string;
   userId: string | number;
   userType: string;
+  address: string;
   verified?: boolean;
 };
 
@@ -76,6 +78,8 @@ export type formRefType = HTMLInputElement | null;
 export type AutocompleteItem = Hit<{
   image: string;
   title: string;
+  description: string;
+  price: string;
   objectID: string;
   location: string;
   resource: string;

@@ -43,7 +43,7 @@ const HeroCarouselCard: React.FC<
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
     onPropertyClick?.(event);
-    history.push(`/property/${slug as string}`);
+    history.push(`/properties/${slug as string}`);
   };
 
   return (

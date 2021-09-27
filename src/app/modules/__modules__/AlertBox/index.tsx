@@ -13,7 +13,7 @@ const defaultProps: Props = {
   message: null,
   type: 'error',
   show: false,
-  className: '',
+  className: 'justify-between',
 };
 
 const AlertBox: FC<Props> = ({
@@ -58,13 +58,15 @@ const AlertBox: FC<Props> = ({
 
   return (
     <div
-      className={`p-3 text-center text-xs md:text-sm my-2 rounded-md border flex items-center ${className}`}
+      className={`p-3 text-center text-xs md:text-sm my-2 rounded-md border flex flex-auto items-center ${className}`}
       ref={wrapperRef}
     >
-      <p className="w-full">{message}</p>
+      <div className="w-full pr-2">
+        <>{message}</>
+      </div>
       <button
         type="button"
-        className="text-lg font-bold text-black hover:text-black/50"
+        className="text-lg font-bold text-black hover:text-black/50 flex-1"
         onClick={onHide}
       >
         &times;

@@ -38,7 +38,7 @@ const noAuthRoutes: IRoute[] = [
   {
     name: 'Esika - Propriété',
     secured: false,
-    path: '/property/:slug',
+    path: '/properties/:slug',
     exact: true,
     component: Property,
   },

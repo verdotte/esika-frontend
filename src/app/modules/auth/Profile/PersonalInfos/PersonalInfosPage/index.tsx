@@ -16,11 +16,13 @@ import ProfileImage from 'app/modules/__modules__/ProfileImage';
 import ENDPOINTS from 'app/Services/endpoints';
 import Service from 'app/Services';
 import { IObject } from 'app/modules/@Types';
+import ChevroDownVector from 'app/modules/__modules__/_vectors/ChevroDownVector';
+import CountrySelectorInput from 'app/modules/__modules__/CountrySelectorInput';
 import InfoItem from '../InfoItem';
-import NumberForm from '../NumberForm';
-import AddressForm from '../AddressForm';
+// import AddressForm from '../AddressForm';
 import useFetchCurrentUser from '../../UseFetchCurrentUser';
 import FloatingInputLabel from '../FloatingInputLabel';
+import AddressInput from '../AddressInput';
 
 const PersonalInfosPage = () => {
   const {
@@ -28,6 +30,7 @@ const PersonalInfosPage = () => {
     currentUser,
     code,
     currentUserNumber,
+    onCodeChange,
     setCurrentUser,
   } = useProfile();
   const history = useHistory();
@@ -50,16 +53,17 @@ const PersonalInfosPage = () => {
     setPreview(currentUser.picture);
   };
 
+  useFetchCurrentUser();
+
   const uploadingProcess = async () => {
     Compress.imageFileResizer(
-      imageProcess as Blob, // the file from input
-      480, // width
-      480, // height
-      'PNG', // compress format WEBP, JPEG, PNG
-      70, // quality
-      0, // rotation
+      imageProcess as Blob,
+      480,
+      480,
+      'PNG',
+      70,
+      0,
       async (uri) => {
-        // Upload logic
         const dataPicture = new FormData();
         dataPicture.append('file', uri as Blob);
         dataPicture.append('tags', `codeinfuse, medium, gist`);
@@ -79,7 +83,6 @@ const PersonalInfosPage = () => {
           return;
         }
 
-        // Update user data
         const newPicture = {
           picture: url,
         };
@@ -98,7 +101,7 @@ const PersonalInfosPage = () => {
           setPreview(url);
         }
       },
-      'blob', // blob or base64 default base64
+      'blob',
     );
 
     setStartProcess(false);
@@ -143,7 +146,7 @@ const PersonalInfosPage = () => {
     }
   };
 
-  useFetchCurrentUser();
+  console.log('currentUser', currentUser);
 
   return (
     <div>
@@ -219,6 +222,7 @@ const PersonalInfosPage = () => {
           <InfoItem
             processing={startProcess}
             editMode={editMode}
+            isBio={false}
             onEditMode={onEditMode}
             onSave={onSave}
             key="Prénom"
@@ -237,6 +241,7 @@ const PersonalInfosPage = () => {
           <InfoItem
             processing={startProcess}
             editMode={editMode}
+            isBio={false}
             onEditMode={onEditMode}
             onSave={onSave}
             key="Post_nom"
@@ -255,25 +260,123 @@ const PersonalInfosPage = () => {
           <InfoItem
             processing={startProcess}
             editMode={editMode}
+            isBio
+            onEditMode={onEditMode}
+            onSave={onSave}
+            key="Biographie"
+            label="Biographie"
+            data={currentUser ? `${currentUser.bio}` : ''}
+          >
+            <div className="w-full mb-3 border border-gray-300 rounded-md flex items-center pt-6 pb-2 pl-4 pr-0 overflow-hidden">
+              <div className="w-full relative">
+                <textarea
+                  id="bio"
+                  name="bio"
+                  rows={3}
+                  placeholder="Prénom"
+                  className="w-[95%] peer outline-none text-black font-medium placeholder-transparent bg-transparent"
+                  defaultValue={`${currentUser.bio}`}
+                  onChange={onInputChange}
+                />
+                <label
+                  htmlFor="bio"
+                  className="absolute left-0 -top-3.5 text-gray-400 text-xs transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:-top-0.5"
+                >
+                  Biographie
+                </label>
+              </div>
+            </div>
+          </InfoItem>
+          <InfoItem
+            processing={startProcess}
+            editMode={editMode}
+            isBio={false}
             onEditMode={onEditMode}
             onSave={onSave}
             key="Numero"
             label="Numero de Telephone"
             data={currentUser ? `(${code}) ${currentUserNumber}` : ''}
           >
-            <NumberForm />
+            {/* <NumberForm /> */}
+            <div className="mb-3 p-2">
+              <div className="w-full inline-block relative">
+                <CountrySelectorInput onChange={onCodeChange} />
+                <div className="pointer-events-none absolute inset-y-0 right-[03%] flex items-center px-2 text-gray-700">
+                  <ChevroDownVector className="fill-brand-bold h-5 w-5" />
+                </div>
+              </div>
+              <div className="my-4 border border-gray-300 rounded flex justify-between items-center">
+                <p className="px-3 border-r border-gray-300 text-sm sm:text-xl text-gray-800">
+                  {code}
+                </p>
+                <input
+                  className="appearance-none block w-full rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm sm:text-xl text-gray-900"
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  type="text"
+                  defaultValue="778 509 281"
+                  onChange={onInputChange}
+                />
+              </div>
+            </div>
           </InfoItem>
-          <InfoItem
+          <AddressInput />
+          {/* <InfoItem
             processing={startProcess}
             editMode={editMode}
+            isBio={false}
             onEditMode={onEditMode}
             onSave={onSave}
             key="Addresse"
             label="Addresse"
-            data="Information non fournie"
+            data={
+              currentUser
+                ? `${currentUser.address}`
+                : 'Information non fournie'
+            }
           >
-            <AddressForm label="Prenom" />
-          </InfoItem>
+            <>
+              <div className="mb-3 px-4 py-2 border border-gray-300 rounded">
+                <label
+                  htmlFor="address"
+                  className="text-gray-600 text-xs transition-all duration-100"
+                >
+                  Pays/Region
+                </label>
+                <div className="w-full inline-block relative">
+                  <CountrySelectorInput
+                    isCountryName
+                    className="appearance-none block w-full text-black font-medium focus:outline-none"
+                    onChange={onInputChange}
+                    nameSelectInput="Address"
+                  />
+                  <div className="pointer-events-none absolute inset-y-0 right-[03%] flex items-center px-2 text-gray-700">
+                    <ChevroDownVector className="fill-brand-bold h-5 w-5" />
+                  </div>
+                </div>
+              </div>
+              <div className="w-full mb-3 border border-gray-300 rounded-md flex items-center pt-6 pb-2 pl-4 pr-4 overflow-hidden">
+                <FloatingInputLabel
+                  defaultValue="Bukavu"
+                  label="Ville"
+                />
+              </div>
+              <div className="w-full flex justify-between">
+                <div className="w-[55%] mb-3 border border-gray-300 rounded-md flex items-center pt-6 pb-2 pl-4 pr-4 overflow-hidden">
+                  <FloatingInputLabel
+                    defaultValue="Bukavu"
+                    label="Etat"
+                  />
+                </div>
+                <div className="w-2/5 mb-3 border border-gray-300 rounded-md flex items-center pt-6 pb-2 pl-4 pr-4 overflow-hidden">
+                  <FloatingInputLabel
+                    defaultValue=""
+                    label="Code Postal"
+                  />
+                </div>
+              </div>
+            </>
+          </InfoItem> */}
         </div>
         <BottomNavbar />
       </div>

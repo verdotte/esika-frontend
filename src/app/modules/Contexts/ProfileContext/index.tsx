@@ -16,6 +16,7 @@ const defaultCurrentUser = {
   email: '',
   firstName: '',
   lastName: '',
+  bio: '',
   phoneNumber: '',
   picture: '',
   updatedAt: '',

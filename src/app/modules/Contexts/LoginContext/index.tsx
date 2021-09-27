@@ -118,15 +118,13 @@ const LoginProvider: FC = ({ children }) => {
       const payload = formDataToObject(formData);
       payload.country = undefined;
 
-      const credentials = {
-        phoneNumber: '+256778509281',
-      };
+      payload.phoneNumber = payload.phoneNumber?.replaceAll(' ', '');
 
       setIsPerforming(true);
 
       const { error, data, status } = await Service.post(
         ENDPOINTS.LOGIN,
-        credentials,
+        payload,
       );
 
       setIsPerforming(false);

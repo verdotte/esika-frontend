@@ -9,12 +9,15 @@ import LogoutVector from 'app/modules/__modules__/_vectors/logoutVector';
 import ProfileImage from 'app/modules/__modules__/ProfileImage';
 // eslint-disable-next-line import/namespace
 import { useProfile } from 'app/modules/Contexts/ProfileContext';
+import useLogout from 'app/modules/Hooks/useLogout';
 import useFetchCurrentUser from './UseFetchCurrentUser';
 
 const ProfileContainer = () => {
   const { loading, currentUser } = useProfile();
 
   useFetchCurrentUser();
+
+  const { onLogout } = useLogout();
 
   return (
     <>
@@ -102,12 +105,16 @@ const ProfileContainer = () => {
               </p>
             </div>
           </div>
-          <div className="pt-5 flex justify-start items-center">
+          <button
+            type="button"
+            onClick={onLogout}
+            className="pt-5 flex justify-start items-center"
+          >
             <LogoutVector className="h-6 w-6 text-gray-500" />
             <p className="ml-2 text-sm sm:text-xl text-gray-800">
               Logout
             </p>
-          </div>
+          </button>
           <div className="mt-8 p-4 w-full flex justify-around flex-wrap">
             <p className="text-xs my-1 underline">FAQ</p>
             <p className="text-xs my-1 underline">A propos de nous</p>

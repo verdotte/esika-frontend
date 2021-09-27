@@ -137,6 +137,8 @@ const RegisterProvider: FC = ({ children }) => {
       const payload = formDataToObject(formData);
       payload.country = undefined;
 
+      payload.phoneNumber = payload.phoneNumber?.replaceAll(' ', '');
+
       setIsPerforming(true);
 
       const { error, data } = await Service.post(

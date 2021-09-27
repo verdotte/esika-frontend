@@ -1,23 +1,25 @@
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
-import LocalStorage from 'app/modules/utils/helpers/LocalStorage';
 import useClickOutside from 'app/modules/Hooks/useClickOutside';
+import useLogout from 'app/modules/Hooks/useLogout';
 import ShowWidget from '../ShowWidget';
 
 interface Props {
-  isExpanded: boolean;
+  isExpanded?: boolean;
   onExpand?: () => void;
 }
 
-const defaultProps: Props = {
+const defaultProps: Partial<Props> = {
   isExpanded: false,
+  onExpand: () => null,
 };
 
 const DropdownMenu: FC<Props> = ({ isExpanded, onExpand }) => {
   const dropdownRef = useClickOutside(onExpand);
+  const { onLogout } = useLogout();
 
   return (
-    <ShowWidget condition={isExpanded}>
+    <ShowWidget condition={!!isExpanded}>
       <div
         ref={dropdownRef}
         className="w-48 flex flex-col justify-between bg-white border rounded-md py-4 absolute right-0 top-3 shadow-lg"
@@ -43,7 +45,7 @@ const DropdownMenu: FC<Props> = ({ isExpanded, onExpand }) => {
           <button
             type="button"
             className="text-sm"
-            onClick={() => LocalStorage.removeToken()}
+            onClick={onLogout}
           >
             Déconnexion
           </button>

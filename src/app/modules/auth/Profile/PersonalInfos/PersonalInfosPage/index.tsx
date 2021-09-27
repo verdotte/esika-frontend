@@ -146,7 +146,7 @@ const PersonalInfosPage = () => {
     }
   };
 
-  console.log('currentUser', currentUser);
+  // console.log('currentUser', currentUser);
 
   return (
     <div>

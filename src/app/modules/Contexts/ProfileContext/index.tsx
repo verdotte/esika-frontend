@@ -9,6 +9,8 @@ import { IAgent, SetStateType } from 'app/modules/@Types';
 import getCurrentUser from 'app/modules/utils/helpers/currentUser';
 import Service from 'app/Services';
 import ENDPOINTS from 'app/Services/endpoints';
+import LocalStorage from 'app/modules/utils/helpers/LocalStorage';
+import keys from 'app/modules/utils/configs/keys';
 
 interface IProfile {
   loading: boolean;
@@ -21,6 +23,7 @@ interface IProfile {
   onEditChange: () => void;
   onCodeChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   onFetchCurrentUser: () => void;
+  onAgentPropertiesFetch: () => void;
 }
 
 const defaultCurrentUser = {
@@ -48,6 +51,7 @@ const defaultCtx: IProfile = {
   onEditChange: () => null,
   onCodeChange: () => null,
   onFetchCurrentUser: () => null,
+  onAgentPropertiesFetch: () => null,
 };
 
 export const ProfileContext = createContext<IProfile>(defaultCtx);
@@ -89,7 +93,7 @@ const ProfileProvider: FC = ({ children }) => {
     if (data) {
       const { profile } = data;
       setCurrentUser(profile);
-
+      LocalStorage.set(keys.USER_TYPE_KEY, profile.userType);
       const { phoneNumber } = profile;
 
       const codeString = phoneNumber.split(' ');
@@ -99,6 +103,24 @@ const ProfileProvider: FC = ({ children }) => {
       setCurrentUserNumber(
         numbersString[1] + numbersString[2] + numbersString[3],
       );
+    }
+  }, []);
+
+  const onAgentPropertiesFetch = useCallback(async () => {
+    const agent = getCurrentUser();
+    setLoading(true);
+    const { error, data } = await Service.get(
+      `${ENDPOINTS.AGENT_PROPERTIES}/${agent?.id}`,
+    );
+    setLoading(false);
+
+    if (error) {
+      return;
+    }
+
+    if (data) {
+      const { property } = data;
+      console.log(property);
     }
   }, []);
 
@@ -115,6 +137,7 @@ const ProfileProvider: FC = ({ children }) => {
         setCode,
         onEditChange,
         onFetchCurrentUser,
+        onAgentPropertiesFetch,
       }}
     >
       {children}

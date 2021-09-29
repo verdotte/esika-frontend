@@ -8,6 +8,7 @@ type kType = {
   ALGOLIA_API_KEY: valueType;
   ALGOLIA_APP_ID: valueType;
   JWT_SECRET_KEY: valueType;
+  USER_TYPE_KEY: string;
 };
 
 const keys: kType = {
@@ -18,6 +19,7 @@ const keys: kType = {
   ALGOLIA_APP_ID: process.env.ALGOLIA_APP_ID,
   ALGOLIA_INDEX_NAME: process.env.ALGOLIA_INDEX_NAME,
   JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
+  USER_TYPE_KEY: 'Sjhdsj12',
 };
 
 export default keys;

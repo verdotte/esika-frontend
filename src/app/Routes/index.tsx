@@ -6,6 +6,7 @@ import {
   Switch,
 } from 'react-router-dom';
 import IRoute from 'app/modules/@Types/route.interface';
+import { getUserType } from 'app/modules/utils/helpers/currentUser';
 import isExpired from '../modules/utils/helpers/isExpired';
 
 interface IProps {
@@ -24,7 +25,9 @@ const Routes: React.FC<IProps> = ({ routes }) => {
         if (route.secured && expired) {
           return <Redirect to="/" exact />;
         }
-
+        if (route.secured && getUserType() !== 'agent') {
+          return <Redirect to="/" exact />;
+        }
         if (route.name) {
           document.title = route.name;
         }

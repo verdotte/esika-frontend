@@ -17,6 +17,7 @@ const LoginActivity: FC = (): JSX.Element => {
     isPerforming,
     onPhoneChange,
     onCountryChange,
+    onClearMessage,
     onLogin,
   } = useLogin();
 
@@ -65,6 +66,7 @@ const LoginActivity: FC = (): JSX.Element => {
                 show={!!errors.message}
                 message={errors.message}
                 type={errors.type}
+                onHide={onClearMessage}
               />
               <div className="border rounded-md overflow-hidden">
                 <div className="p-4 border-b">
@@ -125,7 +127,7 @@ const LoginActivity: FC = (): JSX.Element => {
                 Se connecter
               </button>
               <Link
-                to="/signup"
+                to="/register"
                 className="text-sm text-center hover:text-white md:hidden"
               >
                 <span>Creer un compte</span>

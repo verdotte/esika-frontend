@@ -22,8 +22,6 @@ const Account = () => {
 
   useFetchCurrentUser();
 
-  console.log('currentUserNumber', currentUserNumber);
-
   return (
     <div>
       <div className="container mx-auto px-0 md:px-8 no-scrollbars">

@@ -120,8 +120,6 @@ const ProfileProvider: FC = ({ children }) => {
 
       const numbersString = phoneNumber.split('');
 
-      console.log('phoneNumber', phoneNumber);
-
       setCode(numbersString.slice(0, 4).join(''));
       setCurrentUserNumber(numbersString.slice(-9).join(''));
     }

@@ -6,6 +6,7 @@ interface Props {
   type?: alertType;
   show?: boolean;
   className?: string;
+  // eslint-disable-next-line react/require-default-props
   onHide?: () => void;
 }
 

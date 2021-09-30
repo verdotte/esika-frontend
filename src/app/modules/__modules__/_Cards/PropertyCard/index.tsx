@@ -61,7 +61,7 @@ export const PropertyCard = ({
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
     onPropertyClick?.(event);
-    history.push(`/properties/${slug as string}`);
+    history.push(`/property/${slug as string}`);
   };
 
   return (

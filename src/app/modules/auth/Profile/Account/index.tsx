@@ -10,6 +10,7 @@ import ChevronLeftVector from 'app/modules/__modules__/_vectors/chevronLetfVecto
 import StarVector from 'app/modules/__modules__/_vectors/starVector';
 import CheckVector from 'app/modules/__modules__/_vectors/checkVector';
 import ProfileImage from 'app/modules/__modules__/ProfileImage';
+// eslint-disable-next-line import/namespace
 import { useProfile } from 'app/modules/Contexts/ProfileContext';
 import useFetchCurrentUser from '../UseFetchCurrentUser';
 
@@ -71,7 +72,7 @@ const Account = () => {
           <div className="pt-4 pb-6 border-b border-gray-300">
             <p className="text-sm sm:text-xl">Adresse</p>
             <p className="pt-1 text-sm sm:text-xl text-gray-700">
-              DRC, Sud Kivu, Bukavu
+              {currentUser.address}
             </p>
           </div>
           <div className="py-5 flex justify-between items-center border-b border-gray-300">

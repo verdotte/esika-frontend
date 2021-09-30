@@ -9,11 +9,13 @@ interface Props {
   loading: boolean;
   className?: string;
   tagClassName?: string;
+  loadingTagClassName?: string;
 }
 
 const defaultProps: Partial<Props> = {
   className: 'my-2 sm:px-4',
   tagClassName: 'bg-brand-bold text-white my-1',
+  loadingTagClassName: 'flex flex-wrap content-center ml-4',
 };
 
 const PropertySpecs: FC<Props> = ({
@@ -21,10 +23,11 @@ const PropertySpecs: FC<Props> = ({
   loading,
   className,
   tagClassName,
+  loadingTagClassName,
 }: Props) => {
   if (loading) {
     return (
-      <div className="flex flex-wrap content-center ml-4">
+      <div className={loadingTagClassName}>
         {Array.from({ length: 3 }).map((_, index) => (
           <Tag
             key={`preloading_specs_${index.toFixed()}`}

@@ -4,11 +4,7 @@ import Register from 'app/Initials/__noAuth/Register';
 import VerifyCode from 'app/Initials/__noAuth/Verify';
 import IRoute from 'app/modules/@Types/route.interface';
 import Properties from 'app/Initials/__noAuth/Properties';
-import Profile from 'app/Initials/__noAuth/Profile';
-import Statistics from 'app/modules/_noAuth/Profile/Account';
-import Contacts from 'app/modules/_noAuth/Profile/Contacts';
-import PersonalInfos from 'app/modules/_noAuth/Profile/PersonalInfos';
-import PropertyMobile from 'app/Initials/__noAuth/Property';
+import Property from 'app/Initials/__noAuth/Property';
 
 const noAuthRoutes: IRoute[] = [
   {
@@ -44,7 +40,7 @@ const noAuthRoutes: IRoute[] = [
     secured: false,
     path: '/properties/:slug',
     exact: true,
-    component: PropertyMobile,
+    component: Property,
   },
   {
     name: 'Esika - Propriétés',
@@ -52,34 +48,6 @@ const noAuthRoutes: IRoute[] = [
     path: '/properties',
     exact: true,
     component: Properties,
-  },
-  {
-    name: 'Esika - Profile',
-    secured: false,
-    path: '/profile',
-    exact: true,
-    component: Profile,
-  },
-  {
-    name: 'Esika - Infos',
-    secured: false,
-    path: '/profile/infos',
-    exact: true,
-    component: PersonalInfos,
-  },
-  {
-    name: 'Esika - Statistics',
-    secured: false,
-    path: '/profile/compte',
-    exact: true,
-    component: Statistics,
-  },
-  {
-    name: 'Esika - Contacts',
-    secured: false,
-    path: '/profile/contacts',
-    exact: true,
-    component: Contacts,
   },
 ];
 

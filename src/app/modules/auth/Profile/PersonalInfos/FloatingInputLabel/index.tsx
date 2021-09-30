@@ -3,18 +3,21 @@
 import React, { FC, memo } from 'react';
 
 interface Props {
+  name?: string;
   label?: string;
   defaultValue?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const defaultProps: Props = {
+  name: '',
   label: '',
   defaultValue: '',
   onChange: () => null,
 };
 
 const FloatingInputLabel: FC<Props> = ({
+  name,
   label,
   defaultValue,
   onChange,
@@ -23,7 +26,7 @@ const FloatingInputLabel: FC<Props> = ({
     <div className="w-full relative">
       <input
         id={label}
-        name={label}
+        name={name}
         type="text"
         placeholder="Prénom"
         className="peer outline-none text-black font-medium placeholder-transparent bg-transparent"

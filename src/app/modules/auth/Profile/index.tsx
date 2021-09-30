@@ -2,13 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
-import SettingVector from 'app/modules/__modules__/_vectors/settingVector';
 import InboxVector from 'app/modules/__modules__/_vectors/inboxVector';
 import PhoneVector from 'app/modules/__modules__/_vectors/phoneVector';
 import LogoutVector from 'app/modules/__modules__/_vectors/logoutVector';
 import ProfileImage from 'app/modules/__modules__/ProfileImage';
+// eslint-disable-next-line import/namespace
 import { useProfile } from 'app/modules/Contexts/ProfileContext';
 import useLogout from 'app/modules/Hooks/useLogout';
+import ContactVector from 'app/modules/__modules__/_vectors/contactVector';
+import PieChartVector from 'app/modules/__modules__/_vectors/pieChart';
+import RecentActorsVector from 'app/modules/__modules__/_vectors/recentActorsVector';
+import UserVector from 'app/modules/__modules__/_vectors/userVector';
 import useFetchCurrentUser from './UseFetchCurrentUser';
 
 const ProfileContainer = () => {
@@ -29,7 +33,7 @@ const ProfileContainer = () => {
                 <div className="w-16 h-16 sm:w-16 sm:h-16 rounded-full bg-gray-200 animate-pulse" />
               }
             >
-              <ProfileImage />
+              <ProfileImage image={currentUser.picture as string} />
             </ShowWidget>
             <ShowWidget
               condition={!loading}
@@ -41,24 +45,26 @@ const ProfileContainer = () => {
                 <p className="sm:line-clamp-1 text-md sm:text-xl font-bold">
                   {currentUser?.firstName} {currentUser?.lastName}
                 </p>
-                <p className="text-xs sm:text-xl underline">
-                  Voir mon profile
-                </p>
+                <Link to="/profile/infos">
+                  <p className="text-xs sm:text-xl underline">
+                    Voir mon profile
+                  </p>
+                </Link>
               </div>
             </ShowWidget>
           </div>
           <div className="py-10 border-b border-gray-300">
             <Link to="/profile/infos">
-              <div className="flex justify-start items-center">
-                <SettingVector className="h-6 w-6 text-gray-500" />
+              <div className="flex justify-start items-center pb-2">
+                <RecentActorsVector />
                 <p className="ml-3 py-1 text-sm sm:text-xl text-gray-800">
                   Informations personnelles
                 </p>
               </div>
             </Link>
             <Link to="/profile/compte">
-              <div className="flex justify-start items-center">
-                <SettingVector className="h-6 w-6 text-gray-500" />
+              <div className="flex justify-start items-center pb-2">
+                <UserVector className="h-6 w-6" />
                 <p className="ml-3 py-1 text-sm sm:text-xl text-gray-800">
                   Mon compte
                 </p>
@@ -66,7 +72,7 @@ const ProfileContainer = () => {
             </Link>
             <Link to="/profile/contacts">
               <div className="flex justify-start items-center">
-                <SettingVector className="h-6 w-6 text-gray-500" />
+                <ContactVector />
                 <p className="ml-3 py-1 text-sm sm:text-xl text-gray-800">
                   Contacts
                 </p>
@@ -79,7 +85,7 @@ const ProfileContainer = () => {
             </p>
 
             <div className="py-3 flex justify-start items-center">
-              <SettingVector className="h-6 w-6 text-gray-500" />
+              <PieChartVector />
               <p className="ml-2 py-1 text-sm sm:text-xl text-gray-800">
                 Statistiques
               </p>

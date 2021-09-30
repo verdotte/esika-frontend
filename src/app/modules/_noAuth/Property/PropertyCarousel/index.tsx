@@ -61,11 +61,11 @@ const PropertyCarousel = ({ propertyImages, isLoading }: Props) => {
       <ShowWidget
         condition={!isLoading}
         fallback={
-          <div className="h-80 md:h-[35rem] w-full md:rounded-lg bg-gray-200 animate-pulse" />
+          <div className="h-80 w-full md:rounded-lg bg-gray-200 animate-pulse" />
         }
       >
         <div
-          className="h-80 md:h-[35rem] w-full flex transition-all duration-700"
+          className="h-80 w-full flex transition-all duration-700"
           ref={wrapperRef}
         >
           {images.map((image, index) => (
@@ -90,30 +90,26 @@ const PropertyCarousel = ({ propertyImages, isLoading }: Props) => {
             : ''
         } `}
       >
-        <div className="">
-          <ShowWidget condition={images.length > 1}>
-            <div className="flex items-center">
-              {images.map((_, index: number) => (
-                <HeroCarouselIndicator
-                  key={index.toFixed()}
-                  className="h-3 border border-white rounded-full mr-3"
-                  currentStyle="w-12 bg-white"
-                  position={index}
-                  current={currentIndex === index}
-                  onClick={onIndicatorClick}
-                />
-              ))}
-            </div>
-          </ShowWidget>
-        </div>
+        <ShowWidget condition={images.length > 1}>
+          <div className="flex items-center">
+            {images.map((_, index: number) => (
+              <HeroCarouselIndicator
+                key={index.toFixed()}
+                className="h-3 border border-white rounded-full mr-3"
+                currentStyle="w-12 bg-white"
+                position={index}
+                current={currentIndex === index}
+                onClick={onIndicatorClick}
+              />
+            ))}
+          </div>
+        </ShowWidget>
 
-        <div className="">
-          <ShowWidget condition={images.length > 1}>
-            <p className="text-[1rem] text-white">
-              {currentIndex + 1}/{images.length}
-            </p>
-          </ShowWidget>
-        </div>
+        <ShowWidget condition={images.length > 1}>
+          <p className="text-[1rem] text-white">
+            {currentIndex + 1}/{images.length}
+          </p>
+        </ShowWidget>
       </div>
     </div>
   );

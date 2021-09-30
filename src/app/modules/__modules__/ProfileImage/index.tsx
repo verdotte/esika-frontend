@@ -7,12 +7,15 @@ import ShowWidget from '../ShowWidget';
 interface Props {
   image?: string;
   className?: string;
+  imageClassName?: string;
   verified?: boolean;
 }
 
 const defaultProps: Props = {
   image: placeholderImg,
   verified: false,
+  imageClassName:
+    'w-16 h-16 sm:w-16 sm:h-16 rounded-full object-cover',
   className: 'relative block w-16 h-16',
 };
 
@@ -20,6 +23,7 @@ const ProfileImage: FC<Props> = ({
   image,
   verified,
   className,
+  imageClassName,
 }): JSX.Element => {
   return (
     <>
@@ -27,7 +31,7 @@ const ProfileImage: FC<Props> = ({
         <img
           src={image || placeholderImg}
           alt="User avatar"
-          className="w-16 h-16 sm:w-16 sm:h-16 rounded-full object-cover"
+          className={imageClassName}
           onError={onImageError}
         />
         <ShowWidget condition={!!verified}>

@@ -13,15 +13,13 @@ interface IProps {
 }
 
 const Routes: React.FC<IProps> = ({ routes }) => {
-  const expired = isExpired();
-
   const render = (route: IRoute) => (
     <Route
       key={`route_${routes.indexOf(route)}`}
       exact={route.exact}
       path={route.path}
       render={(props: RouteComponentProps) => {
-        if (route.secured && expired) {
+        if (route.secured && isExpired()) {
           return <Redirect to="/" exact />;
         }
 

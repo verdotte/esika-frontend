@@ -27,12 +27,12 @@ const RelatedProperties = ({ properties, loading }: Props) => {
 
   return (
     <>
-      <p className="font-extrabold text-3xl px-3 mb-4 mt-8 sm:px-0 sm:text-5xl sm:my-8 sm:pt-20">
+      <p className="font-extrabold text-3xl pl-2 my-8 sm:pl-0 sm:text-5xl sm:my-8">
         Voir aussi...
       </p>
 
-      <div className="w-full px-2 sm:p-0 sm:my-20 min-h-[500px]">
-        <div className="w-full flex flex-col sm:grid md:grid-cols-2 md:gap-x-6 lg:grid-cols-3 gap-5 lg:gap-12 mt-0 mb-8 md:my-8">
+      <div className="w-full px-2 sm:p-0 sm:my-12 min-h-[500px]">
+        <div className="w-full flex flex-col sm:grid md:grid-cols-2 md:gap-x-6 lg:grid-cols-3 gap-5 lg:gap-12 my-8">
           {renderProperties()}
         </div>
       </div>

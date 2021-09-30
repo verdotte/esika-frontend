@@ -1,5 +1,6 @@
 import { FC, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import placeholder from 'app/static/images/placeholder.jpg';
 import { onImageError } from 'app/modules/utils/helpers';
 import { IData } from 'app/modules/@Types';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
@@ -11,7 +12,7 @@ const HeroCarousel: FC<Props> = ({ data, preload }) => {
   const { image, slug } = data;
 
   const propertyImage = useMemo(
-    () => image?.toString().split(',')[0],
+    () => image?.toString().split(',')[0] || placeholder,
     [image],
   );
 
@@ -34,14 +35,16 @@ const HeroCarousel: FC<Props> = ({ data, preload }) => {
         <HeroCarouselCard data={data} preload={preload} />
       </div>
 
-      <Link to={`/properties/${slug as string}`}>
-        <button
-          type="button"
-          className="bg-brand-bold text-white text-sm rounded-lg p-2 px-5 absolute bottom-[5%] right-[3%] hidden md:block"
-        >
-          Voir
-        </button>
-      </Link>
+      <ShowWidget condition={!preload}>
+        <Link to={`/properties/${slug as string}`}>
+          <button
+            type="button"
+            className="bg-brand-bold text-white text-sm rounded-lg p-2 px-5 absolute bottom-[5%] right-[3%] hidden md:block"
+          >
+            Voir
+          </button>
+        </Link>
+      </ShowWidget>
     </div>
   );
 };

@@ -56,11 +56,13 @@ export type IAgent = {
   email: string | null;
   firstName: string | null;
   lastName: string | null;
+  bio: string | null;
   phoneNumber: string | null;
   picture: string | null;
   updatedAt: string;
   userId: string | number;
   userType: string;
+  address: string;
   verified?: boolean;
 };
 

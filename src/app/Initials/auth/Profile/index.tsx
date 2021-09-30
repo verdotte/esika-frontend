@@ -1,5 +1,5 @@
 import React from 'react';
-import ProfileContainer from 'app/modules/_noAuth/Profile';
+import ProfileContainer from 'app/modules/auth/Profile';
 
 const Profile = () => {
   return <ProfileContainer />;

@@ -21,12 +21,12 @@ const EXPLORER_ICONS = {
 
 const PropertyCategory = () => {
   const {
+    loadingExplorer,
     currentCategory,
     categories,
-    loading,
     allProperties,
     setProperties,
-    setLoading,
+    setloadingExplorer,
     setCurrentCategory,
     onFetchCategories,
   } = useHome();
@@ -40,17 +40,17 @@ const PropertyCategory = () => {
     async (item?: number, index = 0) => {
       setCurrentCategory(index);
       if (item) {
-        setLoading(true);
+        setloadingExplorer(true);
         const { data } = await Service.get(
           `${ENDPOINTS.PROPERTIES_BY_CATEGORY}/${item}`,
         );
-        setLoading(false);
+        setloadingExplorer(false);
         if (data) {
           setProperties(data.propertyList);
         }
       }
     },
-    [setCurrentCategory, setLoading, setProperties],
+    [setCurrentCategory, setloadingExplorer, setProperties],
   );
 
   useEffect(() => {
@@ -68,11 +68,11 @@ const PropertyCategory = () => {
   }, [fetchByCategory]);
 
   const renderCategories = useCallback(() => {
-    if (loading && !allProperties.length) {
+    if (loadingExplorer && !allProperties.length) {
       return Array.from({ length: 4 }).map((_, index) => (
         <ShowWidget
           key={index.toFixed()}
-          condition={!loading}
+          condition={!loadingExplorer}
           fallback={
             <div className="h-36 w-36 mx-1 sm:mx-3 rounded-xl bg-gray-200 animate-pulse" />
           }

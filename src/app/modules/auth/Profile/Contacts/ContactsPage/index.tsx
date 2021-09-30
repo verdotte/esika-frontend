@@ -133,7 +133,7 @@ const ContactsPage = () => {
                   Adresse e-mail
                 </p>
                 <input
-                  className="w-full mt-3 appearance-none block w-full border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm sm:text-xl text-gray-900"
+                  className="w-full mt-3 appearance-none block border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm sm:text-xl text-gray-900"
                   name="email"
                   type="email"
                   placeholder="Entrer votre addresse e-mail"

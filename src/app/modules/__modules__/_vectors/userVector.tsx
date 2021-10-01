@@ -11,7 +11,8 @@ const UserVector = ({ className }: classNameInterface) => {
       className={className}
       fill="none"
       viewBox="0 0 24 24"
-      stroke="currentColor"
+      stroke="black"
+      strokeOpacity="0.64"
     >
       <path
         strokeLinecap="round"

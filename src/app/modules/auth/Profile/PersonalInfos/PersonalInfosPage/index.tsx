@@ -232,7 +232,11 @@ const PersonalInfosPage = () => {
             onSave={onSave}
             key="Biographie"
             label="Biographie"
-            data={currentUser ? `${currentUser.bio}` : ''}
+            data={
+              currentUser.bio
+                ? `${currentUser.bio}`
+                : 'Biographie non fournie'
+            }
           >
             <div className="w-full mb-3 border border-gray-300 rounded-md flex items-center pt-6 pb-2 pl-4 pr-0 overflow-hidden">
               <div className="w-full relative">
@@ -262,7 +266,11 @@ const PersonalInfosPage = () => {
             onSave={onSave}
             key="Prénom"
             label="Prénom"
-            data={currentUser ? `${currentUser.firstName}` : ''}
+            data={
+              currentUser.firstName
+                ? `${currentUser.firstName}`
+                : 'Prénom non fourni'
+            }
           >
             <div className="w-full mb-3 border border-gray-300 rounded-md flex items-center pt-6 pb-2 pl-4 pr-4 overflow-hidden">
               <FloatingInputLabel
@@ -281,7 +289,11 @@ const PersonalInfosPage = () => {
             onSave={onSave}
             key="Post_nom"
             label="Nom de Famille"
-            data={currentUser ? `${currentUser.lastName}` : ''}
+            data={
+              currentUser.lastName
+                ? `${currentUser.lastName}`
+                : 'Nom de Famille non fourni'
+            }
           >
             <div className="w-full mb-3 border border-gray-300 rounded-md flex items-center pt-6 pb-2 pl-4 pr-4 overflow-hidden">
               <FloatingInputLabel
@@ -300,7 +312,11 @@ const PersonalInfosPage = () => {
             onSave={onSave}
             key="Numero"
             label="Numero de Telephone"
-            data={currentUser ? `(${code}) ${currentUserNumber}` : ''}
+            data={
+              currentUser.phoneNumber
+                ? `(${code}) ${currentUserNumber}`
+                : 'Numero de Telephone non fourni'
+            }
           >
             <div className="mb-3 p-2">
               <div className="w-full inline-block relative">

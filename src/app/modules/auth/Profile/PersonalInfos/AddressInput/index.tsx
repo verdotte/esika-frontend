@@ -80,7 +80,9 @@ const AddressInput: FC<Props> = ({ editMode, onEditMode }: Props) => {
                   : 'opacity-100'
               }`}
             >
-              {currentUser.address}
+              {currentUser.address
+                ? `${currentUser.address}`
+                : 'Adresse non fournie'}
             </p>
           </div>
           <button

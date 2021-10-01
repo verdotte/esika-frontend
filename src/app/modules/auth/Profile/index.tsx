@@ -41,12 +41,12 @@ const ProfileContainer = () => {
                 <div className="block h-8 w-44 ml-4 bg-gray-200 animate-pulse" />
               }
             >
-              <div className="ml-4 block sm:hidden">
-                <p className="sm:line-clamp-1 text-md sm:text-xl font-bold">
+              <div className="ml-4 block">
+                <p className="sm:line-clamp-1 text-md sm:text-lg font-bold">
                   {currentUser?.firstName} {currentUser?.lastName}
                 </p>
                 <Link to="/profile/infos">
-                  <p className="text-xs sm:text-xl underline">
+                  <p className="text-xs sm:text-lg underline">
                     Voir mon profile
                   </p>
                 </Link>

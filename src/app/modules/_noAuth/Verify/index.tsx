@@ -31,7 +31,7 @@ const VerifyCodeActivity: FC = (): JSX.Element => {
         <div className="bg-brand-bold flex justify-center p-6 md:p-8 lg:p-12 h-40 md:h-[80vh] rounded-sm">
           <div className="bg-white p-6 md:p-8 lg:p-12 rounded-md flex flex-col md:justify-center items-center shadow-md md:shadow-none h-[460px] sm:h-[500px] md:h-full">
             <div className="flex items-center space-x-3">
-              <UserVector className="w-8 h-8" />
+              <UserVector className="w-8 h-8" stroke="1" />
               <h1 className="md:text-xl">Verification du compte</h1>
             </div>
 

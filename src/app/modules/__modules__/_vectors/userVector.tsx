@@ -1,18 +1,26 @@
 import React from 'react';
-import {
-  defaultVectorProps,
-  classNameInterface,
-} from 'app/modules/@Types';
 
-const UserVector = ({ className }: classNameInterface) => {
+interface Props {
+  className?: string;
+  stroke?: string;
+  strokeOpacity?: string;
+}
+
+const defaultProps: Props = {
+  className: 'h-5 w-5',
+  stroke: 'black',
+  strokeOpacity: '0.64',
+};
+
+const UserVector = ({ className, stroke, strokeOpacity }: Props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       className={className}
       fill="none"
       viewBox="0 0 24 24"
-      stroke="black"
-      strokeOpacity="0.64"
+      stroke={stroke}
+      strokeOpacity={strokeOpacity}
     >
       <path
         strokeLinecap="round"
@@ -24,6 +32,6 @@ const UserVector = ({ className }: classNameInterface) => {
   );
 };
 
-UserVector.defaultProps = defaultVectorProps;
+UserVector.defaultProps = defaultProps;
 
 export default UserVector;

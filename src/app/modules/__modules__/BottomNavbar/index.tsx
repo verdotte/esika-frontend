@@ -41,7 +41,11 @@ const BottomNavbar: FC = (): JSX.Element => {
               image={!loading ? `${currentUser.picture}` : ''}
             />
           ) : (
-            <UserVector />
+            <UserVector
+              className="h-6 w-6"
+              stroke="black"
+              strokeOpacity="1"
+            />
           )
         }
         title={!isAuthed ? 'Profil' : 'Connexion'}

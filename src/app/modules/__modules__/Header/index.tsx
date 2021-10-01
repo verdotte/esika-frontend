@@ -76,7 +76,11 @@ const Header: FC<IProps> = ({
                 className="md:border rounded-full flex items-center justify-center p-4 py-2 space-x-3"
               >
                 <HamburgerVector />
-                <UserVector className="h-6 w-6 text-brand-bold" />
+                <UserVector
+                  className="h-6 w-6"
+                  stroke="blue"
+                  strokeOpacity="0.7"
+                />
               </button>
               <div className="relative">
                 <ShowWidget condition={isExpanded}>
@@ -103,7 +107,11 @@ const Header: FC<IProps> = ({
             onClick={() => history.push(action?.push || '/register')}
             className="md:border rounded-lg flex items-center justify-center p-4 space-x-3 w-auto lg:w-1/4 bg-brand-bold text-white"
           >
-            <UserVector />
+            <UserVector
+              className="h-6 w-6"
+              stroke="white"
+              strokeOpacity="1"
+            />
             <p className="hidden md:block">{action?.name}</p>
           </button>
         </ShowWidget>

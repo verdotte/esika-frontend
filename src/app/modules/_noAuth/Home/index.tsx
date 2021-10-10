@@ -4,6 +4,7 @@ import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
 import { useHome } from 'app/modules/Contexts/HomeContext';
 import SearchContainer from 'app/modules/__modules__/SearchContainer';
 import { useSearch } from 'app/modules/Contexts/SearchContext';
+import useFetchCurrentUser from 'app/modules/Hooks/useFetchCurrentUser';
 import HeroCarouselContainer from './__modules__/HeroCarouselContainer';
 import ExplorerPanel from './__modules__/Explorer';
 import AgentContainer from './__modules__/Agents';
@@ -13,6 +14,8 @@ const HomePage = () => {
   const { onFetchProperties, onFetchAgents, agents, properties } =
     useHome();
   const { isVisible, onToggleVisibility } = useSearch();
+
+  useFetchCurrentUser();
 
   useEffect(() => {
     if (!properties.length) {

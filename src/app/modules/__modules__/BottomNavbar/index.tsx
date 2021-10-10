@@ -8,6 +8,7 @@ import UserVector from '../_vectors/userVector';
 import GlobeVector from '../_vectors/globeVector';
 import { HeartVector } from '../_vectors/heartVector';
 import ProfileIcon from '../ProfileIcon';
+import AddPropertyVector from '../_vectors/addPropertyVector';
 
 const BottomNavbar: FC = (): JSX.Element => {
   const isAuthed = isExpired();
@@ -28,12 +29,25 @@ const BottomNavbar: FC = (): JSX.Element => {
         to="/properties"
         current={history.location.pathname === '/properties'}
       />
-      <BottomNavbarItem
-        icon={<HeartVector className="h-6 w-6" />}
-        title="Favoris"
-        to="/"
-        current={history.location.pathname === '/wishlists'}
-      />
+      {currentUser.userType === 'agent' ? (
+        <BottomNavbarItem
+          icon={<HeartVector className="h-6 w-6" />}
+          title="Favoris"
+          to="/"
+          current={history.location.pathname === '/wishlists'}
+        />
+      ) : (
+        <BottomNavbarItem
+          icon={<AddPropertyVector className="h-6 w-6" />}
+          title="Ajouter"
+          to={`${currentUser.firstName}/ajouter/details`}
+          current={
+            history.location.pathname ===
+            `${currentUser.firstName}/ajouter`
+          }
+        />
+      )}
+
       <BottomNavbarItem
         icon={
           !isAuthed ? (

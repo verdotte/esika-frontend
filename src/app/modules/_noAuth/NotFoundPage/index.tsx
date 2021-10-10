@@ -26,7 +26,7 @@ const NotFoundPage = () => {
         className="fixed md:sticky z-20 md:z-10 top-0"
         onSearchClick={onToggleVisibility}
       />
-      <div className="h-full w-full mt-[4.5rem] md:mt-4 my-4 mx-auto flex justify-center items-center">
+      <div className="h-[100vh] md:h-[80vh] w-full mx-auto flex justify-center items-center">
         <div className="h-14 pr-4 border-r border-gray-400 flex justify-center items-center">
           <p className="text-[1.4rem] sm:text-xl text-gray-800">
             404

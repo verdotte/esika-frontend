@@ -28,13 +28,13 @@ const FloatingInputLabel: FC<Props> = ({
         id={label}
         name={name}
         type="text"
-        placeholder="Prénom"
+        placeholder={label}
         className="peer outline-none text-black font-medium placeholder-transparent bg-transparent"
         defaultValue={defaultValue || undefined}
         onChange={onChange}
       />
       <label
-        htmlFor="firstName"
+        htmlFor={label}
         className="absolute left-0 -top-3.5 text-gray-400 text-xs transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:-top-0.5"
       >
         {label}

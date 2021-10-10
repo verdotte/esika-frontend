@@ -1,8 +1,8 @@
 import IRoute from 'app/modules/@Types/route.interface';
-import Profile from 'app/Initials/auth/Profile';
-import Statistics from 'app/modules/auth/Profile/Account';
-import Contacts from 'app/modules/auth/Profile/Contacts';
-import PersonalInfos from 'app/modules/auth/Profile/PersonalInfos';
+import Profile from 'app/Initials/__secured/Profile';
+import Statistics from 'app/modules/_secured/Profile/Account';
+import Contacts from 'app/modules/_secured/Profile/Contacts';
+import PersonalInfos from 'app/modules/_secured/Profile/PersonalInfos';
 
 const authRoutes: IRoute[] = [
   {

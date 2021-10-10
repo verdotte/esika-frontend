@@ -150,6 +150,7 @@ const LoginProvider: FC = ({ children }) => {
         formRef.current?.reset();
         const { token } = data;
         LocalStorage.setToken(token);
+        LocalStorage.set(keys.USER_ROLE_KEY, keys.AGENT_ROLE_KEY);
         history.push('/');
       }
     }

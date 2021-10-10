@@ -3,5 +3,6 @@ export default interface IRoute {
   name: string;
   exact: boolean;
   secured?: boolean;
+  isRestricted?: boolean;
   component: React.ElementType;
 }

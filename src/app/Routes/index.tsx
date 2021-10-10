@@ -6,6 +6,8 @@ import {
   Switch,
 } from 'react-router-dom';
 import IRoute from 'app/modules/@Types/route.interface';
+import { isAgent } from 'app/modules/utils/helpers/currentUser';
+import NotFoundPage from 'app/modules/_noAuth/NotFoundPage';
 import isExpired from '../modules/utils/helpers/isExpired';
 
 interface IProps {
@@ -19,9 +21,10 @@ const Routes: React.FC<IProps> = ({ routes }) => {
       exact={route.exact}
       path={route.path}
       render={(props: RouteComponentProps) => {
-        if (route.secured && isExpired()) {
+        if (route.isRestricted && !isAgent()) return <NotFoundPage />;
+
+        if (route.secured && isExpired())
           return <Redirect to="/" exact />;
-        }
 
         if (route.name) {
           document.title = route.name;

@@ -155,7 +155,7 @@ const PersonalInfosPage = () => {
 
   return (
     <div>
-      <div className="container mx-auto px-0 md:px-8 no-scrollbars">
+      <div className="container mx-auto px-0 md:px-16 lg:px-28 xl:w-3/4 2xl:w-1/2 py-4 md:py-6 lg:py-8 xl:py-10 2xl:py-20 no-scrollbars">
         <div className="h-full mt-6 mb-16 md:mt-2 ml-6 mr-5 sm:mx-0">
           <div className="flex items-center">
             <span className="ml-[-1.3rem]" onClick={goBack}>

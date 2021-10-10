@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
@@ -6,13 +5,14 @@ import InboxVector from 'app/modules/__modules__/_vectors/inboxVector';
 import PhoneVector from 'app/modules/__modules__/_vectors/phoneVector';
 import LogoutVector from 'app/modules/__modules__/_vectors/logoutVector';
 import ProfileImage from 'app/modules/__modules__/ProfileImage';
-// eslint-disable-next-line import/namespace
 import { useProfile } from 'app/modules/Contexts/ProfileContext';
 import useLogout from 'app/modules/Hooks/useLogout';
 import ContactVector from 'app/modules/__modules__/_vectors/contactVector';
 import PieChartVector from 'app/modules/__modules__/_vectors/pieChart';
 import RecentActorsVector from 'app/modules/__modules__/_vectors/recentActorsVector';
 import UserVector from 'app/modules/__modules__/_vectors/userVector';
+import HouseVector from 'app/modules/__modules__/_vectors/houseVector';
+import Restricted from 'app/modules/__modules__/Restricted';
 import useFetchCurrentUser from './UseFetchCurrentUser';
 
 const ProfileContainer = () => {
@@ -24,7 +24,7 @@ const ProfileContainer = () => {
 
   return (
     <>
-      <div className="container mx-auto px-0 md:px-8 py-4 no-scrollbars">
+      <div className="container mx-auto px-0 md:px-16 lg:px-28 xl:w-3/4 2xl:w-1/2 py-4 md:py-6 lg:py-8 xl:py-10 2xl:py-20 no-scrollbars">
         <div className="h-full mt-3 mb-16 md:mt-2 mx-4 sm:mx-0">
           <div className="pb-5 border-b border-gray-300 flex justify-start items-center">
             <ShowWidget
@@ -79,6 +79,18 @@ const ProfileContainer = () => {
               </div>
             </Link>
           </div>
+          <Restricted>
+            <div className="pt-3 pb-6 border-b border-gray-300">
+              <Link to="/profile/properties">
+                <div className="py-3 flex justify-start items-center">
+                  <HouseVector />
+                  <p className="ml-2 py-1 text-sm sm:text-xl text-gray-800">
+                    Mes immobiliers
+                  </p>
+                </div>
+              </Link>
+            </div>
+          </Restricted>
           <div className="pt-3 pb-6 border-b border-gray-300">
             <p className="py-1 text-sm text-gray-700 sm:text-xl">
               Analytics

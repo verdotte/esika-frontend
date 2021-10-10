@@ -10,7 +10,7 @@ import getCurrentUser from 'app/modules/utils/helpers/currentUser';
 import Service from 'app/Services';
 import ENDPOINTS from 'app/Services/endpoints';
 
-const defaultCurrentUser = {
+const defaultCurrentUser: IAgent = {
   active: true,
   createdAt: '',
   email: '',
@@ -23,6 +23,7 @@ const defaultCurrentUser = {
   userId: '',
   userType: '',
   verified: false,
+  address: '',
 };
 
 interface IProfile {

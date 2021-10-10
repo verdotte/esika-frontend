@@ -5,8 +5,7 @@ interface IProps {
   fallback?: ReactNode | null;
 }
 
-const defaultProps: IProps = {
-  condition: false,
+const defaultProps: Partial<IProps> = {
   fallback: null,
 };
 

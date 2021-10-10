@@ -3,6 +3,7 @@ import Profile from 'app/Initials/__secured/Profile';
 import Statistics from 'app/modules/_secured/Profile/Account';
 import Contacts from 'app/modules/_secured/Profile/Contacts';
 import PersonalInfos from 'app/modules/_secured/Profile/PersonalInfos';
+import AgentProperties from 'app/Initials/__secured/AgentProperties';
 
 const authRoutes: IRoute[] = [
   {
@@ -32,6 +33,14 @@ const authRoutes: IRoute[] = [
     path: '/profile/contacts',
     exact: true,
     component: Contacts,
+  },
+  {
+    name: 'Esika - Mes immobiliers',
+    secured: true,
+    path: '/profile/properties',
+    exact: true,
+    isRestricted: true,
+    component: AgentProperties,
   },
 ];
 

@@ -9,8 +9,7 @@ const useFetchProperties = () => {
     if (!properties.length) {
       onFetchProperties();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onFetchProperties]);
+  }, [onFetchProperties, properties.length]);
 
   return { properties, loading, loadingExplorer };
 };

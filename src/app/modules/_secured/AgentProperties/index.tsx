@@ -4,6 +4,7 @@ import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
 import Header from 'app/modules/__modules__/Header';
 import PropertyCategory from 'app/modules/_noAuth/Home/__modules__/Explorer/PropertyCategory';
 import Tag from 'app/modules/__modules__/Tag';
+import paths from 'app/Routes/paths';
 import CAgentProperties from './Container';
 
 const AgentPropertiesActivity: FC = () => {
@@ -17,7 +18,7 @@ const AgentPropertiesActivity: FC = () => {
           }
           render={(categories) => (
             <>
-              <Link to="/profile/properties" className="w-2/6">
+              <Link to={paths.AgentProperties} className="w-2/6">
                 <Tag
                   tag="Tous"
                   className="bg-brand-bold text-white ml-3 justify-center p-3"
@@ -25,7 +26,7 @@ const AgentPropertiesActivity: FC = () => {
               </Link>
               {categories.map((category) => (
                 <Link
-                  to={`/profile/properties/${category.title}`}
+                  to={`${paths.AgentProperties}/${category.title}`}
                   key={`category_${category.categoryId}`}
                   className="w-2/6"
                 >

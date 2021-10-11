@@ -40,6 +40,7 @@ export interface IProperty {
   propertyId: number | string;
   userId: number | string;
   spec: IObject;
+  slug: string;
   verified?: boolean;
 }
 

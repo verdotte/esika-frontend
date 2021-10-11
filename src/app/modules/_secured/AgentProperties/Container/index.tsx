@@ -4,6 +4,7 @@ import useFetchProperties from 'app/modules/Hooks/useFetchProperties';
 import { groupBy, isEmpty } from 'app/modules/utils/helpers';
 import { IProperty } from 'app/modules/@Types';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
+import paths from 'app/Routes/paths';
 
 const CAgentProperties = () => {
   const { properties, loading, loadingExplorer } =
@@ -52,7 +53,8 @@ const CAgentProperties = () => {
               </div>
               <div className="w-full flex flex-shrink-0 overflow-x-auto no-scrollbars snap-x-mandatory scroll-padding-4">
                 {chunkedProperties.map((property) => (
-                  <div
+                  <Link
+                    to={`${paths.Properties}/${property.slug}`}
                     className="flex-shrink-0 w-4/5 md:w-2/6 lg:w-1/5 mr-3 first:ml-4 snap-start"
                     key={`property_${property.propertyId}`}
                   >
@@ -62,7 +64,7 @@ const CAgentProperties = () => {
                         alt={property.title as string}
                         className="h-full w-full md:w-auto object-cover"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black">
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70">
                         <div className="absolute bottom-0 inset-x-0 p-3 text-white">
                           <div className="flex items-center justify-between">
                             <p>{property.title}</p>
@@ -79,12 +81,12 @@ const CAgentProperties = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
                 <ShowWidget condition={chunkedProperties.length > 6}>
                   <div className="square h-48 md:h-52 w-2/4 md:w-2/6 lg:w-1/5 relative flex flex-col justify-center items-center bg-brand-thin rounded-xl mr-3">
                     <Link
-                      to={`/profile/properties/${key}`}
+                      to={`${paths.AgentProperties}/${key}`}
                       className="px-4 py-2 rounded-xl bg-brand-bold text-white md:w-9/12 text-center"
                     >
                       Voir plus

@@ -43,6 +43,14 @@ const authRoutes: IRoute[] = [
     isRestricted: true,
     component: AgentProperties,
   },
+  {
+    name: 'Esika - Mes immobiliers',
+    secured: true,
+    path: `${paths.AgentProperties}/:category`,
+    exact: true,
+    isRestricted: true,
+    component: AgentProperties,
+  },
 ];
 
 export default authRoutes;

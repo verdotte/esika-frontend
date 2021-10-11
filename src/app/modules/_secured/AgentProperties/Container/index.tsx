@@ -55,7 +55,7 @@ const CAgentProperties = () => {
                 {chunkedProperties.map((property) => (
                   <Link
                     to={`${paths.Properties}/${property.slug}`}
-                    className="flex-shrink-0 w-4/5 md:w-2/6 lg:w-1/5 mr-3 first:ml-4 snap-start"
+                    className="flex-shrink-0 w-4/5 md:w-2/6 xl:w-1/5 mr-3 first:ml-4 snap-start"
                     key={`property_${property.propertyId}`}
                   >
                     <div className="h-48 md:h-52 relative rounded-xl overflow-hidden flex-shrink-0">

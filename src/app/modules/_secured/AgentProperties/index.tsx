@@ -9,7 +9,7 @@ import CAgentProperties from './Container';
 
 const AgentPropertiesActivity: FC = () => {
   return (
-    <div className="container mx-auto md:px-16 lg:px-24">
+    <div className="container mx-auto px-0 md:px-8">
       <Header />
       <div className="my-4">
         <PropertyCategory
@@ -18,7 +18,10 @@ const AgentPropertiesActivity: FC = () => {
           }
           render={(categories) => (
             <>
-              <Link to={paths.AgentProperties} className="w-2/6">
+              <Link
+                to={paths.AgentProperties}
+                className="lg:min-w-[8rem] flex-shrink-0"
+              >
                 <Tag
                   tag="Tous"
                   className="bg-brand-bold text-white ml-3 justify-center p-3"
@@ -28,7 +31,7 @@ const AgentPropertiesActivity: FC = () => {
                 <Link
                   to={`${paths.AgentProperties}/${category.title}`}
                   key={`category_${category.categoryId}`}
-                  className="w-2/6"
+                  className="lg:min-w-[8rem] flex-shrink-0"
                 >
                   <Tag
                     tag={category.title}

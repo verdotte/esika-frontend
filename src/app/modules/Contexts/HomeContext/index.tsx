@@ -1,4 +1,4 @@
-import React, {
+import {
   createContext,
   FC,
   useCallback,
@@ -31,7 +31,7 @@ type homeType = {
   currentCategory: number;
   properties: IObject[];
   allProperties: IObject[];
-  categories: IObject[];
+  categories: ICategory[];
   agents: IAgent[];
   paginationIndicators: Indictators;
   setLoading: SetStateType<boolean>;
@@ -138,6 +138,7 @@ const HomeProvider: FC = ({ children }): JSX.Element => {
     setLoading(false);
 
     if (data) {
+      setloadingExplorer(false);
       const { categoryList } = data;
       setCategories(categoryList);
     }

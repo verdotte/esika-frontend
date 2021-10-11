@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, FC } from 'react';
 import { useHome } from 'app/modules/Contexts/HomeContext';
 import ApartmentVector from 'app/modules/__modules__/_vectors/apartmentVector';
 import HouseVector from 'app/modules/__modules__/_vectors/houseVector';
@@ -6,6 +6,7 @@ import HotelVector from 'app/modules/__modules__/_vectors/hotelVector';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
 import Service from 'app/Services';
 import ENDPOINTS from 'app/Services/endpoints';
+import { ICategory } from 'app/modules/@Types';
 import { ExplorerCard } from '../Card';
 
 const EXPLORER_ICONS = {
@@ -19,7 +20,25 @@ const EXPLORER_ICONS = {
   studio: <HouseVector className="h-5 w-5 sm:h-6 sm:w-6" />,
 };
 
-const PropertyCategory = () => {
+interface IProps {
+  className?: string;
+  render?: null | ((categories: ICategory[]) => JSX.Element);
+  preloadUI?: JSX.Element;
+}
+
+const defaultProps: IProps = {
+  render: null,
+  className: '',
+  preloadUI: (
+    <div className="h-36 w-36 mx-1 sm:mx-3 rounded-xl bg-gray-200 animate-pulse" />
+  ),
+};
+
+const PropertyCategory: FC<IProps> = ({
+  render,
+  className,
+  preloadUI,
+}) => {
   const {
     loadingExplorer,
     currentCategory,
@@ -73,46 +92,55 @@ const PropertyCategory = () => {
         <ShowWidget
           key={index.toFixed()}
           condition={!loadingExplorer}
-          fallback={
-            <div className="h-36 w-36 mx-1 sm:mx-3 rounded-xl bg-gray-200 animate-pulse" />
-          }
+          fallback={preloadUI}
         />
       ));
     }
     return (
       <>
-        <ExplorerCard
-          key="all__properties"
-          title="All Properties"
-          current={currentCategory === 0}
-          onClick={fetchAllProperties}
-          icon={<HouseVector />}
-        />
-        {categories.map((category, index) => (
-          <ExplorerCard
-            key={category.categoryId}
-            title={category.title}
-            current={currentCategory === index + 1}
-            onClick={() =>
-              fetchByCategory(category.categoryId, index + 1)
-            }
-            icon={
-              EXPLORER_ICONS[category.title.toLocaleLowerCase()] || (
-                <HotelVector />
-              )
-            }
-          />
-        ))}
+        {(render && render(categories)) || (
+          <>
+            <ExplorerCard
+              key="all__properties"
+              title="All Properties"
+              current={currentCategory === 0}
+              onClick={fetchAllProperties}
+              icon={<HouseVector />}
+            />
+            {categories.map((category, index) => (
+              <ExplorerCard
+                key={category.categoryId}
+                title={category.title}
+                current={currentCategory === index + 1}
+                onClick={() =>
+                  fetchByCategory(
+                    category.categoryId as number,
+                    index + 1,
+                  )
+                }
+                icon={
+                  EXPLORER_ICONS[
+                    category.title.toLocaleLowerCase()
+                  ] || <HotelVector />
+                }
+              />
+            ))}
+          </>
+        )}
       </>
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchAllProperties, categories, fetchByCategory]);
 
   return (
-    <div className="w-full overflow-x-auto no-scrollbars flex">
+    <div
+      className={`w-full overflow-x-auto no-scrollbars flex ${className}`}
+    >
       {renderCategories()}
     </div>
   );
 };
+
+PropertyCategory.defaultProps = defaultProps;
 
 export default PropertyCategory;

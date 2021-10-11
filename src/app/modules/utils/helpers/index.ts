@@ -22,8 +22,13 @@ export const formDataToObject = (
   return object;
 };
 
-export const isValidPhoneNumber = (phone: string, country) => {
+export const isValidPhoneNumber = (
+  phone: string,
+  country: string | null | undefined,
+) => {
   const phoneSchema = Yup.string()
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     .phone(country, true as unknown as string)
     .required();
 
@@ -35,7 +40,7 @@ export const isValidPhoneNumber = (phone: string, country) => {
   return valid;
 };
 
-export const lazyLoad = (target) => {
+export const lazyLoad = (target: Element) => {
   const io = new IntersectionObserver((entries, observer) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -44,6 +49,8 @@ export const lazyLoad = (target) => {
 
         img.setAttribute('src', src as string);
 
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         img.onload = () => {
           img.removeAttribute('data-src');
         };
@@ -53,6 +60,27 @@ export const lazyLoad = (target) => {
     });
   });
   io.observe(target);
+};
+
+export const isEmpty = (obj) =>
+  Object?.keys(obj)?.findIndex((key) => obj[key]) < 0;
+
+export const groupBy = (
+  xs: any[],
+  f: { (property: any): any; (arg0: any): any },
+) => {
+  return xs.reduce(
+    // eslint-disable-next-line no-return-assign
+    (
+      r: { [x: string]: never[] },
+      v: any,
+      _i: any,
+      _a: any,
+      k = f(v),
+      // eslint-disable-next-line no-sequences
+    ) => ((r[k] || (r[k] = [])).push(v as never), r),
+    {},
+  );
 };
 
 export const SUPPORTED_COUNTRIES = {

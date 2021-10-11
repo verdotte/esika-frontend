@@ -32,6 +32,7 @@ export interface IProperty {
   createdAt: string;
   category: string | null;
   city: string | null;
+  currency: string;
   firstName: string | null;
   phoneNumber: string | null;
   picture: string | null;
@@ -44,10 +45,10 @@ export interface IProperty {
 
 export interface ICategory {
   active: boolean;
-  categoryId: string | number;
+  categoryId: number | string;
   createdAt: string;
   description: string | null;
-  title: string | null;
+  title: string;
 }
 
 export type IAgent = {

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
 import Header from 'app/modules/__modules__/Header';
 import PropertyCategory from 'app/modules/_noAuth/Home/__modules__/Explorer/PropertyCategory';
@@ -7,7 +7,29 @@ import Tag from 'app/modules/__modules__/Tag';
 import paths from 'app/Routes/paths';
 import CAgentProperties from './Container';
 
+interface IParams {
+  category: string;
+}
+
+const LinkTag = ({ to, title, current }) => {
+  return (
+    <Link
+      to={to}
+      className="lg:min-w-[8rem] flex-shrink-0 first:ml-4 md:first:ml-0"
+    >
+      <Tag
+        tag={title}
+        className={`${
+          current ? 'bg-brand-bold' : 'bg-brand-thin'
+        } hover:bg-brand-bold text-white justify-center p-3`}
+      />
+    </Link>
+  );
+};
+
 const AgentPropertiesActivity: FC = () => {
+  const { category: categoryParam } = useParams<IParams>();
+
   return (
     <div className="container mx-auto px-0 md:px-8">
       <Header />
@@ -18,26 +40,18 @@ const AgentPropertiesActivity: FC = () => {
           }
           render={(categories) => (
             <>
-              <Link
+              <LinkTag
                 to={paths.AgentProperties}
-                className="lg:min-w-[8rem] flex-shrink-0"
-              >
-                <Tag
-                  tag="Tous"
-                  className="bg-brand-bold text-white ml-3 justify-center p-3"
-                />
-              </Link>
+                title="Tous"
+                current={!categoryParam}
+              />
               {categories.map((category) => (
-                <Link
+                <LinkTag
                   to={`${paths.AgentProperties}/${category.title}`}
                   key={`category_${category.categoryId}`}
-                  className="lg:min-w-[8rem] flex-shrink-0"
-                >
-                  <Tag
-                    tag={category.title}
-                    className="bg-brand-thin hover:bg-brand-bold text-white justify-center p-3"
-                  />
-                </Link>
+                  title={category.title}
+                  current={categoryParam === category.title}
+                />
               ))}
             </>
           )}

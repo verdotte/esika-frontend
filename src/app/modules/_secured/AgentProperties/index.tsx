@@ -8,17 +8,17 @@ import paths from 'app/Routes/paths';
 import CAgentProperties from './Container';
 
 interface IParams {
-  category: string;
+  category: number;
 }
 
-const LinkTag = ({ to, title, current }) => {
+const LinkTag = ({ to, id, current }) => {
   return (
     <Link
       to={to}
       className="lg:min-w-[8rem] flex-shrink-0 first:ml-4 md:first:ml-0"
     >
       <Tag
-        tag={title}
+        tag={id}
         className={`${
           current ? 'bg-brand-bold' : 'bg-brand-thin'
         } hover:bg-brand-bold text-white justify-center p-3`}
@@ -29,7 +29,6 @@ const LinkTag = ({ to, title, current }) => {
 
 const AgentPropertiesActivity: FC = () => {
   const { category: categoryParam } = useParams<IParams>();
-
   return (
     <div className="container mx-auto px-0 md:px-8">
       <Header />
@@ -42,15 +41,15 @@ const AgentPropertiesActivity: FC = () => {
             <>
               <LinkTag
                 to={paths.AgentProperties}
-                title="Tous"
+                id="Tous"
                 current={!categoryParam}
               />
               {categories.map((category) => (
                 <LinkTag
-                  to={`${paths.AgentProperties}/${category.title}`}
+                  to={`${paths.AgentProperties}/${category.categoryId}`}
                   key={`category_${category.categoryId}`}
-                  title={category.title}
-                  current={categoryParam === category.title}
+                  id={category.title}
+                  current={categoryParam === category.categoryId}
                 />
               ))}
             </>

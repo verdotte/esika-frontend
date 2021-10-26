@@ -82,3 +82,86 @@ export const SUPPORTED_COUNTRIES = {
     countryName: 'Tanzania',
   },
 } as const;
+
+export const SUPPORTED_CATEGORIES = {
+  House: {
+    name: 'house',
+    label: 'Maison',
+  },
+  Hotel: {
+    name: 'hotel',
+    label: 'Hotel',
+  },
+  Land: {
+    name: 'land',
+    label: 'Parcelle',
+  },
+  Apartment: {
+    name: 'appartement',
+    label: 'Appartements',
+  },
+  Commercial: {
+    name: 'commercial',
+    label: 'Magasins',
+  },
+  Studio: {
+    name: 'studio',
+    label: 'Studio',
+  },
+} as const;
+
+export const SUPPORTED_CURRENCIES = {
+  USD: {
+    name: 'usd',
+    label: 'USD',
+  },
+  CDF: {
+    name: 'cdf',
+    label: 'CDF',
+  },
+} as const;
+
+export const SUPPORTED_UNITS = {
+  Month: {
+    name: 'month',
+    label: 'Mois',
+  },
+  Day: {
+    name: 'day',
+    label: 'Jour',
+  },
+} as const;
+
+export const SUPPORTED_CITIES = {
+  Kinshasa: {
+    name: 'Kinshasa',
+    label: 'Kinshasa',
+  },
+  Kampala: {
+    name: 'Kampala',
+    label: 'Kampala',
+  },
+  Kigali: {
+    name: 'Kigali',
+    label: 'Kigali',
+  },
+  Nairobi: {
+    name: 'Nairobi',
+    label: 'Nairobi',
+  },
+  DaresSalam: {
+    name: 'DaresSalam',
+    label: 'Dar es Salam',
+  },
+} as const;
+
+export const SUPPORTED_TYPES = {
+  Rent: {
+    name: 'rent',
+    label: 'Location',
+  },
+  Sale: {
+    name: 'sale',
+    label: 'Achat',
+  },
+} as const;

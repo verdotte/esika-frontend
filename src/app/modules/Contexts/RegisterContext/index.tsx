@@ -109,7 +109,7 @@ const RegisterProvider: FC = ({ children }) => {
     }
 
     if (!country || country === 'DEFAULT') {
-      formErrors.phoneNumber = 'Veuillez choisir votre pays';
+      formErrors.phoneNumber = 'Veuillez sélectionner votre pays';
       valid = false;
     }
 

@@ -110,6 +110,9 @@ const HomeProvider: FC = ({ children }): JSX.Element => {
       const { propertyList } = data;
       setProperties(propertyList);
       setAllProperties(propertyList);
+
+      console.log('propertyList', propertyList);
+      
     }
   }, []);
 

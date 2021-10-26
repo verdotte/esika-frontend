@@ -8,6 +8,7 @@ const ENDPOINTS = {
   CATEGORIES: '/api/v1/category',
   USER_PROFILE: '/api/v1/user/profile',
   PROPERTIES_BY_CATEGORY: '/api/v1/property/category',
+  ADD_PROPERTY: '/api/v1/property',
 };
 
 export default ENDPOINTS;

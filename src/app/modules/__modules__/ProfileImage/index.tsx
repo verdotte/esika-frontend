@@ -15,8 +15,8 @@ const defaultProps: Props = {
   image: placeholderImg,
   verified: false,
   imageClassName:
-    'w-16 h-16 sm:w-16 sm:h-16 rounded-full object-cover',
-  className: 'relative block w-16 h-16',
+    'w-16 h-16 sm:h-24 sm:w-full rounded-full object-cover',
+  className: 'relative block w-16 sm:w-24 h-16',
 };
 
 const ProfileImage: FC<Props> = ({

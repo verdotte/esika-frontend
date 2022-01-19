@@ -8,6 +8,13 @@
   }
 }
 
+@layer components {
+  .hover-effect {
+    transform: scale(1.01);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
 :root,
 html {
   touch-action: pan-x pan-y;

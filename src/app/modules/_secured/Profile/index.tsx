@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
@@ -13,10 +13,17 @@ import ContactVector from 'app/modules/__modules__/_vectors/contactVector';
 import PieChartVector from 'app/modules/__modules__/_vectors/pieChart';
 import RecentActorsVector from 'app/modules/__modules__/_vectors/recentActorsVector';
 import UserVector from 'app/modules/__modules__/_vectors/userVector';
+import ArrowDownVector from 'app/modules/__modules__/_vectors/ArrowDownVector';
+import ArrowUp from 'app/modules/__modules__/_vectors/ArrowUp';
 import useFetchCurrentUser from './UseFetchCurrentUser';
 
 const ProfileContainer = () => {
   const { loading, currentUser } = useProfile();
+  const [showStatistics, setShowStatistics] = useState(false);
+
+  const showStatisticsHandler = () => {
+    setShowStatistics(!showStatistics);
+  };
 
   useFetchCurrentUser();
 
@@ -53,7 +60,7 @@ const ProfileContainer = () => {
               </div>
             </ShowWidget>
           </div>
-          <div className="pt-10  border-gray-300 flex justify-center items-center flex-col">
+          <div className="pt-10 flex justify-center items-center flex-col">
             <Link to="/profile/infos">
               <div className="flex justify-start items-center pb-2">
                 <RecentActorsVector />
@@ -79,19 +86,27 @@ const ProfileContainer = () => {
               </div>
             </Link>
           </div>
-          <div className=" pb-6 border-b border-gray-300 flex justify-center items-center flex-col">
-            <p className="py-1 text-sm text-gray-700 sm:text-xl hover:hover-effect">
-              Analytics
-            </p>
+          <div className=" pb-6 flex justify-center items-center flex-col">
+            <button
+              type="button"
+              className="py-1 text-sm text-gray-700 sm:text-xl hover:hover-effect flex items-center"
+              onClick={showStatisticsHandler}
+            >
+              <span>Analytics</span>{' '}
+              {!showStatistics ? <ArrowDownVector /> : <ArrowUp />}
+            </button>
 
-            <div className="py-3 flex justify-start items-center">
-              <PieChartVector />
-              <p className="ml-2 py-1 text-sm sm:text-xl text-gray-800 hover:hover-effect">
-                Statistiques
-              </p>
-            </div>
+            {showStatistics && (
+              <div className="py-3 flex justify-start items-center">
+                <PieChartVector />
+                <p className="ml-2 py-1 text-sm sm:text-xl text-gray-800 hover:hover-effect">
+                  Statistiques
+                </p>
+              </div>
+            )}
           </div>
           <div className="pt-3 pb-8 border-b border-gray-300 flex justify-center items-center flex-col">
+            <div className="h-[0.1rem] w-1/3 bg-gray-200" />
             <p className="pt-1 pb-3 text-sm text-gray-700 sm:text-xl hover:hover-effect">
               Support
             </p>
@@ -112,10 +127,10 @@ const ProfileContainer = () => {
             <button
               type="button"
               onClick={onLogout}
-              className="pt-5 flex justify-center items-center"
+              className="pt-5 flex justify-center items-center hover:hover-effect "
             >
-              <LogoutVector className="h-6 w-6 text-gray-500" />
-              <p className="ml-2 text-sm sm:text-xl text-gray-800">
+              <LogoutVector className="h-6 w-6 text-gray-500 hover:text-red-600" />
+              <p className="ml-2 text-sm sm:text-xl text-gray-800 hover:text-red-600 font-extrabold">
                 Logout
               </p>
             </button>

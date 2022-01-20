@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
@@ -13,10 +13,17 @@ import ContactVector from 'app/modules/__modules__/_vectors/contactVector';
 import PieChartVector from 'app/modules/__modules__/_vectors/pieChart';
 import RecentActorsVector from 'app/modules/__modules__/_vectors/recentActorsVector';
 import UserVector from 'app/modules/__modules__/_vectors/userVector';
+import ArrowDownVector from 'app/modules/__modules__/_vectors/ArrowDownVector';
+import ArrowUp from 'app/modules/__modules__/_vectors/ArrowUp';
 import useFetchCurrentUser from './UseFetchCurrentUser';
 
 const ProfileContainer = () => {
   const { loading, currentUser } = useProfile();
+  const [showStatistics, setShowStatistics] = useState(false);
+
+  const showStatisticsHandler = () => {
+    setShowStatistics(!showStatistics);
+  };
 
   useFetchCurrentUser();
 
@@ -26,7 +33,7 @@ const ProfileContainer = () => {
     <>
       <div className="container mx-auto px-0 md:px-8 py-4 no-scrollbars">
         <div className="h-full mt-3 mb-16 md:mt-2 mx-4 sm:mx-0">
-          <div className="pb-5 border-b border-gray-300 flex justify-start items-center">
+          <div className="border-b border-gray-300 flex justify-center items-center">
             <ShowWidget
               condition={!loading}
               fallback={
@@ -46,18 +53,18 @@ const ProfileContainer = () => {
                   {currentUser?.firstName} {currentUser?.lastName}
                 </p>
                 <Link to="/profile/infos">
-                  <p className="text-xs sm:text-lg underline">
+                  <p className="text-xs sm:text-sm 2xl:text-lg text-gray-500 hover:text-black underline">
                     Voir mon profile
                   </p>
                 </Link>
               </div>
             </ShowWidget>
           </div>
-          <div className="py-10 border-b border-gray-300">
+          <div className="pt-10 flex justify-center items-center flex-col">
             <Link to="/profile/infos">
               <div className="flex justify-start items-center pb-2">
                 <RecentActorsVector />
-                <p className="ml-3 py-1 text-sm sm:text-xl text-gray-800">
+                <p className="ml-3 py-1 text-sm sm:text-xl text-gray-800 hover:hover-effect">
                   Informations personnelles
                 </p>
               </div>
@@ -65,7 +72,7 @@ const ProfileContainer = () => {
             <Link to="/profile/compte">
               <div className="flex justify-start items-center pb-2">
                 <UserVector className="h-6 w-6" />
-                <p className="ml-3 py-1 text-sm sm:text-xl text-gray-800">
+                <p className="ml-3 py-1 text-sm sm:text-xl text-gray-800 hover:hover-effect">
                   Mon compte
                 </p>
               </div>
@@ -73,51 +80,62 @@ const ProfileContainer = () => {
             <Link to="/profile/contacts">
               <div className="flex justify-start items-center">
                 <ContactVector />
-                <p className="ml-3 py-1 text-sm sm:text-xl text-gray-800">
+                <p className="ml-3 py-1 text-sm sm:text-xl text-gray-800 hover:hover-effect">
                   Contacts
                 </p>
               </div>
             </Link>
           </div>
-          <div className="pt-3 pb-6 border-b border-gray-300">
-            <p className="py-1 text-sm text-gray-700 sm:text-xl">
-              Analytics
-            </p>
+          <div className=" pb-6 flex justify-center items-center flex-col">
+            <button
+              type="button"
+              className="py-1 text-sm text-gray-700 sm:text-xl hover:hover-effect flex items-center"
+              onClick={showStatisticsHandler}
+            >
+              <span>Analytics</span>{' '}
+              {!showStatistics ? <ArrowDownVector /> : <ArrowUp />}
+            </button>
 
-            <div className="py-3 flex justify-start items-center">
-              <PieChartVector />
-              <p className="ml-2 py-1 text-sm sm:text-xl text-gray-800">
-                Statistiques
-              </p>
-            </div>
+            {showStatistics && (
+              <div className="py-3 flex justify-start items-center">
+                <PieChartVector />
+                <p className="ml-2 py-1 text-sm sm:text-xl text-gray-800 hover:hover-effect">
+                  Statistiques
+                </p>
+              </div>
+            )}
           </div>
-          <div className="pt-3 pb-8 border-b border-gray-300">
-            <p className="pt-1 pb-3 text-sm text-gray-700 sm:text-xl">
+          <div className="pt-3 pb-8 border-b border-gray-300 flex justify-center items-center flex-col">
+            <div className="h-[0.1rem] w-1/3 bg-gray-200" />
+            <p className="pt-1 pb-3 text-sm text-gray-700 sm:text-xl hover:hover-effect">
               Support
             </p>
             <div className="py-2 flex justify-start items-center">
               <PhoneVector className="h-6 w-6 text-gray-500" />
-              <p className="ml-2 text-sm sm:text-xl text-gray-800">
+              <p className="ml-2 text-sm sm:text-xl text-gray-800 hover:hover-effect">
                 (+243) 976 890 483
               </p>
             </div>
             <div className="py-2 flex justify-start items-center">
               <InboxVector className="h-6 w-6 text-gray-500" />
-              <p className="ml-2 text-sm sm:text-xl text-gray-800">
+              <p className="ml-2 text-sm sm:text-xl text-gray-800 hover:hover-effect">
                 support@esika.com
               </p>
             </div>
           </div>
-          <button
-            type="button"
-            onClick={onLogout}
-            className="pt-5 flex justify-start items-center"
-          >
-            <LogoutVector className="h-6 w-6 text-gray-500" />
-            <p className="ml-2 text-sm sm:text-xl text-gray-800">
-              Logout
-            </p>
-          </button>
+          <div className="flex items-center justify-center">
+            <button
+              type="button"
+              onClick={onLogout}
+              className="pt-5 flex justify-center items-center hover:hover-effect "
+            >
+              <LogoutVector className="h-6 w-6 text-gray-500 hover:text-red-600" />
+              <p className="ml-2 text-sm sm:text-xl text-gray-800 hover:text-red-600 font-extrabold">
+                Logout
+              </p>
+            </button>
+          </div>
+
           <div className="mt-8 p-4 w-full flex justify-around flex-wrap">
             <p className="text-xs my-1 underline">FAQ</p>
             <p className="text-xs my-1 underline">A propos de nous</p>

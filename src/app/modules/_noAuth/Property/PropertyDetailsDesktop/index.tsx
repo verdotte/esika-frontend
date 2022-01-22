@@ -3,12 +3,15 @@ import ShowWidget from 'app/modules/__modules__/ShowWidget';
 import { IAgent, IObject, IProperty } from 'app/modules/@Types';
 import ProfileImage from 'app/modules/__modules__/ProfileImage';
 import PropertySpecs from 'app/modules/__modules__/PropertySpecs';
+import MapButton from '../../../__modules__/MapButton/index';
 
 interface Props {
   agent: IAgent | null;
   property: IProperty | null;
   loading: boolean;
   isLoading: boolean;
+  openMap: () => void;
+  showMapButton: boolean;
 }
 
 const PropertyDetailsDesktop = ({
@@ -16,9 +19,11 @@ const PropertyDetailsDesktop = ({
   property,
   isLoading,
   loading,
+  openMap,
+  showMapButton,
 }: Props) => {
   return (
-    <div className="pt-8 pb-5 flex justify-between">
+    <div className="pt-8 pb-10 flex justify-between">
       <div className="w-[65%] h-24 border-b pb-3 border-gray-300 flex justify-between">
         <div className="block w-[80%]">
           <ShowWidget
@@ -70,7 +75,7 @@ const PropertyDetailsDesktop = ({
               </p>
             </ShowWidget>
           </div>
-          <div className="pt-2 flex justify-center items-center">
+          <div className="pt-2 flex flex-col justify-center items-center">
             <ShowWidget
               condition={!isLoading}
               fallback={
@@ -83,6 +88,7 @@ const PropertyDetailsDesktop = ({
               >
                 Contacter l&apos;agent
               </button>
+              {showMapButton && <MapButton onClick={openMap} />}
             </ShowWidget>
           </div>
         </div>

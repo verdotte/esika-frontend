@@ -3,14 +3,13 @@ import ShowWidget from 'app/modules/__modules__/ShowWidget';
 import { IAgent, IObject, IProperty } from 'app/modules/@Types';
 import ProfileImage from 'app/modules/__modules__/ProfileImage';
 import PropertySpecs from 'app/modules/__modules__/PropertySpecs';
-import MapButton from '../../../__modules__/MapButton/index';
 
 interface Props {
   agent: IAgent | null;
   property: IProperty | null;
   loading: boolean;
   isLoading: boolean;
-  openMap: () => void;
+  onClick: () => void;
   showMapButton: boolean;
 }
 
@@ -19,7 +18,7 @@ const PropertyDetailsDesktop = ({
   property,
   isLoading,
   loading,
-  openMap,
+  onClick,
   showMapButton,
 }: Props) => {
   return (
@@ -88,7 +87,15 @@ const PropertyDetailsDesktop = ({
               >
                 Contacter l&apos;agent
               </button>
-              {showMapButton && <MapButton onClick={openMap} />}
+              {showMapButton && (
+                <button
+                  type="submit"
+                  onClick={onClick}
+                  className="w-[80%] p-1 bg-brand-bold text-sm text-white rounded-lg px-3 py-2 mt-4"
+                >
+                  Voir sur map
+                </button>
+              )}
             </ShowWidget>
           </div>
         </div>

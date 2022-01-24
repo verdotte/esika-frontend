@@ -1,0 +1,5 @@
+.imgLimite {
+  width: 100%;
+  min-width: 240px;
+  max-width: 640px;
+}

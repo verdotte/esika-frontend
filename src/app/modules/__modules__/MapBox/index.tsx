@@ -16,29 +16,31 @@ interface ICoordinates {
 interface Props {
   property: IProperty | null;
   isLoading: boolean;
-  closeMap: () => void;
+  onClick: () => void;
 }
 
 const MapBox = ({
   property,
   isLoading,
-  closeMap,
+  onClick,
 }: Props): ReactElement => {
-  const [lng] = useState(32.58252);
-  const [lat] = useState(0.347596);
+  const [coordinates] = useState({
+    lng: 32.58252,
+    lat: 0.347596,
+  });
   const [displayPupUp, setDisplayPopUp] = useState(true);
 
   const [viewport, setViewport] = useState<ICoordinates>({
-    longitude: lng,
-    latitude: lat,
+    longitude: coordinates.lng,
+    latitude: coordinates.lat,
     zoom: 12,
   });
 
-  const showPopUp = () => {
-    setDisplayPopUp(true);
-  };
-  const closePopUp = () => {
-    setDisplayPopUp(false);
+  const togglePopUp = () => {
+    if (displayPupUp) setDisplayPopUp(false);
+    else {
+      setDisplayPopUp(true);
+    }
   };
 
   return (
@@ -62,20 +64,20 @@ const MapBox = ({
           }}
         >
           <NavigationControl className="right-4 top-4" />
-          <div onClick={closeMap} aria-hidden>
+          <div onClick={onClick} aria-hidden>
             <CloseVector className="text-black bg-white shadow-xl rounded-lg mt-4 ml-4 cursor-pointer" />
           </div>
           <MapBoxMarker
-            latitude={lat}
-            longitude={lng}
-            showPopUp={showPopUp}
+            latitude={coordinates.lat}
+            longitude={coordinates.lng}
+            onClick={togglePopUp}
           />
           {displayPupUp && (
             <MapBoxPopUp
               property={property}
-              latitude={lat}
-              longitude={lng}
-              closePopUp={closePopUp}
+              latitude={coordinates.lat}
+              longitude={coordinates.lng}
+              onClose={togglePopUp}
             />
           )}
         </ReactMapGL>

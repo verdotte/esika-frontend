@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router';
 import BottomNavbar from 'app/modules/__modules__/BottomNavbar';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
@@ -15,12 +15,39 @@ import { useProfile } from 'app/modules/Contexts/ProfileContext';
 import useFetchCurrentUser from '../UseFetchCurrentUser';
 
 const Account = () => {
-  const { code, loading, currentUser, currentUserNumber } =
-    useProfile();
+  const {
+    code,
+    loading,
+    currentUser,
+    currentUserNumber,
+    onFetchProperties,
+    properties,
+  } = useProfile();
 
   const history = useHistory();
 
+  useEffect(() => {
+    if (!properties.length) {
+      onFetchProperties();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onFetchProperties]);
+
   useFetchCurrentUser();
+
+  // once we have agent and properties we will replace the name "Verdote" with `${currentUser.firstName}`
+  const agentProperties = properties.filter(
+    (propertie) => propertie.firstName === 'Verdotte',
+  );
+  const houseIndex = agentProperties.filter(
+    (agentPropertie) => agentPropertie.category === 'House',
+  ).length;
+  const hotelIndex = agentProperties.filter(
+    (agentPropertie) => agentPropertie.category === 'Hotel',
+  ).length;
+  const appartementIndex = agentProperties.filter(
+    (agentPropertie) => agentPropertie.category === 'Appartement',
+  ).length;
 
   return (
     <div>
@@ -89,15 +116,21 @@ const Account = () => {
           </div>
           <div className="py-5 flex justify-around items-center">
             <div className="py-1 px-5 rounded-lg shadow-xl border border-gray-200">
-              <p className="py-1 text-sm sm:text-xl text-center">0</p>
+              <p className="py-1 text-sm sm:text-xl text-center">
+                {hotelIndex}
+              </p>
               <p className="py-1 text-sm sm:text-xl">Hotel</p>
             </div>
             <div className="py-1 px-5 rounded-lg shadow-xl border border-gray-200">
-              <p className="py-1 text-sm sm:text-xl text-center">0</p>
+              <p className="py-1 text-sm sm:text-xl text-center">
+                {appartementIndex}
+              </p>
               <p className="py-1 text-sm sm:text-xl">Appartement</p>
             </div>
             <div className="py-1 px-5 rounded-lg shadow-xl border border-gray-200">
-              <p className="py-1 text-sm sm:text-xl text-center">0</p>
+              <p className="py-1 text-sm sm:text-xl text-center">
+                {houseIndex}
+              </p>
               <p className="py-1 text-sm sm:text-xl">Maison</p>
             </div>
           </div>

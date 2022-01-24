@@ -30,7 +30,6 @@ import PropertyDetails from './PropertyDetails';
 import PropertyAgent from './PropertyAgent';
 import PropertyImages from './PropertyImages';
 import PropertyDetailsDesktop from './PropertyDetailsDesktop';
-import MapButton from '../../__modules__/MapButton/index';
 
 const PropertyContainer = () => {
   const [property, setProperty] = useState<IProperty | null>(null);
@@ -117,14 +116,14 @@ const PropertyContainer = () => {
     setReadMore(!readMore);
   };
 
-  const openMapBox = () => {
-    setOpenMap(true);
-    setShowMapButtom(false);
-  };
-
-  const closeMapBox = () => {
-    setOpenMap(false);
-    setShowMapButtom(true);
+  const toggleMap = () => {
+    if (!openMap && showMapButton) {
+      setOpenMap(true);
+      setShowMapButtom(false);
+    } else {
+      setOpenMap(false);
+      setShowMapButtom(true);
+    }
   };
 
   return (
@@ -152,7 +151,7 @@ const PropertyContainer = () => {
           <MapBox
             property={property}
             isLoading={isLoading}
-            closeMap={closeMapBox}
+            onClick={toggleMap}
           />
         </>
       )}
@@ -181,7 +180,7 @@ const PropertyContainer = () => {
           isLoading={isLoading}
           property={property}
           agent={agent}
-          openMap={openMapBox}
+          onClick={toggleMap}
           showMapButton={showMapButton}
         />
       )}
@@ -234,7 +233,15 @@ const PropertyContainer = () => {
             >
               Contacter l&apos;agent
             </button>
-            {showMapButton && <MapButton onClick={openMapBox} />}
+            {showMapButton && (
+              <button
+                type="submit"
+                onClick={toggleMap}
+                className="w-full p-3 bg-brand-bold text-white rounded-lg md:mx-auto md:px-16 mt-4"
+              >
+                Voir sur map
+              </button>
+            )}
           </ShowWidget>
         </div>
       )}

@@ -6,28 +6,26 @@ interface IPopUpProps {
   property: IProperty | null;
   latitude: number;
   longitude: number;
-  closePopUp: () => void;
+  onClose: () => void;
 }
 
 const MapBoxPopUp = ({
   property,
   latitude,
   longitude,
-  closePopUp,
+  onClose,
 }: IPopUpProps): ReactElement => {
   return (
     <Popup
       key={property?.propertyId}
       latitude={latitude}
       longitude={longitude}
-      onClose={closePopUp}
+      onClose={onClose}
     >
-      <div>
-        <p className="w-40 font-extrabold">{property?.title}</p>
-        <p className="overflow-hidden break-words w-40 text-xs">
-          {property?.description}
-        </p>
-      </div>
+      <p className="w-40 font-extrabold">{property?.title}</p>
+      <p className="overflow-hidden break-words w-40 text-xs">
+        {property?.description}
+      </p>
     </Popup>
   );
 };

@@ -8,7 +8,7 @@ type kType = {
   ALGOLIA_API_KEY: valueType;
   ALGOLIA_APP_ID: valueType;
   JWT_SECRET_KEY: valueType;
-  MAPBOX_ACCESS_TOKEN: string;
+  MAPBOX_ACCESS_TOKEN: string | undefined;
   MAPBOX_CUSTOM_STYLE_URL: valueType | string;
   USER_ROLE_KEY: string;
   AGENT_ROLE_KEY: string;
@@ -24,11 +24,8 @@ const keys: kType = {
   ALGOLIA_INDEX_NAME: process.env.ALGOLIA_INDEX_NAME,
   JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
   USER_ROLE_KEY: process.env.USER_ROLE_KEY || 'KF094msdkdE8RL',
-  MAPBOX_ACCESS_TOKEN:
-    'pk.eyJ1Ijoiam9uYXRoemloaW5kdWxhIiwiYSI6ImNreW4wZXBwbTNsd2EydW4wamJ1aTdidHgifQ.zVkgrvMk02fZiJFaV_jkDQ',
-  MAPBOX_CUSTOM_STYLE_URL:
-    process.env.MAPBOX_CUSTOM_STYLE_URL ||
-    'mapbox://styles/jonathzihindula/ckynaitbt8tyh14qpylblnbwp',
+  MAPBOX_ACCESS_TOKEN: process.env.MAPBOX_ACCESS_TOKEN,
+  MAPBOX_CUSTOM_STYLE_URL: process.env.MAPBOX_CUSTOM_STYLE_URL,
   AGENT_ROLE_KEY: 'oPer849zcvDJS',
   GUEST_ROLE_KEY: 'EGsdg4ma48LT',
 };

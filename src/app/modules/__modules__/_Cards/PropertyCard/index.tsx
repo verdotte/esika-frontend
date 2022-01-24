@@ -8,6 +8,7 @@ import placeholderImg from 'app/static/images/placeholder.jpg';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
 import { IObject } from 'app/modules/@Types';
 import ProfileImage from 'app/modules/__modules__/ProfileImage';
+import isExpired from 'app/modules/utils/helpers/isExpired';
 import PropertySpecs from '../../PropertySpecs';
 import { HeartSolidVector } from '../../_vectors/heartSolideVector';
 
@@ -172,6 +173,9 @@ export const PropertyCard = ({
             type="button"
             onClick={(e) => {
               e.stopPropagation();
+              if (isExpired()) {
+                history.push('/login');
+              }
               setVectorTrigger(!vectorTrigger);
             }}
             className="border flex items-center justify-center space-x-2 flex-1 w-full p-3 rounded-lg"

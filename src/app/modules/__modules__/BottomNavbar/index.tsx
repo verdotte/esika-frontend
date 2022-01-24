@@ -31,7 +31,7 @@ const BottomNavbar: FC = (): JSX.Element => {
       <BottomNavbarItem
         icon={<HeartVector className="h-6 w-6" />}
         title="Favoris"
-        to="/"
+        to="/wishlists"
         current={history.location.pathname === '/wishlists'}
       />
       <BottomNavbarItem

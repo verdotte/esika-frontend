@@ -40,6 +40,11 @@ const DropdownMenu: FC<Props> = ({ isExpanded, onExpand }) => {
               Profil
             </Link>
           </div>
+          <div className="px-4 py-2 my-2 hover:bg-gray-100">
+            <Link to="/wishlists" className="text-sm">
+              Favoris
+            </Link>
+          </div>
         </div>
         <div className="border-t px-4 py-2 pt-3 hover:bg-gray-100">
           <button

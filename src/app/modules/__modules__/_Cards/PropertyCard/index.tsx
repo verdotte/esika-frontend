@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import timeAgo from 'time-ago';
 import { useHistory } from 'react-router-dom';
 import ContactButton from 'app/modules/__modules__/ContactButton';
@@ -8,7 +8,9 @@ import placeholderImg from 'app/static/images/placeholder.jpg';
 import ShowWidget from 'app/modules/__modules__/ShowWidget';
 import { IObject } from 'app/modules/@Types';
 import ProfileImage from 'app/modules/__modules__/ProfileImage';
+import isExpired from 'app/modules/utils/helpers/isExpired';
 import PropertySpecs from '../../PropertySpecs';
+import { HeartSolidVector } from '../../_vectors/heartSolideVector';
 
 interface Props {
   data?: IObject;
@@ -51,7 +53,7 @@ export const PropertyCard = ({
   } = data;
 
   const history = useHistory();
-
+  const [vectorTrigger, setVectorTrigger] = useState(false);
   const propertyImage = useMemo(
     () => image?.toString().split(',')[0],
     [image],
@@ -169,10 +171,21 @@ export const PropertyCard = ({
         >
           <button
             type="button"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (isExpired()) {
+                history.push('/login');
+              }
+              setVectorTrigger(!vectorTrigger);
+            }}
             className="border flex items-center justify-center space-x-2 flex-1 w-full p-3 rounded-lg"
           >
-            <HeartVector className="text-red-500 h-5 w-5" />
+            {vectorTrigger ? (
+              <HeartSolidVector className="text-red-500 h-5 w-5" />
+            ) : (
+              <HeartVector className="text-red-500 h-5 w-5" />
+            )}
+
             <p className="text-sm hidden xl:block">Sauvegarder</p>
           </button>
         </ShowWidget>

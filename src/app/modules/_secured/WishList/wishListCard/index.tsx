@@ -1,8 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { HeartSolidVector } from 'app/modules/__modules__/_vectors/heartSolideVector';
 import { wishLists } from '../data';
 import './style.css';
-import { Link } from 'react-router-dom';
 
 const WishListCard = () => {
   return (
@@ -22,17 +22,19 @@ const WishListCard = () => {
           >
             <Link
               to="/properties/HotelMotemaoXeOnYMOwxCx"
-              className=" overflow-hidden imgLimiter bg-blue-100 p-2 h-60  rounded-lg relative "
+              className=" overflow-hidden  bg-blue-100 p-2 h-60  rounded-lg relative "
             >
               <img
                 src={data.image}
-                alt="image"
-                className=" rounded-lg bg-cover w-full h-full"
+                alt="pic"
+                className=" rounded-lg   imgLimiter"
               />
               <HeartSolidVector className=" w-7 h-7 text-red-700 absolute top-2 left-2 " />
             </Link>
             <div className=" w-full px-0  md:px-4  ">
-              <div>Situé à {data.location}</div>
+              <div className="mt-8 md:mt-0">
+                Situé à {data.location}
+              </div>
               <div className="text-xl mt-2 font-bold ">
                 {data.title}
               </div>

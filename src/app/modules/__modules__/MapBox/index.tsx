@@ -37,10 +37,7 @@ const MapBox = ({
   });
 
   const togglePopUp = () => {
-    if (displayPupUp) setDisplayPopUp(false);
-    else {
-      setDisplayPopUp(true);
-    }
+    setDisplayPopUp(!displayPupUp);
   };
 
   return (

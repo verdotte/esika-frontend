@@ -116,14 +116,9 @@ const PropertyContainer = () => {
     setReadMore(!readMore);
   };
 
-  const toggleMap = () => {
-    if (!openMap && showMapButton) {
-      setOpenMap(true);
-      setShowMapButtom(false);
-    } else {
-      setOpenMap(false);
-      setShowMapButtom(true);
-    }
+  const onClick = () => {
+    setOpenMap(!openMap);
+    setShowMapButtom(!showMapButton);
   };
 
   return (
@@ -151,7 +146,7 @@ const PropertyContainer = () => {
           <MapBox
             property={property}
             isLoading={isLoading}
-            onClick={toggleMap}
+            onClick={onClick}
           />
         </>
       )}
@@ -180,7 +175,7 @@ const PropertyContainer = () => {
           isLoading={isLoading}
           property={property}
           agent={agent}
-          onClick={toggleMap}
+          onClick={onClick}
           showMapButton={showMapButton}
         />
       )}
@@ -236,7 +231,7 @@ const PropertyContainer = () => {
             {showMapButton && (
               <button
                 type="submit"
-                onClick={toggleMap}
+                onClick={onClick}
                 className="w-full p-3 bg-brand-bold text-white rounded-lg md:mx-auto md:px-16 mt-4"
               >
                 Voir sur map

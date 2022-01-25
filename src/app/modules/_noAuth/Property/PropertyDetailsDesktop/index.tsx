@@ -9,6 +9,8 @@ interface Props {
   property: IProperty | null;
   loading: boolean;
   isLoading: boolean;
+  onClick: () => void;
+  showMapButton: boolean;
 }
 
 const PropertyDetailsDesktop = ({
@@ -16,9 +18,11 @@ const PropertyDetailsDesktop = ({
   property,
   isLoading,
   loading,
+  onClick,
+  showMapButton,
 }: Props) => {
   return (
-    <div className="pt-8 pb-5 flex justify-between">
+    <div className="pt-8 pb-10 flex justify-between">
       <div className="w-[65%] h-24 border-b pb-3 border-gray-300 flex justify-between">
         <div className="block w-[80%]">
           <ShowWidget
@@ -70,7 +74,7 @@ const PropertyDetailsDesktop = ({
               </p>
             </ShowWidget>
           </div>
-          <div className="pt-2 flex justify-center items-center">
+          <div className="pt-2 flex flex-col justify-center items-center">
             <ShowWidget
               condition={!isLoading}
               fallback={
@@ -83,6 +87,15 @@ const PropertyDetailsDesktop = ({
               >
                 Contacter l&apos;agent
               </button>
+              {showMapButton && (
+                <button
+                  type="submit"
+                  onClick={onClick}
+                  className="w-[80%] p-1 bg-brand-bold text-sm text-white rounded-lg px-3 py-2 mt-4"
+                >
+                  Voir sur map
+                </button>
+              )}
             </ShowWidget>
           </div>
         </div>

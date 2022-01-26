@@ -15,7 +15,6 @@ import { isAgent } from 'app/modules/utils/helpers/currentUser';
 import { useProfile } from 'app/modules/Contexts/ProfileContext';
 import useFetchCurrentUser from '../UseFetchCurrentUser';
 
-console.log(isAgent());
 const Account = () => {
   const {
     code,
@@ -41,6 +40,11 @@ const Account = () => {
   const agentProperties = properties.filter(
     (propertie) => propertie.firstName === 'Verdotte',
   );
+  // once we receive reviews data from backend we will replace "agentPropertie.userId" by 'agentPropertie.reviews'
+  const reviews = agentProperties.map((agentPropertie) =>
+    parseInt(agentPropertie.userId, 10),
+  );
+  const totalReviews = reviews.reduce((a, b) => a + b, 0);
   const houseIndex = agentProperties.filter(
     (agentPropertie) => agentPropertie.category === 'House',
   ).length;
@@ -111,7 +115,9 @@ const Account = () => {
               <div className="py-5 flex justify-between items-center border-b border-gray-300">
                 <p className="text-sm sm:text-xl">Reviews</p>
                 <div className="flex justify-start items-center">
-                  <p className="py-1 text-[1.2rem] sm:text-xl">0</p>
+                  <p className="py-1 text-[1.2rem] sm:text-xl">
+                    {totalReviews}
+                  </p>
                   <StarVector className="ml-2 h-5 w-5 font-bold" />
                 </div>
               </div>

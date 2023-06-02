@@ -3,7 +3,7 @@ import ShowWidget from '../ShowWidget';
 
 interface Props {
   condition?: boolean;
-  tag: string | JSX.Element;
+  tag?: string | JSX.Element;
   icon?: null | JSX.Element;
   className?: string;
 }

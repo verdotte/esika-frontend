@@ -23,6 +23,7 @@ import useResponsive from 'app/modules/Hooks/useResponsive';
 import SearchContainer from 'app/modules/__modules__/SearchContainer';
 import Header from 'app/modules/__modules__/Header';
 import { useSearch } from 'app/modules/Contexts/SearchContext';
+import MapBox from 'app/modules/__modules__/MapBox';
 import RelatedProperties from './RelatedProperties';
 import PropertyCarousel from './PropertyCarousel';
 import PropertyDetails from './PropertyDetails';
@@ -35,6 +36,8 @@ const PropertyContainer = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [agent, setAgent] = useState<IAgent | null>(null);
   const [readMore, setReadMore] = useState(false);
+  const [openMap, setOpenMap] = useState(false);
+  const [showMapButton, setShowMapButtom] = useState(true);
 
   const [isMobile] = useResponsive();
 
@@ -113,6 +116,11 @@ const PropertyContainer = () => {
     setReadMore(!readMore);
   };
 
+  const onClick = () => {
+    setOpenMap(!openMap);
+    setShowMapButtom(!showMapButton);
+  };
+
   return (
     <div className="container mx-auto px-0 md:px-8 no-scrollbars">
       {isMobile ? (
@@ -130,6 +138,15 @@ const PropertyContainer = () => {
             isLoading={isLoading}
             propertyImages={property?.image as string}
             property={property}
+          />
+        </>
+      )}
+      {openMap && (
+        <>
+          <MapBox
+            property={property}
+            isLoading={isLoading}
+            onClick={onClick}
           />
         </>
       )}
@@ -158,6 +175,8 @@ const PropertyContainer = () => {
           isLoading={isLoading}
           property={property}
           agent={agent}
+          onClick={onClick}
+          showMapButton={showMapButton}
         />
       )}
 
@@ -196,7 +215,7 @@ const PropertyContainer = () => {
         </ShowWidget>
       </div>
       {isMobile && (
-        <div className="mx-4 my-5 md:container md:mx-auto md:px-56 flex justify-center items-center">
+        <div className="mx-4 my-5 md:container md:mx-auto md:px-56 flex flex-col justify-center items-center">
           <ShowWidget
             condition={!isLoading}
             fallback={
@@ -209,6 +228,15 @@ const PropertyContainer = () => {
             >
               Contacter l&apos;agent
             </button>
+            {showMapButton && (
+              <button
+                type="submit"
+                onClick={onClick}
+                className="w-full p-3 bg-brand-bold text-white rounded-lg md:mx-auto md:px-16 mt-4"
+              >
+                Voir sur map
+              </button>
+            )}
           </ShowWidget>
         </div>
       )}
